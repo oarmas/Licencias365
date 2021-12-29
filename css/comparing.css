@@ -28,7 +28,6 @@ h1 {
 
 .back-link {
   background: url(/media/sprites.svg#back) center left no-repeat;
-  background-size: 16px 16px;
   padding-left: 20px;
   margin: 0 2px;
 }

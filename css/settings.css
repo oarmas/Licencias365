@@ -34,26 +34,27 @@ h2.settings-header {
 }
 
 h2.highlight {
-  background: url(/media/sprites.svg#edit-on) center left no-repeat;
-  background-size: 18px 18px;
+  background: url(/media/sprites.svg#highlight) center left no-repeat;
+  background-size: 18px;
   padding-left: 24px;
 }
 
 h2.menu {
-  background: url(/media/sprites.svg#close) center left no-repeat;
-  background-size: 18px 18px;
+  background: url(/media/sprites.svg#grip) center left no-repeat;
+  background-size: 18px;
   padding-left: 24px;
+  transform: scaleX(1);
 }
 
 h2.theme {
   background: url(/media/sprites.svg#theme) center left no-repeat;
-  background-size: 18px 18px;
+  background-size: 18px;
   padding-left: 24px;
 }
 
 h2.zoom {
   background: url(/media/sprites.svg#zoom) center left no-repeat;
-  background-size: 18px 18px;
+  background-size: 18px;
   padding-left: 24px;
 }
 
@@ -78,25 +79,25 @@ div.settings-values {
 }
 
 #defaults {
-  padding: 6px 8px 6px 34px;
+  padding: 6px 8px 6px 32px;
   background-image: url(/media/sprites.svg#defaults);
   background-position: center left 8px;
   background-repeat: no-repeat;
-  background-size: 18px 18px;
+  background-size: 18px;
 }
 
 #save {
-  padding: 6px 8px 6px 34px;
+  padding: 6px 8px 6px 32px;
   background-image: url(/media/sprites.svg#save);
   background-position: center left 8px;
   background-repeat: no-repeat;
-  background-size: 18px 18px;
+  background-size: 18px;
 }
 
 #cancel {
-  padding: 6px 8px 6px 34px;
+  padding: 6px 8px 6px 32px;
   background-image: url(/media/sprites.svg#delete);
   background-position: center left 8px;
   background-repeat: no-repeat;
-  background-size: 18px 18px;
+  background-size: 18px;
 }

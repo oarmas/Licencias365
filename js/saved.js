@@ -1,6 +1,6 @@
 /// <reference path="common.js" />
 /* global modalPrompt, setupOfflineIndicator, modalConfirm, getModalInputText,
-   isEmbedded, isIOSEdge, exportSvg, exportPng, StoreName, isIOS, setupModal */
+   isEmbedded, exportSvg, exportPng, StoreName, isIOS, setupModal */
 
 /** Creates a visual divider for the item list. */
 function newDivider() {
@@ -28,6 +28,7 @@ function newDiagramLink(text, href) {
 /** Creates an 'Export PNG' button. */
 function newPngButton() {
   const pngLink = document.createElement('button');
+  pngLink.type = 'button';
   pngLink.className = 'export';
   pngLink.title = 'Export PNG';
   pngLink.textContent = 'PNG';
@@ -37,6 +38,7 @@ function newPngButton() {
 /** Creates an 'Export SVG' button. */
 function newSvgButton() {
   const svgLink = document.createElement('button');
+  svgLink.type = 'button';
   svgLink.className = 'export';
   svgLink.title = 'Export SVG';
   svgLink.textContent = 'SVG';
@@ -46,6 +48,7 @@ function newSvgButton() {
 /** Creates a 'Delete' button. */
 function newDeleteButton() {
   const deleteImage = document.createElement('button');
+  deleteImage.type = 'button';
   deleteImage.className = 'delete';
   deleteImage.title = 'Delete';
   return deleteImage;
@@ -54,6 +57,7 @@ function newDeleteButton() {
 /** Creates a 'Rename' button. */
 function newRenameButton() {
   const renameImage = document.createElement('button');
+  renameImage.type = 'button';
   renameImage.className = 'rename';
   renameImage.title = 'Rename';
   return renameImage;
@@ -68,7 +72,7 @@ function addEmptyMessage(container) {
 
 /** Adds a new row to the saved diagrams list. */
 function addNewRow(container, key, entry) {
-  const entryLink = newDiagramLink(entry.Title, '/viewsvg.htm#*' + key);
+  const entryLink = newDiagramLink(entry.Title, `/viewsvg.htm#*${key}`);
   container.appendChild(entryLink);
 
   const entryActions = newActions();
@@ -112,26 +116,24 @@ function addNewRow(container, key, entry) {
       });
   });
 
-  if (!isIOSEdge) {
-    const entrySvgButton = newSvgButton();
-    entryActions.appendChild(entrySvgButton);
-    entrySvgButton.addEventListener('click',
-      function svgLinkClick(event) {
-        event.preventDefault();
-        exportSvg(entry.Title + '.svg', entry.SvgXml);
-      }
-    );
+  const entrySvgButton = newSvgButton();
+  entryActions.appendChild(entrySvgButton);
+  entrySvgButton.addEventListener('click',
+    function svgLinkClick(event) {
+      event.preventDefault();
+      exportSvg(entry.Title + '.svg', entry.SvgXml);
+    }
+  );
 
-    const entryPngButton = newPngButton();
-    entryActions.appendChild(entryPngButton);
-    entryPngButton.addEventListener('click',
-      function pngLinkClick() {
-        const background = window.getComputedStyle(document.body)
-          .backgroundColor;
-        exportPng(entry.Title + '.png', entry.SvgXml, background);
-      }
-    );
-  }
+  const entryPngButton = newPngButton();
+  entryActions.appendChild(entryPngButton);
+  entryPngButton.addEventListener('click',
+    function pngLinkClick() {
+      const background =
+        window.getComputedStyle(document.body).backgroundColor;
+      exportPng(entry.Title + '.png', entry.SvgXml, background);
+    }
+  );
 
   container.appendChild(entryActions);
   container.appendChild(thisDivider);
@@ -158,9 +160,7 @@ function populateList() {
     }
   );
 
-  for (let index = 0; index < keys.length; index += 1) {
-    const key = keys[index];
-
+  for (const key of keys) {
     const entryJSON = localStorage.getItem(key);
     if (entryJSON) {
       const entry = JSON.parse(entryJSON);
@@ -180,10 +180,7 @@ function populateList() {
 function filesSelected(event) {
   const reader = new FileReader();
 
-  const fileList = event.target.files;
-  for (let i = 0; i < fileList.length; i++) {
-    const file = fileList[i];
-
+  for (const file of event.target.files) {
     reader.addEventListener('load',
       function fileLoaded(event) {
         modalPrompt('Import diagram as:', file.name,
@@ -194,7 +191,7 @@ function filesSelected(event) {
             const storageKey = Date.now().toString();
             const svgObject = {
               Title: diagramTitle,
-              SvgXml: event.target.result
+              SvgXml: event.target.result,
             };
 
             const jsonData = JSON.stringify(svgObject);
@@ -216,8 +213,7 @@ function filesSelected(event) {
  * all saved diagrams. */
 function exportAllDiagrams(exportType) {
   const exportLinks = document.getElementsByClassName('export');
-  for (let i = 0; i < exportLinks.length; i++) {
-    const exportLink = exportLinks[i];
+  for (const exportLink of exportLinks) {
     if (exportLink.textContent === exportType) {
       exportLink.click();
     }
@@ -237,22 +233,22 @@ function DOMContentLoaded() {
   if (isIOS) {
     document.getElementById('export-all-png').style.display = 'none';
   } else {
-    document.getElementById('export-all-png').addEventListener('click', () =>
-      exportAllDiagrams('PNG'));
+    document.getElementById('export-all-png').addEventListener('click',
+      () => exportAllDiagrams('PNG'));
   }
 
   if (isIOS) {
     document.getElementById('export-all-svg').style.display = 'none';
   } else {
-    document.getElementById('export-all-svg').addEventListener('click', () =>
-      exportAllDiagrams('SVG'));
+    document.getElementById('export-all-svg').addEventListener('click',
+      () => exportAllDiagrams('SVG'));
   }
 
-  document.getElementById('import').addEventListener('click', () =>
-    document.getElementById('file-selector').click());
+  document.getElementById('import').addEventListener('click',
+    () => document.getElementById('file-selector').click());
 
-  document.getElementById('file-selector')
-    .addEventListener('change', filesSelected);
+  document.getElementById('file-selector').
+    addEventListener('change', filesSelected);
 }
 
 document.addEventListener('DOMContentLoaded', DOMContentLoaded);

@@ -2,7 +2,7 @@ h1 {
   font-size: 24px;
   padding-left: 28px;
   background: url(/media/sprites.svg#compare) center left no-repeat;
-  background-size: 20px 20px;
+  background-size: 20px;
 }
 
 #diagrams {
@@ -63,12 +63,12 @@ label.disabled {
   grid-row: auto;
   grid-column: 2;
   margin: 0;
-  padding: 6px 8px 6px 34px;
+  padding: 6px 8px 6px 32px;
   width: min-content;
   background-image: url(/media/sprites.svg#compare);
   background-position: center left 8px;
   background-repeat: no-repeat;
-  background-size: 18px 18px;
+  background-size: 18px;
 }
 
 #menu {

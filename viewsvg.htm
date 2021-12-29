@@ -2,7 +2,8 @@
 <html dir="ltr" lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex, follow" />
     <meta name="referrer" content="origin" />
     <meta name="theme-color" content="#002266" />
@@ -38,20 +39,23 @@
     <script src="/js/viewsvg.min.js"></script>
     <title>Saved Diagram | M365 Maps</title>
   </head>
-  <body>
+  <body oncontextmenu="return false">
     <h1>Saved Diagram</h1>
 
     <div id="offline">OFFLINE</div>
 
     <div id="menu">
-      <button id="menu-grip" accesskey="m" title="Menu"></button>
-      <button id="menu-back" accesskey="b" title="Back"></button>
-      <button id="menu-print" accesskey="p" title="Print"></button>
-      <button id="menu-controls" accesskey="c" title="Controls"></button>
-      <button id="menu-edit" accesskey="e" title="Edit"></button>
-      <button id="menu-save" accesskey="s" title="Save a copy"></button>
-      <button id="menu-export-svg" title="Export as SVG">SVG</button>
-      <button id="menu-export-png" title="Export as PNG">PNG</button>
+      <button type="button" id="menu-grip" accesskey="m" title="Menu"></button>
+      <button type="button" id="menu-back" accesskey="b" title="Back"></button>
+      <button type="button" id="menu-print" accesskey="p" title="Print"></button>
+      <button type="button" id="menu-save" accesskey="s" title="Save a copy"></button>
+      <button type="button" id="menu-controls" accesskey="c" title="Controls"></button>
+      <button type="button" id="menu-edit" accesskey="t" title="Toggle edit modes"></button>
+      <button type="button" id="menu-highlight" title="Highlight mode"></button>
+      <button type="button" id="menu-draw" title="Draw mode"></button>
+      <button type="button" id="menu-text" title="Text mode"></button>
+      <button type="button" id="menu-export-svg" title="Export as SVG">SVG</button>
+      <button type="button" id="menu-export-png" title="Export as PNG">PNG</button>
     </div>
 
     <div id="image-controls">
@@ -63,8 +67,8 @@
       <input type="range" id="hue" min="0" max="360" value="0" step="10" />
       <label for="saturation">Saturation</label>
       <input type="range" id="saturation" min="0" max="20" value="10" />
-      <button id="image-controls-reset" title="Reset to defaults">Reset</button>
-      <button id="image-controls-save" title="Save and apply to all diagrams">Save</button>
+      <button type="button" id="image-controls-reset" title="Reset to defaults">Reset</button>
+      <button type="button" id="image-controls-save" title="Save and apply to all diagrams">Save</button>
     </div>
 
   </body>

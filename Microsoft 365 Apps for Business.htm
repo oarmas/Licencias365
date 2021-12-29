@@ -2,7 +2,8 @@
 <html dir="ltr" lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1" />
     <meta name="robots" content="index, follow" />
     <meta name="referrer" content="origin" />
     <meta name="theme-color" content="#002266" />
@@ -38,7 +39,7 @@
     <script src="/js/viewsvg.min.js"></script>
     <title>Microsoft 365 Apps for Business | M365 Maps</title>
   </head>
-  <body>
+  <body oncontextmenu="return false">
     <h1>Microsoft 365 Apps for Business</h1>
 
     <div id="offline">OFFLINE</div>
@@ -47,17 +48,20 @@
     <a id="download-png" href="/Microsoft%20365%20Apps%20for%20Business.png" download="Microsoft 365 Apps for Business.png" class="download-link"></a>
 
     <div id="menu">
-      <button id="menu-grip" accesskey="m" title="Menu"></button>
-      <button id="menu-back" accesskey="b" title="Back"></button>
-      <button id="menu-flag" accesskey="f" title="Flag"></button>
-      <button id="menu-print" accesskey="p" title="Print"></button>
-      <button id="menu-controls" accesskey="c" title="Controls"></button>
-      <button id="menu-edit" accesskey="e" title="Edit"></button>
-      <button id="menu-save" accesskey="s" title="Save a copy"></button>
-      <button id="menu-download-pdf" title="Download PDF">PDF</button>
-      <button id="menu-download-png" title="Download PNG">PNG</button>
-      <button id="menu-export-svg" title="Export as SVG">SVG</button>
-      <button id="menu-export-png" title="Export as PNG">PNG</button>
+      <button type="button" id="menu-grip" accesskey="m" title="Menu"></button>
+      <button type="button" id="menu-back" accesskey="b" title="Back"></button>
+      <button type="button" id="menu-flag" accesskey="g" title="Flag"></button>
+      <button type="button" id="menu-print" accesskey="p" title="Print"></button>
+      <button type="button" id="menu-save" accesskey="s" title="Save a copy"></button>
+      <button type="button" id="menu-controls" accesskey="c" title="Controls"></button>
+      <button type="button" id="menu-edit" accesskey="t" title="Toggle edit modes"></button>
+      <button type="button" id="menu-highlight" title="Highlight mode"></button>
+      <button type="button" id="menu-draw" title="Draw mode"></button>
+      <button type="button" id="menu-text" title="Text mode"></button>
+      <button type="button" id="menu-download-pdf" title="Download PDF">PDF</button>
+      <button type="button" id="menu-download-png" title="Download PNG">PNG</button>
+      <button type="button" id="menu-export-svg" title="Export as SVG">SVG</button>
+      <button type="button" id="menu-export-png" title="Export as PNG">PNG</button>
     </div>
 
     <div id="image-controls">
@@ -69,8 +73,8 @@
       <input type="range" id="hue" min="0" max="360" value="0" step="10" />
       <label for="saturation">Saturation</label>
       <input type="range" id="saturation" min="0" max="20" value="10" />
-      <button id="image-controls-reset" title="Reset to defaults">Reset</button>
-      <button id="image-controls-save" title="Save and apply to all diagrams">Save</button>
+      <button type="button" id="image-controls-reset" title="Reset to defaults">Reset</button>
+      <button type="button" id="image-controls-save" title="Save and apply to all diagrams">Save</button>
     </div>
 
     <svg xmlns="http://www.w3.org/2000/svg" width="416" height="304" viewBox="0 0 416 304" class="a"><style>
@@ -81,6 +85,6 @@
 .f {fill:#ffffff;font-family:Arial;font-size:1.16666em;font-weight:bold}
 .g {font-size:1em}
 .a {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
-</style><g><g transform="translate(16,-16)"><rect x="0" y="32" width="384" height="272" rx="8" ry="8" class="b"/></g><a target="_blank" href="https://www.microsoft.com/microsoft-365/business/microsoft-365-apps-for-business" rel="noopener"><g transform="translate(16,-256)"><rect x="0" y="272" width="384" height="32" rx="8" ry="8" class="c"/><text x="36.41" y="294" class="d">Microsoft 365 Apps for Business</text></g></a><a target="_blank" href="https://products.office.com/mobile/office" rel="noopener"><g transform="translate(48,-48)"><rect x="0" y="224" width="96" height="80" rx="8" ry="8" class="e"/><text x="28.16" y="259.8" class="f">Office <tspan x="6.39" dy="1.2em" class="g">Mobile Apps</tspan></text></g></a><a target="_blank" href="https://docs.microsoft.com/office365/servicedescriptions/office-online-service-description/office-online-service-description" rel="noopener"><g transform="translate(272,-144)"><rect x="0" y="224" width="96" height="80" rx="8" ry="8" class="e"/><text x="28.16" y="251.4" class="f">Office<tspan x="9.5" dy="1.2em" class="g">for the Web</tspan><tspan x="12.61" dy="1.2em" class="g">(incl Visio)</tspan></text></g></a><a target="_blank" href="https://www.microsoft.com/microsoft-365/business/microsoft-365-apps-for-business" rel="noopener"><g transform="translate(160,-144)"><rect x="0" y="224" width="96" height="80" rx="8" ry="8" class="e"/><text x="28.16" y="251.4" class="f">Office <tspan x="6" dy="1.2em" class="g">Applications </tspan><tspan x="11.05" dy="1.2em" class="g">(PC &amp; Mac)</tspan></text></g></a><a target="_blank" href="https://support.office.com/sway" rel="noopener"><g transform="translate(272,-48)"><rect x="0" y="224" width="96" height="80" rx="8" ry="8" class="e"/><text x="30.1" y="268.2" class="f">Sway</text></g></a><a target="_blank" href="https://support.office.com/forms" rel="noopener"><g transform="translate(48,-144)"><rect x="0" y="224" width="96" height="80" rx="8" ry="8" class="e"/><text x="16.5" y="259.8" class="f">Microsoft <tspan x="26.61" dy="1.2em" class="g">Forms</tspan></text></g></a><a target="_blank" href="https://docs.microsoft.com/office365/servicedescriptions/onedrive-for-business-service-description" rel="noopener"><g transform="translate(160,-48)"><rect x="0" y="224" width="96" height="80" rx="8" ry="8" class="e"/><text x="5.6" y="251.4" class="f">OneDrive for <tspan x="16.88" dy="1.2em" class="g">Business </tspan><tspan x="27.38" dy="1.2em" class="g">Plan 1</tspan></text></g></a></g></svg>
+</style><rect x="16" y="16" width="384" height="272" rx="8" ry="8" class="b"/><a target="_blank" href="https://www.microsoft.com/microsoft-365/business/microsoft-365-apps-for-business"><rect x="16" y="16" width="384" height="32" rx="8" ry="8" class="c"/><text x="52.41" y="38" class="d">Microsoft 365 Apps for Business</text></a><a target="_blank" href="https://products.office.com/mobile/office"><rect x="48" y="176" width="96" height="80" rx="8" ry="8" class="e"/><text x="76.16" y="211.8" class="f">Office <tspan x="54.39" dy="1.2em" class="g">Mobile Apps</tspan></text></a><a target="_blank" href="https://docs.microsoft.com/office365/servicedescriptions/office-online-service-description/office-online-service-description"><rect x="272" y="80" width="96" height="80" rx="8" ry="8" class="e"/><text x="300.16" y="107.4" class="f">Office<tspan x="281.5" dy="1.2em" class="g">for the Web</tspan><tspan x="284.61" dy="1.2em" class="g">(incl Visio)</tspan></text></a><a target="_blank" href="https://www.microsoft.com/microsoft-365/business/microsoft-365-apps-for-business"><rect x="160" y="80" width="96" height="80" rx="8" ry="8" class="e"/><text x="188.16" y="107.4" class="f">Office <tspan x="166" dy="1.2em" class="g">Applications </tspan><tspan x="171.05" dy="1.2em" class="g">(PC &amp; Mac)</tspan></text></a><a target="_blank" href="https://support.office.com/sway"><rect x="272" y="176" width="96" height="80" rx="8" ry="8" class="e"/><text x="302.1" y="220.2" class="f">Sway</text></a><a target="_blank" href="https://support.office.com/forms"><rect x="48" y="80" width="96" height="80" rx="8" ry="8" class="e"/><text x="64.5" y="115.8" class="f">Microsoft <tspan x="74.61" dy="1.2em" class="g">Forms</tspan></text></a><a target="_blank" href="https://docs.microsoft.com/office365/servicedescriptions/onedrive-for-business-service-description"><rect x="160" y="176" width="96" height="80" rx="8" ry="8" class="e"/><text x="165.6" y="203.4" class="f">OneDrive for <tspan x="176.88" dy="1.2em" class="g">Business </tspan><tspan x="187.38" dy="1.2em" class="g">Plan 1</tspan></text></a></svg>
   </body>
 </html>

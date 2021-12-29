@@ -2,7 +2,7 @@ h1 {
   font-size: 24px;
   padding-left: 28px;
   background: url(/media/sprites.svg#changes) center left no-repeat;
-  background-size: 20px 20px;
+  background-size: 20px;
 }
 
 h2 {
@@ -29,7 +29,7 @@ div.section-links {
 
 a.top-link {
   background: url(/media/sprites.svg#top) center left no-repeat;
-  background-size: 16px 16px;
+  background-size: 16px;
   padding-left: 20px;
   margin: 0 2px;
   text-align: center;
@@ -41,7 +41,7 @@ a.header-link {
 
 a.header-link:hover {
   background: url(/media/sprites.svg#link) center right no-repeat;
-  background-size: 16px 16px;
+  background-size: 16px;
 }
 
 #menu {

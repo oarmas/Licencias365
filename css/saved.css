@@ -2,7 +2,7 @@ h1 {
   font-size: 24px;
   padding-left: 28px;
   background: url(/media/sprites.svg#save) center left no-repeat;
-  background-size: 20px 20px;
+  background-size: 20px;
 }
 
 #file-selector {
@@ -47,43 +47,43 @@ div.actions>button {
   border-radius: 0;
   width: 16px;
   height: 16px;
-  min-width: min-content!important;
+  min-width: 16px;
   color: #0070F7;
   font-weight: normal;
 }
 
 button.export {
   background: url(/media/sprites.svg#export) center left no-repeat;
-  background-size: 16px 16px;
+  background-size: 16px;
   padding: 1px 2px 1px 18px;
-  width: 50px!important;
+  width: 48px!important;
   height: 16px;
 }
 
 button.delete {
   background: url(/media/sprites.svg#delete) center left no-repeat;
-  background-size: 16px 16px;
+  background-size: 16px;
 }
 
 button.rename {
-  background: url(/media/sprites.svg#edit-off) center left no-repeat;
-  background-size: 16px 16px;
+  background: url(/media/sprites.svg#rename) center left no-repeat;
+  background-size: 16px;
 }
 
 #export-all-png, #export-all-svg {
-  padding: 6px 8px 6px 34px;
+  padding: 6px 8px 6px 32px;
   background-image: url(/media/sprites.svg#export);
   background-position: center left 8px;
   background-repeat: no-repeat;
-  background-size: 18px 18px;
+  background-size: 18px;
 }
 
 #import {
-  padding: 6px 8px 6px 34px;
+  padding: 6px 8px 6px 32px;
   background-image: url(/media/sprites.svg#import);
   background-position: center left 8px;
   background-repeat: no-repeat;
-  background-size: 18px 18px;
+  background-size: 18px;
 }
 
 a.home-link {

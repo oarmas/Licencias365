@@ -2,6 +2,7 @@
 <html dir="ltr" lang="en">
   <head>
     <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="index, follow" />
     <meta name="referrer" content="origin" />
@@ -128,12 +129,12 @@
 
     <ul class="no-bullet-list">
       <li>
-        <h3 class="new"><span class="icon icon-compare"></span> Compare diagrams</h3>
+        <h3><span class="icon icon-compare"></span> Compare diagrams</h3>
         <p>Navigates to the <a href="#compare">compare diagrams</a> page.</p>
       </li>
       <li>
         <h3><span class="icon icon-save"></span> Saved diagrams</h3>
-        <p>Navigates to the <a href="#saved">saved diagrams</a> list. When viewing a diagram it is possible to make highlights which can be saved and displayed at a later time. More information on <a href="#viewsvg-edit">Edit mode</a> is available in this guide.</p>
+        <p>Navigates to the <a href="#saved">saved diagrams</a> list. When viewing a diagram it is possible to make highlights and add drawings and text annotations, which can be saved and displayed at a later time. More information on <a href="#viewsvg-edit">Edit modes</a> are available in this guide.</p>
       </li>
       <li>
         <h3><span class="icon icon-matrix"></span> Feature matrix</h3>
@@ -195,11 +196,11 @@
       <span class="icon icon-back" title="Back"></span>
       <span class="icon icon-unflagged" title="Flag this diagram"></span>
       <span class="icon icon-print" title="Print"></span>
-      <span class="icon icon-controls" title="Control"></span>
-      <span class="icon icon-edit-off" title="Turn on edit mode"></span>
       <span class="icon icon-save" title="Save a copy"></span>
-      <span class="icon icon-download" title="Download PDF"></span><span class="button-text">PDF</span>
-      <span class="icon icon-download" title="Download PNG"></span><span class="button-text">PNG</span>
+      <span class="icon icon-controls" title="Control"></span>
+      <span class="icon icon-edit" title="Toggle edit modes"></span>
+      <span class="icon icon-download" title="Download PDF"></span><span class="text-icon">PDF</span>
+      <span class="icon icon-download" title="Download PNG"></span><span class="text-icon">PNG</span>
     </div>
 
     <p>The collapsable menu in the upper-right corner of the view diagram page gives you quick access to a number of navigation options and other features depending on your device and the viewing mode you are in.</p>
@@ -227,28 +228,28 @@
       <div class="row-description">On devices that support printing this icon will be present and clicking it will launch the print dialog. The menu and offline/online indicators will be hidden in print outs, leaving only the diagram to print.</div>
       <div class="table-divider"></div>
 
-      <div class="row-icon"><span class="icon icon-controls"></span></div>
-      <div class="row-description">Opens and closes the image controls panel which allows for adjustments to the diagram brightness, contrast, hue, and saturation. There is more information on <a href="#controls">Image controls</a> later in this guide.</div>
-      <div class="table-divider"></div>
-
-      <div class="row-icon"><span class="icon icon-edit-off"></span> / <span class="icon icon-edit-on"></span></div>
-      <div class="row-description">These icons toggle the page in and out of edit mode. Edit mode allows you to click on any tile within a diagram to highlight that tile with one of three configurable highlighting colours. There is more information on <a href="#viewsvg-edit">Edit mode</a> later in this guide.</div>
-      <div class="table-divider"></div>
-
       <div class="row-icon"><span class="icon icon-save"></span></div>
       <div class="row-description">Clicking Save will store a copy of the current diagram which can be retrieved later from the <a href="#saved">Saved diagrams</a> page. Saved diagrams can be further edited or exported.</div>
       <div class="table-divider"></div>
 
+      <div class="row-icon"><span class="icon icon-controls"></span></div>
+      <div class="row-description">Opens and closes the image controls panel which allows for adjustments to the diagram brightness, contrast, hue, and saturation. There is more information on <a href="#controls">Image controls</a> later in this guide.</div>
+      <div class="table-divider"></div>
+
+      <div class="row-icon"><span class="icon icon-edit"></span></div>
+      <div class="row-description">This icons activates and toggles through the various edit modes (highlight, drawing, and text). There's more information on <a href="#viewsvg-edit">Edit modes</a> later in this guide.</div>
+      <div class="table-divider"></div>
+      
       <div class="row-icon"><span class="icon icon-download"></span></div>
-      <div class="row-description">When viewing a diagram outside of edit mode the PDF and PNG download links will be available. These links will download to your device the latest version of the diagram in either the PDF or PNG format directly from <a href="https://github.com/AaronDinnage/Licensing/" target="_blank" rel="noopener">GitHub</a>. Downloading is only available when you have an active internet connection.</div>
+      <div class="row-description">When viewing a diagram outside of edit modes the PDF and PNG download links will be available. These links will download to your device the latest version of the diagram in either the PDF or PNG format directly from <a href="https://github.com/AaronDinnage/Licensing/" target="_blank" rel="noopener">GitHub</a>. Downloading is only available when you have an active internet connection.</div>
       <div class="table-divider"></div>
 
       <div class="row-icon"><span class="icon icon-export"></span></div>
-      <div class="row-description">When working in edit mode SVG and PNG export links will be available (varies by browser compatibility). These links export the version of the diagram you are working on, with your changes included, and download it to your device. The PNG export includes your current theme background colour. Exporting can be performed while offline.</div>
+      <div class="row-description">When working in edit modes SVG and PNG export links will be available (varies by browser compatibility). These links export the version of the diagram you are working on, with your changes included, and download it to your device. The PNG export includes your current theme background colour. Exporting can be performed while offline.</div>
       <div class="table-divider"></div>
     </div>
 
-    <h2 id="viewsvg-edit"><a href="#viewsvg-edit" class="header-link">View diagram - Edit mode</a></h2>
+    <h2 id="viewsvg-edit"><a href="#viewsvg-edit" class="header-link">View diagram - Edit modes</a></h2>
 
     <div class="menu-mockup">
       <span class="icon icon-close" title="Close menu"></span>
@@ -256,14 +257,21 @@
       <span class="icon icon-unflagged" title="Flag this diagram"></span>
       <span class="icon icon-print" title="Print"></span>
       <span class="icon icon-controls" title="Control"></span>
-      <span class="icon icon-edit-on" title="Turn off edit mode"></span>
+      <span class="icon icon-highlight" title="Highlight mode"></span>
       <span class="icon icon-save" title="Save a copy"></span>
-      <span class="icon icon-export" title="Export as SVG"></span><span class="button-text">SVG</span>
-      <span class="icon icon-export" title="Export as PNG"></span><span class="button-text">PNG</span>
+      <span class="icon icon-export" title="Export as SVG"></span><span class="text-icon">SVG</span>
+      <span class="icon icon-export" title="Export as PNG"></span><span class="text-icon">PNG</span>
     </div>
 
-    <p>Edit mode is designed to help you build custom visualisations to communicate licensing details and opportunities to your colleagues or customers, or just for your own reference.</p>
-    <p>With edit mode enabled your mouse clicks within the diagram will no longer open the tile links but instead will toggle highlighting elements within the page. Your first click will apply the highlight colour, click again on the same tile and it will cycle the highlight off. Press <strong>Shift + Click</strong> and your first alternate colour will be applied. Press <strong>Control + Click</strong> and your second alternate colour will be applied. You can customise your highlight colours in the <a href="#settings">Settings</a> page.</p>
+    <p>Three edit modes are available to help you build custom visualisations to communicate licensing details and opportunities to your colleagues or customers, or just for your own reference. Clicking the icon will toggle through the three edit modes.</p>
+
+    <p><span class="icon icon-highlight"></span> With highlight mode enabled your mouse clicks within the diagram will no longer open the tile links but instead will toggle highlighting elements within the page. Your first click will apply the highlight colour, click again on the same tile and it will cycle the highlight off. Press <strong>Shift + Click</strong> and your first alternate colour will be applied. Press <strong>Control + Click</strong> and your second alternate colour will be applied. You can customise your highlight colours in the <a href="#settings">Settings</a> page.</p>
+
+    <p><span class="icon icon-draw"></span> Drawing mode applies free hand drawings (mouse, touch, and pen compatible) on top of a diagram. <strong>Ctrl + Click</strong> to draw straight lines. <strong>Shift + Click</strong> to automatically close the drawing shape. Click a drawing to cycle through colours. Right-click a drawing to remove it.</p>
+
+    <p><span class="icon icon-text"></span> Text mode allows you to add your own text labels on top of a diagram. <strong>Ctrl + Click</strong> and drag to rotate, <strong>Shift + Click</strong> to resize. Click text to cycle through colours. Right-click text to remove it.</p>
+
+    <p><span class="icon icon-erase"></span> Right-click in either Drawing or Text mode to erase the item under the cursor, Right-click and drag to erase all items you pass the cursor over from that edit mode.</p>
 
     <img loading="lazy" src="/media/diagram-highlight-dark.gif" class="dark-only screenshot" width="600" height="400" alt="Diagram highlighting screenshot" />
     <img loading="lazy" src="/media/diagram-highlight-light.gif" class="light-only screenshot" width="600" height="400" alt="Diagram highlighting screenshot" />
@@ -335,7 +343,7 @@
       <span class="header-description">Description</span>
       <div class="table-divider"></div>
 
-      <div class="row-icon"><span class="icon icon-edit-off"></span></div>
+      <div class="row-icon"><span class="icon icon-rename"></span></div>
       <div class="row-description">Clicking this icon allows you to rename a saved diagram. When clicked a dialog will appear prompting you for a new name.</div>
       <div class="table-divider"></div>
 
@@ -386,7 +394,7 @@
       <div class="table-divider"></div>
 
       <div class="row-setting"><span class="icon icon-edit-on"></span> Highlights</div>
-      <div class="row-description">Customise your highlight colours for use in edit mode on the <a href="#viewsvg">View diagram</a> page. A standard <strong>Left-Click</strong> will use the first colour, <strong>Shift + Click</strong> uses the second colour, and <strong>Control + Click</strong> will use the third colour from this setting. Default colours are pictured in the screenshot above.</div>
+      <div class="row-description">Customise your highlight colours for use in highlight edit mode on the <a href="#viewsvg">View diagram</a> page. A standard <strong>Left-Click</strong> will use the first colour, <strong>Shift + Click</strong> uses the second colour, and <strong>Control + Click</strong> will use the third colour from this setting. Default colours are pictured in the screenshot above.</div>
       <div class="table-divider"></div>
 
       <div class="row-setting"><span class="icon icon-close"></span> Menu</div>
@@ -547,7 +555,7 @@
         <strong><a href="https://www.microsoft.com/licensing/terms/productoffering" target="_blank" rel="noopener">Product Licensing Terms</a></strong>
         <p>Allows you to find product licensing terms by program and product family for Software and Online Services. Knowledge of Microsoft licensing programs is required to navigate the complexity, but answers to questions around feature inclusions can often be found here. These links I've found particularly useful:</p>
         <ul>
-          <li><a href="https://www.microsoft.com/licensing/docs" target="_blank" rel="noopener" class="new"><strong>Licensing Resources and Documents</strong></a></li>
+          <li><a href="https://www.microsoft.com/licensing/docs" target="_blank" rel="noopener"><strong>Licensing Resources and Documents</strong></a></li>
           <li><a href="https://www.microsoft.com/licensing/terms/product/SubscriptionLicenseSuites/all" target="_blank" rel="noopener"><strong>Subscription License Suites</strong></a></li>
           <li><a href="https://www.microsoft.com/licensing/terms/product/StudentUseBenefitsandAcademicPrograms/all" target="_blank" rel="noopener"><strong>Student Use Benefits and Academic Programs</strong></a></li>
           <li><a href="https://www.microsoft.com/licensing/terms/product/CALandMLEquivalencyLicenses/all" target="_blank" rel="noopener"><strong>CAL and ML Equivalency</strong></a></li>
@@ -600,8 +608,8 @@
     <p>This material is accessible only to Microsoft staff after signing in. I won't provide links for these resoruces, just names, so if you're a Microsoft staff member you'll be able to track them down.</p>
     <ul>
       <li>
-        <strong>Commercial Offer Tool</strong>
-        <p>Difinitive resource that shows the relationship between Products, Offers, and Service Plans. Doesn't show specific feature availability.</p>
+        <strong>M365 Ingestion Analytics Power BI</strong>
+        <p>The difinitive resource that shows the relationship between Products, Offers, and Service Plans. It doesn't show specific feature availability within a license.</p>
       </li>
       <li><strong>Microsoft 365 Licensing group on Yammer</strong>
         <p>Excellent news and resources, and the opportunity to clarify your understanding.</p>

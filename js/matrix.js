@@ -1,21 +1,22 @@
 /// <reference path="common.js" />
 /* global isEmbedded, setupOfflineIndicator */
 
-/** Page Data. */
-const PageData = {
-  DiagramCount: 21,
-  DiagramGroups: [3, 3, 5, 4, 6],
-  FeatureSearchChanged: false,
-};
+// Variables
+let TriggerSearch = false;
 
-/** Toggle the Feature Search Changed variable when a Key Up event occurs. */
-function featureSearchKeyUp() {
-  PageData.FeatureSearchChanged = true;
+// Constants
+const DIAGRAM_COUNT = 21;
+const DIAGRAM_GROUPS = [3, 3, 5, 4, 6];
+
+/** Toggle the Trigger Search variable when a Key Up event occurs. */
+function searchKeyUp() {
+  TriggerSearch = true;
 }
 
 /** Update the row visibility based on search text. */
-function applySearchFilter() {
-  const filter = document.getElementById('feature-search').value.toUpperCase();
+function applySearch() {
+  const search =
+    document.getElementById('feature-search').value.toUpperCase();
 
   let inGroup = false;
 
@@ -34,7 +35,7 @@ function applySearchFilter() {
         }
 
         const featureName = cell.textContent || cell.innerText;
-        if (featureName.toUpperCase().indexOf(filter) !== -1 || inGroup) {
+        if (featureName.toUpperCase().includes(search) || inGroup) {
           row.style.display = 'table-row';
 
           // If the match is on a group header keep the features under this
@@ -52,18 +53,17 @@ function applySearchFilter() {
 
 /** Timer periodically fires to update the row visibility in response to
  *  search text changes. */
-function featureSearchTimer() {
-  if (!PageData.FeatureSearchChanged) return;
+function searchTimer() {
+  if (!TriggerSearch) return;
+  TriggerSearch = false;
 
-  PageData.FeatureSearchChanged = false;
-
-  applySearchFilter();
+  applySearch();
 }
 
 /** Set up the feature search box and action functions. */
 function setupFeatureSearch() {
-  document.getElementById('feature-search')
-    .addEventListener('keyup', featureSearchKeyUp);
+  document.getElementById('feature-search').
+    addEventListener('keyup', searchKeyUp);
 }
 
 /** Count the selected columns within the given group. This is used to
@@ -72,9 +72,9 @@ function countInGroup(group, all) {
   let count = 0;
   let start = 0;
 
-  for (let i = 0; i < PageData.DiagramGroups.length; i += 1) {
+  for (let i = 0; i < DIAGRAM_GROUPS.length; i += 1) {
     if (i === group) {
-      const end = start + PageData.DiagramGroups[i];
+      const end = start + DIAGRAM_GROUPS[i];
       for (let allIndex = start; allIndex < end; allIndex += 1) {
         if (all[allIndex]) {
           count += 1;
@@ -82,7 +82,8 @@ function countInGroup(group, all) {
       }
       return count;
     }
-    start += PageData.DiagramGroups[i];
+
+    start += DIAGRAM_GROUPS[i];
   }
 
   return -1;
@@ -90,7 +91,7 @@ function countInGroup(group, all) {
 
 /** Get an array of booleans represented the state of each license checkbox. */
 function getSelectedCheckboxes() {
-  const selected = new Array(PageData.DiagramCount);
+  const selected = new Array(DIAGRAM_COUNT);
 
   const checkboxes = document.querySelectorAll('input[type=checkbox]');
   for (const checkbox of checkboxes) {
@@ -170,7 +171,7 @@ function showColumns(selected) {
         const cell = cells[col];
 
         if (row === 1) {
-          const groupIndex = findGroup(col - 1, PageData.DiagramGroups);
+          const groupIndex = findGroup(col - 1, DIAGRAM_GROUPS);
           const groupClass = groupClasses[groupIndex];
           cell.className = groupClass;
         }
@@ -191,13 +192,13 @@ function showColumns(selected) {
   }
 
   if (document.getElementById('feature-search').value !== '') {
-    applySearchFilter();
+    applySearch();
   }
 }
 
 /** Updated selection of license types when hash changes. */
 function hashChanged() {
-  const selected = new Array(PageData.DiagramCount);
+  const selected = new Array(DIAGRAM_COUNT);
   selected.fill(true);
 
   let hash = window.location.hash.substring(1);
@@ -206,10 +207,10 @@ function hashChanged() {
   if (!allSelected) {
     // Pad bookmarked selections from previous site versions:
     if (hash.length === 18) {
-        hash = hash[0] + '00' + hash.slice(1, -4) + '0' + hash.slice(-4);
+      hash = hash[0] + '00' + hash.slice(1, -4) + '0' + hash.slice(-4);
     }
 
-    if (hash.length === PageData.DiagramCount) {
+    if (hash.length === DIAGRAM_COUNT) {
       for (let index = 0; index < hash.length; index += 1) {
         selected[index] = (hash[index] === '1');
       }
@@ -243,10 +244,10 @@ function setupCheckboxes() {
 /** Attach event listeners to Select All & Select None. */
 function setupSelectAllNone() {
   document.getElementById('select-all').href =
-    '#' + '1'.repeat(PageData.DiagramCount);
+    '#' + '1'.repeat(DIAGRAM_COUNT);
 
   document.getElementById('select-none').href =
-    '#' + '0'.repeat(PageData.DiagramCount);
+    '#' + '0'.repeat(DIAGRAM_COUNT);
 }
 
 /** DOM Content Loaded event handler. */
@@ -265,10 +266,10 @@ function DOMContentLoaded() {
 
 /** Page Load event handler. */
 function pageLoad() {
-  document.getElementById('header')
-    .style.width = document.body.scrollWidth + 'px';
+  document.getElementById('header').style.width =
+    document.body.scrollWidth + 'px';
 
-  setInterval(featureSearchTimer, 250);
+  setInterval(searchTimer, 250);
 }
 
 document.addEventListener('DOMContentLoaded', DOMContentLoaded);

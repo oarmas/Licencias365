@@ -199,15 +199,16 @@ button>img {
 
 a.home-link {
   background: url(/media/sprites.svg#home) center left no-repeat;
-  background-size: 16px 16px;
+  background-size: 16px;
   padding-left: 20px;
   margin: 0 2px;
+  vertical-align: middle;
 }
 
 .new::after {
   content: "";
   background: url(/media/sprites.svg#new) center right no-repeat;
-  background-size: 9px 9px;
+  background-size: 9px;
   display: inline-block;
   width: 9px;
   height: 9px;
@@ -245,6 +246,5 @@ input[type='checkbox']:disabled {
   background-color: #888;
   border: 1pt solid transparent;
   border-radius: 2pt;
-  /* cursor: not-allowed; */
   cursor: default;
 }

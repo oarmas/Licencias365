@@ -1,7 +1,7 @@
 a.changes {
   cursor: pointer;
   background: url(/media/sprites.svg#changes) center left no-repeat;
-  background-size: 16px 16px;
+  background-size: 16px;
   padding-left: 22px;
   margin: 0 2px;
 }
@@ -9,7 +9,7 @@ a.changes {
 a.compare {
   cursor: pointer;
   background: url(/media/sprites.svg#compare) center left no-repeat;
-  background-size: 16px 16px;
+  background-size: 16px;
   padding-left: 22px;
   margin: 0 2px;
 }
@@ -17,7 +17,7 @@ a.compare {
 a.downloads {
   cursor: pointer;
   background: url(/media/sprites.svg#download) center left no-repeat;
-  background-size: 16px 16px;
+  background-size: 16px;
   padding-left: 22px;
   margin: 0 2px;
 }
@@ -25,7 +25,7 @@ a.downloads {
 a.guide {
   cursor: pointer;
   background: url(/media/sprites.svg#guide) center left no-repeat;
-  background-size: 16px 16px;
+  background-size: 16px;
   padding-left: 22px;
   margin: 0 2px;
 }
@@ -33,7 +33,7 @@ a.guide {
 a.matrix {
   cursor: pointer;
   background: url(/media/sprites.svg#matrix) center left no-repeat;
-  background-size: 16px 16px;
+  background-size: 16px;
   padding-left: 22px;
   margin: 0 2px;
 }
@@ -41,7 +41,7 @@ a.matrix {
 a.settings {
   cursor: pointer;
   background: url(/media/sprites.svg#cog) center left no-repeat;
-  background-size: 16px 16px;
+  background-size: 16px;
   padding-left: 22px;
   margin: 0 2px;
 }
@@ -49,7 +49,7 @@ a.settings {
 a.saved {
   cursor: pointer;
   background: url(/media/sprites.svg#save) center left no-repeat;
-  background-size: 16px 16px;
+  background-size: 16px;
   padding-left: 22px;
   margin: 0 2px;
 }
@@ -63,7 +63,7 @@ body noscript {
 #flag-all {
   cursor: pointer;
   background: url(/media/sprites.svg#flagged) center left no-repeat;
-  background-size: 16px 16px;
+  background-size: 16px;
   padding-left: 20px;
   margin: 0;
 }
@@ -71,7 +71,7 @@ body noscript {
 #clear-all {
   cursor: pointer;
   background: url(/media/sprites.svg#unflagged) center left no-repeat;
-  background-size: 16px 16px;
+  background-size: 16px;
   padding-left: 20px;
   margin: 0;
 }
@@ -89,7 +89,7 @@ h1 {
   font-size: 30px;
   padding-left: 36px;
   background: url(/media/favicon.svg) center left no-repeat;
-  background-size: 28px 28px;
+  background-size: 28px;
   margin-bottom: 4px;
 }
 
@@ -148,17 +148,17 @@ button.flag-button {
   padding: 0;
   width: 16px;
   height: 16px;
-  min-width: min-content!important;
+  min-width: 16px;
 }
 
 button.flagged {
   background: url(/media/sprites.svg#flagged) center left no-repeat;
-  background-size: 16px 16px;
+  background-size: 16px;
 }
 
 button.unflagged {
   background: url(/media/sprites.svg#unflagged) center left no-repeat;
-  background-size: 16px 16px;
+  background-size: 16px;
 }
 
 a.link-text {

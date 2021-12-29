@@ -20,7 +20,7 @@ h1 {
   font-size: 24px;
   padding-left: 28px;
   background: url(/media/sprites.svg#matrix) center left no-repeat;
-  background-size: 20px 20px;
+  background-size: 20px;
 }
 
 #select-all, #select-none {
@@ -77,7 +77,7 @@ label.check-label {
   background-position-x: 2px;
   background-position-y: center;
   background-repeat: no-repeat;
-  background-size: 12px 12px;
+  background-size: 12px;
   border-color: #CCC;
   border-radius: 4px;
   border-width: 2px;
@@ -116,23 +116,23 @@ td.group {
 }
 
 td.indent1 {
-  background-image: url(/media/sprites.svg#close);
+  background-image: url(/media/sprites.svg#grip);
   background-position-x: 6px;
   background-position-x: calc(env(safe-area-inset-left, 0) + 6px);
   background-position-y: center;
   background-repeat: no-repeat;
-  background-size: 12px 12px;
+  background-size: 12px;
   padding-left: 24px!important;
   padding-left: calc(env(safe-area-inset-left, 0) + 24px)!important;
 }
 
 td.indent2 {
-  background-image: url(/media/sprites.svg#close);
+  background-image: url(/media/sprites.svg#grip);
   background-position-x: 22px;
   background-position-x: calc(env(safe-area-inset-left, 0) + 22px);
   background-position-y: center;
   background-repeat: no-repeat;
-  background-size: 12px 12px;
+  background-size: 12px;
   padding-left: 48px!important;
   padding-left: calc(env(safe-area-inset-left, 0) + 48px)!important;
 }

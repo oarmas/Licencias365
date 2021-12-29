@@ -1,66 +1,55 @@
 /// <reference path="common.js" />
 /* global isEmbedded, StoreName, setupOfflineIndicator */
 
-/** Page Data. */
-const PageData = { Flags: [] };
+// Variables
+let Flags = [];
 
 /** Updates the visual appearance of a button to match state. */
 /* eslint no-param-reassign:
  ["error", { "props":true, "ignorePropertyModificationsFor":["button"] }] */
 function updateFlag(button, state) {
   if (state) {
-    if (button.classList.contains('unflagged')) {
-      button.classList.remove("unflagged");
-    }
-    if (!button.classList.contains('flagged')) {
-      button.classList.add('flagged');
-    }
     button.title = 'Remove flag';
+    button.classList.add('flagged');
+    button.classList.remove("unflagged");
   } else {
-    if (button.classList.contains('flagged')) {
-      button.classList.remove("flagged");
-    }
-    if (!button.classList.contains('unflagged')) {
-      button.classList.add('unflagged');
-    }
     button.title = 'Flag this diagram';
+    button.classList.add('unflagged');
+    button.classList.remove("flagged");
   }
 }
 
 /** Handles the user clicking the Flag item beside a diagram link. */
 function flagClick(event) {
-  const button = event.target;
-  const link = button.nextSibling;
-  const filename = link.pathname.slice(1, -4);
+  const filename = event.target.nextSibling.pathname.slice(1, -4);
 
-  const flagIndex = PageData.Flags.indexOf(filename);
+  const flagIndex = Flags.indexOf(filename);
   if (flagIndex === -1) {
-    PageData.Flags.push(filename);
-    updateFlag(button, true);
+    Flags.push(filename);
+    updateFlag(event.target, true);
   } else {
-    PageData.Flags.splice(flagIndex, 1);
-    updateFlag(button, false);
+    Flags.splice(flagIndex, 1);
+    updateFlag(event.target, false);
   }
 
-  localStorage.setItem(StoreName.Flags, JSON.stringify(PageData.Flags));
+  localStorage.setItem(StoreName.Flags, JSON.stringify(Flags));
 }
 
 /** Handles the user clicking the Flag all item at the bottom of the links. */
 function flagAllClick(event) {
   event.preventDefault();
 
-  PageData.Flags = [];
+  Flags = [];
 
   const links = document.getElementsByClassName('link-text');
   for (const link of links) {
     const filename = link.pathname.slice(1, -4);
-    PageData.Flags.push(filename);
+    Flags.push(filename);
 
-    const button = link.previousSibling;
-    updateFlag(button, true);
+    updateFlag(link.previousSibling, true);
   }
 
-  const flagsJSON = JSON.stringify(PageData.Flags);
+  const flagsJSON = JSON.stringify(Flags);
   localStorage.setItem(StoreName.Flags, flagsJSON);
 }
 
@@ -69,44 +58,42 @@ function flagAllClick(event) {
 function clearFlagsClick(event) {
   event.preventDefault();
 
-  PageData.Flags = [];
-  const flagsJSON = JSON.stringify(PageData.Flags);
+  Flags = [];
+
+  const flagsJSON = JSON.stringify(Flags);
   localStorage.setItem(StoreName.Flags, flagsJSON);
 
   const links = document.getElementsByClassName('link-text');
   for (const link of links) {
-    const button = link.previousSibling;
-    updateFlag(button, false);
+    updateFlag(link.previousSibling, false);
   }
 }
 
 /** Sets the display properties and attaches event listeners to flags. */
 function setupFlags() {
   const flagsJSON = localStorage.getItem(StoreName.Flags);
-  if (flagsJSON) PageData.Flags = JSON.parse(flagsJSON);
+  if (flagsJSON) Flags = JSON.parse(flagsJSON);
 
   const buttons = document.getElementsByClassName('flag-button');
   for (const button of buttons) {
     button.addEventListener('click', flagClick);
 
-    const link = button.nextSibling;
-    const filename = link.pathname.slice(1, -4);
+    const filename = button.nextSibling.pathname.slice(1, -4);
 
     // TODO: Hover preview?
     // const preview = document.createElement('img');
     // preview.src = '/' + filename + '.svg';
     // preview.height = "200";
-    // link.appendChild(preview);
+    // button.nextSibling.appendChild(preview);
 
-    const flagged = (PageData.Flags.indexOf(filename) !== -1);
-    updateFlag(button, flagged);
+    updateFlag(button, Flags.includes(filename));
   }
 
-  document.getElementById('clear-all')
-    .addEventListener('click', clearFlagsClick);
+  document.getElementById('clear-all').
+    addEventListener('click', clearFlagsClick);
 
-  document.getElementById('flag-all')
-    .addEventListener('click', flagAllClick);
+  document.getElementById('flag-all').
+    addEventListener('click', flagAllClick);
 }
 
 /** DOM Content Loaded event handler. */
@@ -117,11 +104,6 @@ function DOMContentLoaded() {
 
   setupOfflineIndicator();
   setupFlags();
-
-  // Is this running in Internet Explorer?
-  if (navigator.userAgent.indexOf('Trident/') !== -1) {
-    document.getElementById('ie-warning').style.display = 'block';
-  }
 }
 
 document.addEventListener('DOMContentLoaded', DOMContentLoaded);

@@ -46,28 +46,37 @@ const Settings = {
 };
 
 /** Is this running in Chrome on iOS? */
-// const isIOSChrome = (navigator.userAgent.indexOf('CriOS') !== -1);
+// const isIOSChrome = navigator.userAgent.includes('CriOS');
 
 /** Is this running in Edge on iOS? */
-const isIOSEdge = (navigator.userAgent.indexOf('EdgiOS') !== -1);
+// const isIOSEdge = navigator.userAgent.includes('EdgiOS');
 
 /** Is this running on an iOS device? */
-const isIOS = (window.navigator.userAgent.indexOf('iPad') !== -1 ||
-  window.navigator.userAgent.indexOf('iPhone') !== -1);
+const isIOS = window.navigator.userAgent.includes('iPad') ||
+  window.navigator.userAgent.includes('iPhone');
 
-/** Callback to execute after Modal OK / Yes button press. */
-let modalOkCallback = undefined;
+/** Callback to execute after Modal Yes / OK button press. */
+let modalYesOkCallback = undefined;
 
-/** Callback to execute after Modal Cancel / No button press. */
+/** Callback to execute after Modal No button press. */
+let modalNoCallback = undefined;
+
+/** Callback to execute after Modal Cancel button press. */
 let modalCancelCallback = undefined;
 
 /** Handle the modal OK / Yes button click.  */
-function modalOkClick(event) {
+function modalYesOkClick(event) {
   document.getElementById('modal').style.display = 'none';
-  if (modalOkCallback) modalOkCallback(event);
+  if (modalYesOkCallback) modalYesOkCallback(event);
 }
 
-/** Handle the modal Cancel / No button click.  */
+/** Handle the modal No button click.  */
+function modalNoClick(event) {
+  document.getElementById('modal').style.display = 'none';
+  if (modalNoCallback) modalNoCallback(event);
+}
+
+/** Handle the modal Cancel button click.  */
 function modalCancelClick(event) {
   document.getElementById('modal').style.display = 'none';
   if (modalCancelCallback) modalCancelCallback(event);
@@ -76,12 +85,19 @@ function modalCancelClick(event) {
 /** Handles pressing Enter inside the modal prompt text box. */
 function modalInputKeyUpEvent(event) {
   if (event.key === 'Enter') {
-    const okButton = document.getElementById('modal-ok');
+    const okButton = document.getElementById('modal-yes-ok');
     if (!okButton) return;
 
     event.preventDefault();
 
     okButton.click();
+  } else if (event.key === 'Escape' || event.key === 'Esc') {
+    const cancelButton = document.getElementById('modal-cancel');
+    if (!cancelButton) return;
+
+    event.preventDefault();
+
+    cancelButton.click();
   }
 }
 
@@ -105,13 +121,23 @@ function setupModal() {
   modalContent.appendChild(modalInput);
   modalInput.addEventListener('keyup', modalInputKeyUpEvent);
 
-  const modalOk = document.createElement('button');
-  modalOk.id = 'modal-ok';
-  modalOk.addEventListener('click', modalOkClick);
-  modalContent.appendChild(modalOk);
+  const modalYesOk = document.createElement('button');
+  modalYesOk.type = 'button';
+  modalYesOk.id = 'modal-yes-ok';
+  modalYesOk.addEventListener('click', modalYesOkClick);
+  modalContent.appendChild(modalYesOk);
+
+  const modalNo = document.createElement('button');
+  modalNo.type = 'button';
+  modalNo.id = 'modal-no';
+  modalNo.textContent = 'No';
+  modalNo.addEventListener('click', modalNoClick);
+  modalContent.appendChild(modalNo);
 
   const modalCancel = document.createElement('button');
+  modalCancel.type = 'button';
   modalCancel.id = 'modal-cancel';
+  modalCancel.textContent = 'Cancel';
   modalCancel.addEventListener('click', modalCancelClick);
   modalContent.appendChild(modalCancel);
 }
@@ -119,8 +145,10 @@ function setupModal() {
 /** Registers the service worker. */
 function registerServiceWorker() {
   if (navigator.serviceWorker) {
-    navigator.serviceWorker.addEventListener('controllerchange', () =>
-      window.location.reload());
+    navigator.serviceWorker.addEventListener('controllerchange',
+      function controllerChange() {
+        window.location.reload();
+      });
 
     navigator.serviceWorker.register('sw.min.js');
   }
@@ -204,9 +232,9 @@ function setTheme(theme) {
     case 'Dark': htmlElement.className = 'theme-dark'; break;
     case 'System':
     default:
-      htmlElement.className = window
-        .matchMedia('(prefers-color-scheme: dark)')
-        .matches ? 'theme-dark' : 'theme-light';
+      htmlElement.className = window.
+        matchMedia('(prefers-color-scheme: dark)').
+        matches ? 'theme-dark' : 'theme-light';
       break;
   }
 }
@@ -299,10 +327,12 @@ function getStringBetween(source, from, open, close) {
 
 /** Get the filter CSS for the specified filter values. */
 function getFiltersCss(brightness, contrast, hue, saturation) {
-  return `brightness(${(brightness / 10.0).toPrecision(2)}) ` +
-    `contrast(${(contrast / 10.0).toPrecision(2)}) ` +
-    `hue-rotate(${hue}deg) ` +
-    `saturate(${(saturation / 10.0).toPrecision(2)})`;
+  const b = (brightness / 10.0).toFixed(1);
+  const c = (contrast / 10.0).toFixed(1);
+  const h = hue + 'deg';
+  const s = (saturation / 10.0).toFixed(1);
+
+  return `brightness(${b}) contrast(${c}) hue-rotate(${h}) saturate(${s})`;
 }
 
 /** Shows the App Offline indicator. */
@@ -317,73 +347,76 @@ function appOnline() {
 
 /** Sets up the offline indicator. */
 function setupOfflineIndicator() {
-  document.getElementById('offline').style
-    .display = (navigator.onLine ? 'none' : 'block');
+  document.getElementById('offline').style.display =
+    (navigator.onLine ? 'none' : 'block');
 
   window.addEventListener('offline', appOffline);
   window.addEventListener('online', appOnline);
 }
 
+/** Takes the browser back one page or if there is no history, to home. */
+function backOrHome() {
+  if (window.history.length === 1) {
+    window.location.href = '/';
+  } else {
+    window.history.back();
+  }
+}
+
 /** Alternative to native alert function. */
 function modalAlert(message, okCallback) {
-  modalOkCallback = okCallback;
+  modalYesOkCallback = okCallback;
 
   document.getElementById('modal-text').textContent = message;
   document.getElementById('modal-input').style.display = 'none';
-
-  const modalOk = document.getElementById('modal-ok');
-  modalOk.textContent = 'OK';
-  modalOk.accessKey = 'o';
-  modalOk.style.display = 'inline-block';
-
   document.getElementById('modal-cancel').style.display = 'none';
+  document.getElementById('modal-no').style.display = 'none';
+
+  const modalYesOk = document.getElementById('modal-yes-ok');
+  modalYesOk.textContent = 'OK';
+  modalYesOk.style.display = 'inline-block';
 
   document.getElementById('modal').style.display = 'block';
 
-  modalOk.focus();
+  modalYesOk.focus();
 }
 
 /** Alternative to native confirm function. */
-function modalConfirm(message, yesCallback, noCallback) {
-  modalOkCallback = yesCallback;
-  modalCancelCallback = noCallback;
+function modalConfirm(message, yesCallback, noCallback, cancelCallback) {
+  modalYesOkCallback = yesCallback;
+  modalNoCallback = noCallback;
+  modalCancelCallback = cancelCallback;
 
   document.getElementById('modal-text').textContent = message;
   document.getElementById('modal-input').style.display = 'none';
+  document.getElementById('modal-no').style.display = 'inline-block';
 
-  const modalOk = document.getElementById('modal-ok');
-  modalOk.textContent = 'Yes';
-  modalOk.accessKey = 'y';
-  modalOk.style.display = 'inline-block';
+  document.getElementById('modal-cancel').style.display =
+    cancelCallback ? 'inline-block' : 'none';
 
-  const modalCancel = document.getElementById('modal-cancel');
-  modalCancel.textContent = 'No';
-  modalCancel.accessKey = 'n';
-  modalCancel.style.display = 'inline-block';
+  const modalYesOk = document.getElementById('modal-yes-ok');
+  modalYesOk.textContent = 'Yes';
+  modalYesOk.style.display = 'inline-block';
 
   document.getElementById('modal').style.display = 'block';
 }
 
 /** Alternative to native prompt function. */
 function modalPrompt(message, inputValue, okCallback, cancelCallback) {
-  modalOkCallback = okCallback;
+  modalYesOkCallback = okCallback;
   modalCancelCallback = cancelCallback;
 
   document.getElementById('modal-text').textContent = message;
+  document.getElementById('modal-cancel').style.display = 'inline-block';
+  document.getElementById('modal-no').style.display = 'none';
 
   const modalInput = document.getElementById('modal-input');
   modalInput.value = inputValue ? inputValue : '';
   modalInput.style.display = 'inline-block';
 
-  const modalOk = document.getElementById('modal-ok');
-  modalOk.textContent = 'OK';
-  modalOk.accessKey = 'o';
-  modalOk.style.display = 'inline-block';
-
-  const modalCancel = document.getElementById('modal-cancel');
-  modalCancel.textContent = 'Cancel';
-  modalCancel.accessKey = 'c';
-  modalCancel.style.display = 'inline-block';
+  const modalYesOk = document.getElementById('modal-yes-ok');
+  modalYesOk.textContent = 'OK';
+  modalYesOk.style.display = 'inline-block';
 
   document.getElementById('modal').style.display = 'block';
 
@@ -399,7 +432,7 @@ function getModalInputText() {
 function isEmbedded() {
   try {
     return (window.self !== window.top);
-  } catch (error) {
+  } catch {
     return true;
   }
 }

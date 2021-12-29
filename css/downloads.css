@@ -2,7 +2,7 @@ h1 {
   font-size: 24px;
   padding-left: 28px;
   background: url(/media/sprites.svg#download) center left no-repeat;
-  background-size: 20px 20px;
+  background-size: 20px;
 }
 
 h2 {
@@ -39,7 +39,6 @@ tr:nth-child(2n) {
 .download>a {
   content: "";
   background: url(/media/sprites.svg#download) center right no-repeat;
-  background-size: 16px 16px;
   display: inline-block;
   width: 16px;
   height: 16px;

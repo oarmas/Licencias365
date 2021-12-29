@@ -1,6 +1,6 @@
 /// <reference path="common.js" />
 /* global Settings, saveSettings, isEmbedded, setTheme, setupModal,
-   defaultSettings, setupOfflineIndicator */
+   defaultSettings, setupOfflineIndicator, backOrHome, modalAlert */
 
 /** Save click event to commit changes. */
 function saveClick() {
@@ -13,15 +13,16 @@ function saveClick() {
 
   saveSettings();
 
-  if (!isEmbedded()) {
-    window.history.back();
+  if (isEmbedded()) {
+    modalAlert('Settings saved.');
+  }
+  else {
+    backOrHome();
   }
 }
 
-/**
- * Set the selected option by the supplied label
- * @returns true if option found and selected, otherwise false.
- */
+/** Set the selected option by the supplied label
+ *  @returns true if option found and selected, otherwise false. */
 function selectByLabel(select, label) {
   for (const option of select.options) {
     if (option.label === label) {
@@ -55,8 +56,7 @@ function defaultsClick() {
 function setupEventListeners() {
   document.getElementById('defaults').addEventListener('click', defaultsClick);
   document.getElementById('save').addEventListener('click', saveClick);
-  document.getElementById('cancel').addEventListener('click', 
-    () => window.history.back());
+  document.getElementById('cancel').addEventListener('click', backOrHome);
   document.getElementById('theme').addEventListener('change',
     (event) => setTheme(event.target.value));
 }

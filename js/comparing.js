@@ -1,5 +1,5 @@
 /// <reference path="common.js" />
-/* global modalAlert, setupOfflineIndicator, setupModal */
+/* global modalAlert, setupOfflineIndicator, setupModal, backOrHome */
 
 /** Move the slider between the two diagrams. */
 function moveSlider() {
@@ -28,15 +28,14 @@ function DOMContentLoaded() {
       compare2.src = `/${elements[1]}.htm#/compare`;
     }
 
-    document.getElementById('compare-slider')
-      .addEventListener('input', moveSlider);
+    document.getElementById('compare-slider').
+      addEventListener('input', moveSlider);
   } else {
     document.getElementById('compare1').style.display = 'none';
     document.getElementById('compare-overlay').style.display = 'none';
     document.getElementById('compare-slider').style.display = 'none';
 
-    modalAlert('Page loaded with invalid parameters',
-      () => window.history.back());
+    modalAlert('Page loaded with invalid parameters', backOrHome);
   }
 }
 

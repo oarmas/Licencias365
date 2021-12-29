@@ -1,4 +1,4 @@
-const Version = '20211007';
+const Version = '20211229';
 
 const CacheContent = [
   // Pages
@@ -88,8 +88,8 @@ const CacheContent = [
   '/media/teams-upload-dark.png',
   '/media/teams-upload-light.png',
   // SVG
-  '/media/favicon.svg', // favicon
-  '/media/sprites.svg', // sprites
+  '/media/favicon.svg',
+  '/media/sprites.svg',
   // Diagrams
   '/Azure-AD-Premium.htm',
   '/EMS Enterprise - Simple.htm',
@@ -121,11 +121,13 @@ const CacheContent = [
   '/Microsoft 365 Enterprise - Venn.htm',
   '/Microsoft 365 Enterprise.htm',
   '/Microsoft 365 Personal and Family.htm',
+  '/Microsoft-Defender-for-Business.htm',
   '/Microsoft-Defender-for-Endpoint.htm',
   '/Microsoft-Defender-for-Office-365.htm',
   '/Microsoft Project.htm',
   '/Microsoft Teams Rooms.htm',
   '/Microsoft Teams Rooms - Premium.htm',
+  '/Microsoft-Visio.htm',
   '/Office 365 Education - Simple.htm',
   '/Office 365 Education.htm',
   '/Office 365 Enterprise - E1.htm',
@@ -136,11 +138,13 @@ const CacheContent = [
   '/Windows 10 - Enterprise.htm',
   '/Windows 10 - Pro.htm',
   '/Windows 10 - VL.htm',
+  '/Windows-365.htm',
+  // '/Windows-365-Comparison.htm',
 ];
 
 /** Service Worker Install caches core app components and diagrams. */
 function swInstall(event) {
-  console.log('[Service Worker] Install ', Version);
+  console.log('[Service Worker] Install', Version);
 
   self.skipWaiting();
 
@@ -163,7 +167,7 @@ function swInstall(event) {
 
 /** Service Worker Activate deletes old caches. */
 function swActivate(event) {
-  console.log('[Service Worker] Activate ', Version);
+  console.log('[Service Worker] Activate', Version);
   event.waitUntil(caches.keys().then(
     function forEachKey(keys) {
       keys.forEach(
@@ -185,18 +189,15 @@ function swFetch(event) {
         const newHeaders = new Headers(cachedResponse.headers);
         newHeaders.set('cache-control', 'no-cache');
 
-        const newResponse = new Response(cachedResponse.body, {
+        return new Response(cachedResponse.body, {
           status: cachedResponse.status,
           statusText: cachedResponse.statusText,
-          headers: newHeaders
+          headers: newHeaders,
         });
-
-        return newResponse;
       }
 
       console.log('[Service Worker] Fetch fallback', event.request.url);
-      const requestClone = event.request.clone();
-      return fetch(requestClone);
+      return fetch(event.request.clone());
     }
   ));
 }
