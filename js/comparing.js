@@ -1,5 +1,5 @@
 /// <reference path="common.js" />
-/* global modalAlert, setupOfflineIndicator, setupModal, backOrHome */
+/* global showModalDialog, setupModal, backOrHome */
 
 /** Move the slider between the two diagrams. */
 function moveSlider() {
@@ -9,7 +9,6 @@ function moveSlider() {
 
 /** DOM Content Loaded event handler. */
 function DOMContentLoaded() {
-  setupOfflineIndicator();
   setupModal();
 
   const elements = window.location.hash.substring(1).split('/');
@@ -35,7 +34,8 @@ function DOMContentLoaded() {
     document.getElementById('compare-overlay').style.display = 'none';
     document.getElementById('compare-slider').style.display = 'none';
 
-    modalAlert('Page loaded with invalid parameters', backOrHome);
+    showModalDialog('Page loaded with invalid parameters.',
+      false, undefined, 'OK', backOrHome);
   }
 }
 

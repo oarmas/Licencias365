@@ -2,7 +2,6 @@
 <html dir="ltr" lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="index, follow" />
     <meta name="referrer" content="origin" />
@@ -43,7 +42,6 @@
     <a class="skip-link" href="#diagrams">Skip to main content</a>
     <h1>Compare Diagrams</h1>
 
-    <div id="offline">OFFLINE</div>
     <div id="menu"><a href="/" class="home-link">Home</a></div>
 
     <div id="diagrams">
@@ -113,13 +111,15 @@
       <div class="divider"></div>
       <span class="diagram-header">Microsoft Defender</span>
       <div class="diagram-set">
+        <label><input type="checkbox" value="Microsoft-Defender-for-Business" />Business</label>
         <label><input type="checkbox" value="Microsoft-Defender-for-Endpoint" />Endpoint</label>
         <label><input type="checkbox" value="Microsoft-Defender-for-Office-365" />Office 365</label>
       </div>
       <div class="divider"></div>
       <span class="diagram-header">Microsoft Project</span>
       <div class="diagram-set">
-        <label><input type="checkbox" value="Microsoft Project" />Full</label>
+        <label><input type="checkbox" value="Microsoft Project" />Project</label>
+        <label><input type="checkbox" value="Microsoft-Visio" />Visio</label>
       </div>
       <div class="divider"></div>
       <span class="diagram-header">Microsoft Teams Rooms</span>
@@ -147,9 +147,18 @@
         <label><input type="checkbox" value="Windows 10 - Enterprise" />Enterprise</label>
         <label><input type="checkbox" value="Windows 10 - Pro" />Pro</label>
         <label><input type="checkbox" value="Windows 10 - VL" />VL</label>
-        <label class="new"><input type="checkbox" value="Windows-365" />Windows 365</label>
-        <label class="new"><input type="checkbox" value="Windows-365-Comparison" />W365 &amp; AVD</label>
+        <label><input type="checkbox" value="Windows-365" />Windows 365</label>
+        <!-- <label class="new"><input type="checkbox" value="Windows-365-Comparison" />W365 &amp; AVD</label> -->
       </div>
+      <div class="divider"></div>
+      <span class="diagram-header new">Client Access License (CAL)</span>
+      <div class="diagram-set">
+        <label><input type="checkbox" value="CAL" />CAL</label>
+        <label><input type="checkbox" value="CAL-Main-Bridges" />Main Bridges</label>
+        <label><input type="checkbox" value="CAL-Other-Bridges" />Other Bridges</label>
+        <label><input type="checkbox" value="CAL-All-Bridges" />All Bridges</label>
+      </div>
+
       <!-- <div class="divider"></div>
       <span class="diagram-header">Office 365 US Government</span>
       <div class="diagram-set">

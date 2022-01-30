@@ -2,8 +2,7 @@
 <html dir="ltr" lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1" />
+    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="robots" content="index, follow" />
     <meta name="referrer" content="origin" />
     <meta name="theme-color" content="#002266" />
@@ -40,10 +39,9 @@
     <title>Microsoft 365 Apps for Enterprise | M365 Maps</title>
   </head>
   <body oncontextmenu="return false">
-    <h1>Microsoft 365 Apps for Enterprise</h1>
+    <h1 id="diagram-name">Microsoft 365 Apps for Enterprise</h1>
 
-    <div id="offline">OFFLINE</div>
-
+    <input id="file-selector" type="file" accept=".png,.jpg,.svg,image/png,image/jpeg,image/svg+xml" title="Upload image" />
     <a id="download-pdf" href="/Microsoft%20365%20Apps%20for%20Enterprise.pdf" download="Microsoft 365 Apps for Enterprise.pdf" class="download-link"></a>
     <a id="download-png" href="/Microsoft%20365%20Apps%20for%20Enterprise.png" download="Microsoft 365 Apps for Enterprise.png" class="download-link"></a>
 
@@ -51,17 +49,22 @@
       <button type="button" id="menu-grip" accesskey="m" title="Menu"></button>
       <button type="button" id="menu-back" accesskey="b" title="Back"></button>
       <button type="button" id="menu-flag" accesskey="g" title="Flag"></button>
-      <button type="button" id="menu-print" accesskey="p" title="Print"></button>
       <button type="button" id="menu-save" accesskey="s" title="Save a copy"></button>
       <button type="button" id="menu-controls" accesskey="c" title="Controls"></button>
-      <button type="button" id="menu-edit" accesskey="t" title="Toggle edit modes"></button>
-      <button type="button" id="menu-highlight" title="Highlight mode"></button>
-      <button type="button" id="menu-draw" title="Draw mode"></button>
-      <button type="button" id="menu-text" title="Text mode"></button>
+      <button type="button" id="menu-edit" accesskey="t" title="Edit modes"></button>
       <button type="button" id="menu-download-pdf" title="Download PDF">PDF</button>
       <button type="button" id="menu-download-png" title="Download PNG">PNG</button>
       <button type="button" id="menu-export-svg" title="Export as SVG">SVG</button>
       <button type="button" id="menu-export-png" title="Export as PNG">PNG</button>
+    </div>
+
+    <div id="edit-controls">
+      <button type="button" id="menu-highlight">Highlight</button>
+      <button type="button" id="menu-draw">Draw</button>
+      <button type="button" id="menu-text">Text</button>
+      <button type="button" id="menu-image">Image</button>
+      <button type="button" id="menu-link">Link</button>
+      <button type="button" id="menu-notes">Notes</button>
     </div>
 
     <div id="image-controls">
@@ -73,16 +76,18 @@
       <input type="range" id="hue" min="0" max="360" value="0" step="10" />
       <label for="saturation">Saturation</label>
       <input type="range" id="saturation" min="0" max="20" value="10" />
-      <button type="button" id="image-controls-reset" title="Reset to defaults">Reset</button>
-      <button type="button" id="image-controls-save" title="Save and apply to all diagrams">Save</button>
+      <div id="image-controls-buttons">
+        <button type="button" id="image-controls-reset" title="Reset to defaults">Reset</button>
+        <button type="button" id="image-controls-save" title="Save and apply to all diagrams">Save</button>
+      </div>
     </div>
 
     <svg xmlns="http://www.w3.org/2000/svg" width="416" height="592" viewBox="0 0 416 592" class="a"><style>
 .b {fill:#a5a5a5;fill-opacity:0.2;stroke:#e82200;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.25}
 .c {fill:#e82200;stroke:#e82200;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.25}
-.d {fill:#ffffff;font-family:Arial;font-size:1.66667em;font-weight:bold}
+.d {fill:#ffffff;font-family:Arial;font-size:1.67em;font-weight:bold}
 .e {fill:#e82200;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:1}
-.f {fill:#ffffff;font-family:Arial;font-size:1.16666em;font-weight:bold}
+.f {fill:#ffffff;font-family:Arial;font-size:1.17em;font-weight:bold}
 .g {font-size:1em}
 .a {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
 </style><rect x="16" y="16" width="384" height="560" rx="8" ry="8" class="b"/><a target="_blank" href="https://www.microsoft.com/microsoft-365/business/microsoft-365-apps-for-enterprise-product"><rect x="16" y="16" width="384" height="32" rx="8" ry="8" class="c"/><text x="47.41" y="38" class="d">Microsoft 365 Apps for Enterprise</text></a><a target="_blank" href="https://products.office.com/mobile/office"><rect x="160" y="272" width="96" height="80" rx="8" ry="8" class="e"/><text x="188.16" y="307.8" class="f">Office <tspan x="166.39" dy="1.2em" class="g">Mobile Apps</tspan></text></a><a target="_blank" href="https://docs.microsoft.com/office365/servicedescriptions/office-online-service-description/office-online-service-description"><rect x="48" y="272" width="96" height="80" rx="8" ry="8" class="e"/><text x="76.16" y="299.4" class="f">Office<tspan x="57.5" dy="1.2em" class="g">for the Web</tspan><tspan x="60.61" dy="1.2em" class="g">(incl Visio)</tspan></text></a><a target="_blank" href="https://www.microsoft.com/microsoft-365/business/microsoft-365-apps-for-business"><rect x="48" y="176" width="96" height="80" rx="8" ry="8" class="e"/><text x="76.16" y="203.4" class="f">Office <tspan x="54" dy="1.2em" class="g">Applications </tspan><tspan x="59.05" dy="1.2em" class="g">(PC &amp; Mac)</tspan></text></a><a target="_blank" href="https://support.office.com/sway"><rect x="160" y="464" width="96" height="80" rx="8" ry="8" class="e"/><text x="190.1" y="508.2" class="f">Sway</text></a><a target="_blank" href="https://support.office.com/forms"><rect x="160" y="80" width="96" height="80" rx="8" ry="8" class="e"/><text x="176.5" y="115.8" class="f">Microsoft <tspan x="186.61" dy="1.2em" class="g">Forms</tspan></text></a><a target="_blank" href="https://docs.microsoft.com/office365/servicedescriptions/onedrive-for-business-service-description"><rect x="160" y="368" width="96" height="80" rx="8" ry="8" class="e"/><text x="165.6" y="395.4" class="f">OneDrive for <tspan x="176.88" dy="1.2em" class="g">Business </tspan><tspan x="187.38" dy="1.2em" class="g">Plan 1</tspan></text></a><a target="_blank" href="https://docs.microsoft.com/DeployOffice/overview-shared-computer-activation"><rect x="48" y="464" width="96" height="80" rx="8" ry="8" class="e"/><text x="72.27" y="491.4" class="f">Shared <tspan x="62.95" dy="1.2em" class="g">Computer </tspan><tspan x="62.16" dy="1.2em" class="g">Activation</tspan></text></a><a target="_blank" href="https://docs.microsoft.com/office365/servicedescriptions/office-applications-service-description/office-applications-service-description"><rect x="160" y="176" width="96" height="80" rx="8" ry="8" class="e"/><text x="164.06" y="211.8" class="f">Office Add-in <tspan x="181.17" dy="1.2em" class="g">Support</tspan></text></a><a target="_blank" href="https://docs.microsoft.com/office365/servicedescriptions/office-applications-service-description/office-applications-service-description"><rect x="272" y="272" width="96" height="80" rx="8" ry="8" class="e"/><text x="277.22" y="299.4" class="f">Office Group <tspan x="299.38" dy="1.2em" class="g">Policy </tspan><tspan x="293.17" dy="1.2em" class="g">Support</tspan></text></a><a target="_blank" href="https://docs.microsoft.com/office365/servicedescriptions/office-applications-service-description/office-applications-service-description"><rect x="272" y="368" width="96" height="80" rx="8" ry="8" class="e"/><text x="290.06" y="403.8" class="f">Roaming <tspan x="292.39" dy="1.2em" class="g">Settings</tspan></text></a><a target="_blank" href="https://support.microsoft.com/office/1315665a-c6af-4409-a28d-49f8916878ca"><rect x="48" y="80" width="96" height="80" rx="8" ry="8" class="e"/><text x="77.32" y="124.2" class="f">Delve</text></a><a target="_blank" href="https://docs.microsoft.com/deployoffice/compat/compatibility-and-telemetry-in-office"><rect x="48" y="368" width="96" height="80" rx="8" ry="8" class="e"/><text x="76.16" y="403.8" class="f">Office <tspan x="62.93" dy="1.2em" class="g">Telemetry</tspan></text></a><a target="_blank" href="https://docs.microsoft.com/deployoffice/overview-office-cloud-policy-service"><rect x="272" y="176" width="96" height="80" rx="8" ry="8" class="e"/><text x="278.39" y="203.4" class="f">Office Cloud <tspan x="299.38" dy="1.2em" class="g">Policy </tspan><tspan x="295.09" dy="1.2em" class="g">Service</tspan></text></a><a target="_blank" href="https://docs.microsoft.com/office365/servicedescriptions/office-applications-service-description/office-applications-service-description"><rect x="272" y="464" width="96" height="80" rx="8" ry="8" class="e"/><text x="298.22" y="491.4" class="f">Virtual <tspan x="277.6" dy="1.2em" class="g">Desktop Use </tspan><tspan x="298.22" dy="1.2em" class="g">Rights</tspan></text></a><a target="_blank" href="https://support.microsoft.com/office/d236aef8-fcdf-4b5e-b5d7-7f157461e920"><rect x="272" y="80" width="96" height="80" rx="8" ry="8" class="e"/><text x="288.5" y="115.8" class="f">Microsoft <tspan x="281.5" dy="1.2em" class="g">Whiteboard</tspan></text></a></svg>

@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.9/MicrosoftTeams.schema.json",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "manifestVersion": "1.9",
   "id": "60259ced-2770-4902-8c81-20d28fe649c0",
   "packageName": "com.m365maps",
@@ -87,6 +87,15 @@
       "name": "Downloads",
       "contentUrl": "https://m365maps.com/downloads.htm",
       "websiteUrl": "https://m365maps.com/downloads.htm",
+      "scopes": [
+        "personal"
+      ]
+    },
+    {
+      "entityId": "m365maps.renames",
+      "name": "Renames",
+      "contentUrl": "https://m365maps.com/renames.htm",
+      "websiteUrl": "https://m365maps.com/renames.htm",
       "scopes": [
         "personal"
       ]

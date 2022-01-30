@@ -1,12 +1,13 @@
 /// <reference path="common.js" />
 /* global Settings, saveSettings, isEmbedded, setTheme, setupModal,
-   defaultSettings, setupOfflineIndicator, backOrHome, modalAlert */
+   defaultSettings, backOrHome, showModalDialog */
 
 /** Save click event to commit changes. */
 function saveClick() {
   Settings.Highlight1 = document.getElementById('highlight1').value;
   Settings.Highlight2 = document.getElementById('highlight2').value;
   Settings.Highlight3 = document.getElementById('highlight3').value;
+  Settings.Highlight4 = document.getElementById('highlight4').value;
   Settings.Menu = document.getElementById('menu-state').value;
   Settings.Theme = document.getElementById('theme').value;
   Settings.Zoom = document.getElementById('zoom').value;
@@ -14,7 +15,7 @@ function saveClick() {
   saveSettings();
 
   if (isEmbedded()) {
-    modalAlert('Settings saved.');
+    showModalDialog('Settings saved.', false, undefined, 'OK');
   }
   else {
     backOrHome();
@@ -39,6 +40,7 @@ function setControlValues() {
   document.getElementById('highlight1').value = Settings.Highlight1;
   document.getElementById('highlight2').value = Settings.Highlight2;
   document.getElementById('highlight3').value = Settings.Highlight3;
+  document.getElementById('highlight4').value = Settings.Highlight4;
 
   selectByLabel(document.getElementById('menu-state'), Settings.Menu);
   selectByLabel(document.getElementById('zoom'), Settings.Zoom);
@@ -68,7 +70,6 @@ function DOMContentLoaded() {
     document.getElementById('cancel').style.display = 'none';
   }
 
-  setupOfflineIndicator();
   setupModal();
   setControlValues();
   setupEventListeners();

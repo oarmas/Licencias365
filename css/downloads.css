@@ -39,6 +39,7 @@ tr:nth-child(2n) {
 .download>a {
   content: "";
   background: url(/media/sprites.svg#download) center right no-repeat;
+  background-size: 16px;
   display: inline-block;
   width: 16px;
   height: 16px;

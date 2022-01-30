@@ -1,85 +1,13 @@
-a.changes {
-  cursor: pointer;
-  background: url(/media/sprites.svg#changes) center left no-repeat;
-  background-size: 16px;
-  padding-left: 22px;
-  margin: 0 2px;
-}
-
-a.compare {
-  cursor: pointer;
-  background: url(/media/sprites.svg#compare) center left no-repeat;
-  background-size: 16px;
-  padding-left: 22px;
-  margin: 0 2px;
-}
-
-a.downloads {
-  cursor: pointer;
-  background: url(/media/sprites.svg#download) center left no-repeat;
-  background-size: 16px;
-  padding-left: 22px;
-  margin: 0 2px;
-}
-
-a.guide {
-  cursor: pointer;
-  background: url(/media/sprites.svg#guide) center left no-repeat;
-  background-size: 16px;
-  padding-left: 22px;
-  margin: 0 2px;
-}
-
-a.matrix {
-  cursor: pointer;
-  background: url(/media/sprites.svg#matrix) center left no-repeat;
-  background-size: 16px;
-  padding-left: 22px;
-  margin: 0 2px;
-}
-
-a.settings {
-  cursor: pointer;
-  background: url(/media/sprites.svg#cog) center left no-repeat;
-  background-size: 16px;
-  padding-left: 22px;
-  margin: 0 2px;
-}
-
-a.saved {
-  cursor: pointer;
-  background: url(/media/sprites.svg#save) center left no-repeat;
-  background-size: 16px;
-  padding-left: 22px;
-  margin: 0 2px;
-}
-
 body noscript {
   font-weight: bold;
   color: red;
   margin: 10px 0;
 }
 
-#flag-all {
-  cursor: pointer;
-  background: url(/media/sprites.svg#flagged) center left no-repeat;
-  background-size: 16px;
-  padding-left: 20px;
-  margin: 0;
-}
-
-#clear-all {
-  cursor: pointer;
-  background: url(/media/sprites.svg#unflagged) center left no-repeat;
-  background-size: 16px;
-  padding-left: 20px;
-  margin: 0;
-}
-
 #ie-warning {
   display: none;
   color: red;
-  border: 1px solid #CCC;
+  border: 1px solid #ccc;
   background-color: rgba(240, 192, 128, 0.25);
   padding: 12px 12px 0 12px;
   margin: 10px 0;
@@ -112,7 +40,7 @@ div.divider {
   grid-row: auto;
   grid-column: span 2;
   margin: 4px 0;
-  border-top: 1px solid #CCC;
+  border-top: 1px solid #ccc;
 }
 
 span.diagram-header {
@@ -134,43 +62,16 @@ div.diagram-set {
   padding: 0;
 }
 
-div.link-pair {
-  padding: 0;
-  margin: 0;
-  width: 128px;
-}
-
-button.flag-button {
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  margin: 2px 4px 0 0;
-  padding: 0;
-  width: 16px;
-  height: 16px;
-  min-width: 16px;
-}
-
-button.flagged {
-  background: url(/media/sprites.svg#flagged) center left no-repeat;
-  background-size: 16px;
-}
-
-button.unflagged {
-  background: url(/media/sprites.svg#unflagged) center left no-repeat;
-  background-size: 16px;
-}
-
-a.link-text {
-  margin: 0;
-  padding: 0;
-  vertical-align: middle;
+a.diagram-link {
+  margin-top: 2px;
+  width: 108px;
+  padding-left: 20px;
   white-space: nowrap;
 }
 
-div.collection-footer {
-  grid-row: auto;
-  grid-column: 2;
+a.flagged {
+  background: url(/media/sprites.svg#flagged) center left no-repeat;
+  background-size: 16px;
 }
 
 #footer {
@@ -182,14 +83,70 @@ div.collection-footer {
   margin-bottom: 8px;
 }
 
+a.changes {
+  background: url(/media/sprites.svg#changes) center left no-repeat;
+  background-size: 16px;
+  padding-left: 22px;
+  margin: 0 2px;
+}
+
+a.compare {
+  background: url(/media/sprites.svg#compare) center left no-repeat;
+  background-size: 16px;
+  padding-left: 22px;
+  margin: 0 2px;
+}
+
+a.downloads {
+  background: url(/media/sprites.svg#download) center left no-repeat;
+  background-size: 16px;
+  padding-left: 22px;
+  margin: 0 2px;
+}
+
+a.guide {
+  background: url(/media/sprites.svg#guide) center left no-repeat;
+  background-size: 16px;
+  padding-left: 22px;
+  margin: 0 2px;
+}
+
+a.matrix {
+  background: url(/media/sprites.svg#matrix) center left no-repeat;
+  background-size: 16px;
+  padding-left: 22px;
+  margin: 0 2px;
+}
+
+a.renames {
+  background: url(/media/sprites.svg#rename) center left no-repeat;
+  background-size: 16px;
+  padding-left: 22px;
+  margin: 0 2px;
+}
+
+a.settings {
+  background: url(/media/sprites.svg#cog) center left no-repeat;
+  background-size: 16px;
+  padding-left: 22px;
+  margin: 0 2px;
+}
+
+a.saved {
+  background: url(/media/sprites.svg#save) center left no-repeat;
+  background-size: 16px;
+  padding-left: 22px;
+  margin: 0 2px;
+}
+
 /* Preview Images on Hover */
 
-/* a.link-text img {
+/* a.diagram-link img {
   position: absolute;
   display: none;
   z-index: 6;
 }
 
-a.link-text:hover img {
+a.diagram-link:hover img {
   display: block;
 } */

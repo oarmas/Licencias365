@@ -1,11 +1,10 @@
 /// <reference path="common.js" />
-/* global modalAlert, StoreName, isEmbedded, setupOfflineIndicator
-   setupModal */
+/* global showModalDialog, StoreName, isEmbedded, setupModal */
 
 /** Get the values of the selected checkboxes. */
 function getSelectedCheckboxes() {
   const checked = document.querySelectorAll('input[type="checkbox"]:checked');
-  let values = [];
+  const values = [];
   checked.forEach(function getCheckboxValue(element) {
     values.push(element.value);
   });
@@ -19,7 +18,8 @@ function compareClick() {
   if (checkboxes.length === 2) {
     window.location.href = '/comparing.htm#' + checkboxes.join('/');
   } else {
-    modalAlert('You must select two diagrams to compare.');
+    showModalDialog(
+      'You must select two diagrams to compare.', false, undefined, 'OK');
   }
 }
 
@@ -75,7 +75,9 @@ function addSavedDiagrams() {
   let keys = [];
   for (let index = 0; index < localStorage.length; index += 1) {
     const key = localStorage.key(index);
-    if (key !== StoreName.Flags && key !== StoreName.Settings) {
+    if (key !== StoreName.Flags &&
+        key !== StoreName.Settings &&
+        key !== StoreName.MatrixSelection) {
       keys.push(key);
     }
   }
@@ -115,7 +117,6 @@ function DOMContentLoaded() {
     document.getElementById('menu').style.display = 'none';
   }
 
-  setupOfflineIndicator();
   setupModal();
   addSavedDiagrams();
   setupCheckboxes();

@@ -1,5 +1,5 @@
 /// <reference path="common.js" />
-/* global isEmbedded, setupOfflineIndicator */
+/* global isEmbedded */
 
 // Variables
 let TriggerSearch = false;
@@ -241,13 +241,50 @@ function setupCheckboxes() {
   }
 }
 
-/** Attach event listeners to Select All & Select None. */
-function setupSelectAllNone() {
-  document.getElementById('select-all').href =
-    '#' + '1'.repeat(DIAGRAM_COUNT);
+/** Select all checkboxes. */
+function selectAll() {
+  const newHash = '#' + '1'.repeat(DIAGRAM_COUNT);
+  window.location.hash = newHash;
+}
 
-  document.getElementById('select-none').href =
-    '#' + '0'.repeat(DIAGRAM_COUNT);
+/** Remove all selected checkboxes. */
+function selectNone() {
+  const newHash = '#' + '0'.repeat(DIAGRAM_COUNT);
+  window.location.hash = newHash;
+}
+
+/** Save the current selection for default page load use. */
+function selectSave() {
+  const selected = getSelectedCheckboxes();
+
+  let savedHash = '#';
+  for (const select of selected) {
+    savedHash += (select ? '1' : '0');
+  }
+
+  localStorage.setItem(StoreName.MatrixSelection, savedHash);
+
+  showModalDialog(
+    `Selection saved.<br/><br/>
+    When you return your selection will be applied automatically.`,
+    false, undefined, 'OK');
+}
+
+/** Attach event listeners to Select All & Select None. */
+function setupSelectAllNoneSave() {
+  document.getElementById('button-all').addEventListener('click', selectAll);
+  document.getElementById('button-none').addEventListener('click', selectNone);
+  document.getElementById('button-save').addEventListener('click', selectSave);
+}
+
+/** Checks for the lack of a page hash and injects the saved hash. */
+function applySavedSelectionHash() {
+  if (window.location.hash === '') {
+    const savedHash = localStorage.getItem(StoreName.MatrixSelection);
+    if (savedHash) {
+      window.location.hash = savedHash;
+    }
+  }
 }
 
 /** DOM Content Loaded event handler. */
@@ -256,12 +293,15 @@ function DOMContentLoaded() {
     document.getElementById('menu').style.display = 'none';
   }
 
-  setupOfflineIndicator();
-  setupSelectAllNone();
+  setupModal();
+  setupSelectAllNoneSave();
   setupFeatureSearch();
   setupCheckboxes();
 
+  applySavedSelectionHash();
+
   window.addEventListener('hashchange', hashChanged);
+  if (window.location.hash !== '') hashChanged();
 }
 
 /** Page Load event handler. */

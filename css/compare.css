@@ -18,7 +18,7 @@ div.divider {
   grid-row: auto;
   grid-column: span 2;
   margin: 4px 0;
-  border-top: 1px solid #CCC;
+  border-top: 1px solid #ccc;
 }
 
 span.diagram-header {
@@ -41,11 +41,10 @@ div.diagram-set {
 }
 
 div.diagram-set>label {
-  padding: 0;
-  margin: 0;
+  margin: 1px 0 0 0;
   width: 128px;
   white-space: nowrap;
-  color: #0070F7;
+  color: var(--accent-color);
   -webkit-user-select: none;
   user-select: none;
   cursor: pointer;
@@ -63,7 +62,7 @@ label.disabled {
   grid-row: auto;
   grid-column: 2;
   margin: 0;
-  padding: 6px 8px 6px 32px;
+  padding: 8px 8px 6px 32px;
   width: min-content;
   background-image: url(/media/sprites.svg#compare);
   background-position: center left 8px;

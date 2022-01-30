@@ -28,6 +28,7 @@ h1 {
 
 .back-link {
   background: url(/media/sprites.svg#back) center left no-repeat;
+  background-size: 16px;
   padding-left: 20px;
   margin: 0 2px;
 }
@@ -64,4 +65,9 @@ h1 {
   position: absolute;
   margin: 0;
   padding: 0;
+  opacity: 60%;
+}
+
+#compare-slider:hover {
+  opacity: 100%;
 }

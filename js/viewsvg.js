@@ -1,19 +1,91 @@
 /// <reference path="common.js" />
-/* global Settings, modalAlert, saveSettings, StoreName, getStringBetween,
-   getFiltersCss, getModalInputText, modalPrompt, modalAlert,
-   modalConfirm, exportSvg, exportPng, setupModal, createElementFromHtml,
-   setupOfflineIndicator, Mouse, backOrHome */
+/* global Settings, saveSettings, StoreName, getStringBetween, getFiltersCss,
+   getModalInputText, showModalDialog, exportSvg, exportPng, setupModal,
+   createElementFromHtml, Colours, Mouse, backOrHome */
 
 // Constants
 const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
 const STYLE_ID = 'm365MapsHighlights';
+const SELECT_CLASS = "m365maps-select";
 const DRAW_CLASS = 'm365maps-draw';
 const TEXT_CLASS = 'm365maps-text';
+const IMAGE_CLASS = 'm365maps-image';
 const HIGH_CLASS_1 = 'highlight1';
 const HIGH_CLASS_2 = 'highlight2';
 const HIGH_CLASS_3 = 'highlight3';
+const HIGH_CLASS_4 = 'highlight4';
 const SCROLL_STEP_SIZE = 0.05;
 const ZOOM_STEP_SIZE = 20;
+
+/** Image gallery of clip art for inserting image. */
+const IMAGE_GALLERY = [
+  { label: 'Tick', value: '/media/sprites.svg#tick(32x32)' },
+  { label: 'Cross', value: '/media/sprites.svg#cross(32x32)' },
+  { label: 'Star', value: '/media/sprites.svg#star(32x32)' },
+  { label: 'Priority: High', value: '/media/sprites.svg#label-priority-high(96x15)' },
+  { label: 'Priority: Medium', value: '/media/sprites.svg#label-priority-medium(96x15)' },
+  { label: 'Priority: Low', value: '/media/sprites.svg#label-priority-low(96x15)' },
+  { label: 'Priority: Must Have', value: '/media/sprites.svg#label-mscw-m(32x32)' },
+  { label: 'Priority: Should Have', value: '/media/sprites.svg#label-mscw-s(32x32)' },
+  { label: 'Priority: Could Have', value: '/media/sprites.svg#label-mscw-c(32x32)' },
+  { label: 'Priority: Won\'t Have', value: '/media/sprites.svg#label-mscw-w(32x32)' },
+  { label: 'Label: Will', value: '/media/sprites.svg#label-will(96x15)' },
+  { label: 'Label: In progress', value: '/media/sprites.svg#label-in-progress(96x15)' },
+  { label: 'Label: Testing', value: '/media/sprites.svg#label-testing(96x15)' },
+  { label: 'Label: Purchasing', value: '/media/sprites.svg#label-purchasing(96x15)' },
+  { label: 'Label: Purchased', value: '/media/sprites.svg#label-purchased(96x15)' },
+  { label: 'Label: On hold', value: '/media/sprites.svg#label-on-hold(96x15)' },
+  { label: 'Label: Not yet', value: '/media/sprites.svg#label-not-yet(96x15)' },
+  { label: 'Label: Done', value: '/media/sprites.svg#label-done(96x15)' },
+  { label: 'Completion: 0%', value: '/media/sprites.svg#percent-0(32x32)' },
+  { label: 'Completion: 25%', value: '/media/sprites.svg#percent-1(32x32)' },
+  { label: 'Completion: 50%', value: '/media/sprites.svg#percent-2(32x32)' },
+  { label: 'Completion: 75%', value: '/media/sprites.svg#percent-3(32x32)' },
+  { label: 'Completion: 100%', value: '/media/sprites.svg#percent-4(32x32)' },
+  { label: 'Phase: 1', value: '/media/sprites.svg#label-phase-1(96x15)' },
+  { label: 'Phase: 2', value: '/media/sprites.svg#label-phase-2(96x15)' },
+  { label: 'Phase: 3', value: '/media/sprites.svg#label-phase-3(96x15)' },
+  { label: 'Status: Green', value: '/media/sprites.svg#status-green(32x32)' },
+  { label: 'Status: Yellow', value: '/media/sprites.svg#status-yellow(32x32)' },
+  { label: 'Status: Red', value: '/media/sprites.svg#status-red(32x32)' },
+  { label: 'Traffic Light: Green', value: '/media/sprites.svg#light-green(30x80)' },
+  { label: 'Traffic Light: Yellow', value: '/media/sprites.svg#light-yellow(30x80)' },
+  { label: 'Traffic Light: Red', value: '/media/sprites.svg#light-red(30x80)' },
+  { label: 'Arrow: Up', value: '/media/sprites.svg#arrow-up(32x32)' },
+  { label: 'Arrow: Down', value: '/media/sprites.svg#arrow-down(32x32)' },
+  { label: 'Arrow: Left', value: '/media/sprites.svg#arrow-left(32x32)' },
+  { label: 'Arrow: Right', value: '/media/sprites.svg#arrow-right(32x32)' },
+];
+
+/** Colours to cycle through for the drawing ink. */
+const Colours = [
+  // Old Colours:
+  // 'Red',
+  // 'Orange',
+  // 'Yellow',
+  // 'Green',
+  // 'Blue',
+  // 'Purple',
+  // 'Black',
+  // New Colours:
+  'Red',
+  // 'Maroon',
+  'Orange',
+  'Yellow',
+  'Lime',
+  'Green',
+  // 'Olive',
+  'Navy',
+  'Blue',
+  // 'Teal',
+  'Aqua',
+  'Fuchsia',
+  'Purple',
+  'Black',
+  // 'Silver',
+  'Gray',
+  'White',
+];
 
 /** Edit Modes. */
 const EditModes = {
@@ -21,8 +93,9 @@ const EditModes = {
   Highlight: 1,
   Draw: 2,
   Text: 3,
-  // Select: 4,
-  // Erase: 5,
+  Image: 4,
+  Link: 5,
+  Notes: 6,
 }
 
 /** Edit Mode Actions. */
@@ -42,15 +115,6 @@ const Data = {
     Active: false,
     Type: Actions.None,
   },
-  Colours: [
-    'red',
-    'orange',
-    'yellow',
-    'green',
-    'blue',
-    'purple',
-    'black',
-  ],
   Controls: {
     Brightness: undefined,
     Contrast: undefined,
@@ -60,12 +124,14 @@ const Data = {
   },
   Edit: {
     HasEdits: false,
+    Open: false,
     Mode: EditModes.Off,
+    LastMode: EditModes.Highlight,
     Node: undefined,
-    Centre: {
-      X: 0,
-      Y: 0,
-    },
+    // Centre: {
+    //   X: 0,
+    //   Y: 0,
+    // },
     Transform: {
       Rotate: 0,
       Scale: 1,
@@ -82,7 +148,6 @@ const Data = {
   IsComparing: false,
   IsSavedDiagram: false,
   Menu: {
-    Offset: 284,
     Open: false,
   },
   PinchZoom: {
@@ -124,11 +189,11 @@ const Data = {
 function hasEdits(state) {
   if (!Data.Edit.HasEdits && state) {
     Data.Edit.HasEdits = true;
-    document.getElementById('menu-save').classList.add('changes');
+    document.getElementById('menu-save').classList.add('active');
     document.title += ' *';
   } else if (Data.Edit.HasEdits && !state) {
     Data.Edit.HasEdits = false;
-    document.getElementById('menu-save').classList.remove('changes');
+    document.getElementById('menu-save').classList.remove('active');
     if (document.title.endsWith(' *')) {
       document.title = document.title.slice(0, -2);
     }
@@ -146,9 +211,7 @@ function injectHighlightStyles() {
   if (oldStyleTag) Data.Svg.Node.removeChild(oldStyleTag);
 
   // TODO: Make these configurable?
-  const drawColour = Data.Colours[0]; // ${drawColour}
   const drawWidth = '5px'; // ${drawWidth}
-  const textColour = Data.Colours[0]; // ${textColour}
   const textSize = '2.5em'; // ${textSize}
   const textWeight = 'bold'; // ${textWeight}
   const textFontFamily = 'Arial'; // ${textFontFamily}
@@ -159,36 +222,12 @@ function injectHighlightStyles() {
   styleTag.textContent = `.${HIGH_CLASS_1}{fill:${Settings.Highlight1};}
 .${HIGH_CLASS_2}{fill:${Settings.Highlight2};}
 .${HIGH_CLASS_3}{fill:${Settings.Highlight3};}
-.${DRAW_CLASS}{stroke:${drawColour};stroke-width:${drawWidth};\
-stroke-linecap:round;stroke-linejoin:round;fill-opacity:25%;}
-.${TEXT_CLASS}{fill:${textColour};font-family:${textFontFamily};\
-font-size:${textSize};font-weight:${textWeight};}`;
+.${HIGH_CLASS_4}{fill:${Settings.Highlight4};}
+.${DRAW_CLASS}{stroke-width:${drawWidth};stroke-linecap:round;stroke-linejoin:round;fill-opacity:25%;stroke-opacity:80%;}
+.${TEXT_CLASS}{font-family:${textFontFamily};font-size:${textSize};font-weight:${textWeight};}
+.${SELECT_CLASS}{filter:drop-shadow(0 0 10px #ff0);}`;
 
   Data.Svg.Node.appendChild(styleTag);
-}
-
-/** Clears all highlight classes from the current diagram SVG. */
-function clearAllHighlights() {
-  const highlight1 = Data.Svg.Node.getElementsByClassName(HIGH_CLASS_1);
-  for (const element of Array.from(highlight1)) {
-    element.classList.remove(HIGH_CLASS_1);
-  }
-
-  const highlight2 = Data.Svg.Node.getElementsByClassName(HIGH_CLASS_2);
-  for (const element of Array.from(highlight2)) {
-    element.classList.remove(HIGH_CLASS_2);
-  }
-
-  const highlight3 = Data.Svg.Node.getElementsByClassName(HIGH_CLASS_3);
-  for (const element of Array.from(highlight3)) {
-    element.classList.remove(HIGH_CLASS_3);
-  }
-
-  if (highlight1.length !== 0 ||
-    highlight2.length !== 0 ||
-    highlight3.length !== 0) {
-    hasEdits(true);
-  }
 }
 
 /** Returns a highlight target inside the SVG given the starting element. */
@@ -196,15 +235,16 @@ function findHighlightTarget(start) {
   let target = start;
 
   while (target.nodeName === 'tspan') target = target.parentNode;
+
   if (target.nodeName === 'text') target = target.parentNode;
+
   if (target.nodeName === 'g' || target.nodeName === 'a') {
     let children = target.getElementsByTagName('rect');
     if (children.length === 0) {
       children = target.getElementsByTagName('path');
     }
-    if (children.length === 0) {
-      return undefined;
-    }
+
+    if (children.length === 0) return undefined;
 
     target = children.item(0);
   }
@@ -218,7 +258,8 @@ function findHighlightTarget(start) {
 
 /** Sizes the SVG image to fit according the user preferred Zoom option. */
 function resizeSvg() {
-  var scale;
+  let scale = 1;
+
   switch (Settings.Zoom) {
     case 'Fit':
       scale = Math.min(
@@ -241,7 +282,6 @@ function resizeSvg() {
       break;
 
     case 'Original':
-      scale = 1;
       break;
 
     default:
@@ -281,56 +321,280 @@ function resetSvgPosition() {
 
 /** Apply the highlighter to the click event target. */
 function applyHighlightOnClick(event) {
-  const target = findHighlightTarget(event.target);
-  if (!target) return;
+  if (!Data.Edit.Node) return;
 
-  // Toggle the highlight
-  if (target.classList.contains(HIGH_CLASS_1)) {
-    target.classList.remove(HIGH_CLASS_1);
-  } else if (target.classList.contains(HIGH_CLASS_2)) {
-    target.classList.remove(HIGH_CLASS_2);
-  } else if (target.classList.contains(HIGH_CLASS_3)) {
-    target.classList.remove(HIGH_CLASS_3);
+  let newHighlight = HIGH_CLASS_1;
+  if (event.shiftKey && event.ctrlKey) {
+    newHighlight = HIGH_CLASS_4;
   } else if (event.ctrlKey) {
-    target.classList.add(HIGH_CLASS_3);
+    newHighlight = HIGH_CLASS_3;
   } else if (event.shiftKey) {
-    target.classList.add(HIGH_CLASS_2);
+    newHighlight = HIGH_CLASS_2;
+  }
+
+  if (Data.Edit.Node.classList.contains(newHighlight)) {
+    Data.Edit.Node.classList.remove(newHighlight);
   } else {
-    target.classList.add(HIGH_CLASS_1);
+    Data.Edit.Node.classList.remove(HIGH_CLASS_1);
+    Data.Edit.Node.classList.remove(HIGH_CLASS_2);
+    Data.Edit.Node.classList.remove(HIGH_CLASS_3);
+    Data.Edit.Node.classList.remove(HIGH_CLASS_4);
+    Data.Edit.Node.classList.add(newHighlight);
   }
 
   hasEdits(true);
 }
 
-/** Prompt the user for text to create a text label with. */
-function addTextOnClick() {
-  modalPrompt('Add text to diagram', '', function addTextModalOK() {
-    let textContent = getModalInputText();
-    if (textContent) textContent = textContent.trim();
-    if (textContent) {
-      const x = (Data.Pointer.X - parseFloat(Data.Svg.Node.style.left)) /
-        Data.Svg.RatioX;
-      const y = (Data.Pointer.Y - parseFloat(Data.Svg.Node.style.top)) /
-        Data.Svg.RatioY;
+/** Adds a title node to the top parent of the selected node, or update
+ *  existing. */
+function setNodeTooltip() {
+  if (!Data.Edit.Node) {
+    return;
+  }
 
-      var text = document.createElementNS(SVG_NAMESPACE, 'text');
-      text.setAttribute('class', TEXT_CLASS);
-      text.setAttribute('transform',
-        `translate(${x.toFixed(1)} ${y.toFixed(1)})`);
-      text.textContent = textContent;
-      Data.Svg.Node.appendChild(text);
+  let topParent = Data.Edit.Node;
+  while (topParent.parentNode.tagName !== 'svg') {
+    topParent = topParent.parentNode;
+  }
 
-      hasEdits(true);
+  let titleNode = undefined;
+  let children = topParent.getElementsByTagName('title');
+  if (children.length >= 1) {
+    titleNode = children.item(0);
+  }
+
+  showModalDialog(
+    titleNode ? 'Update or delete item notes' : 'Set item notes',
+    true, titleNode ? titleNode.textContent : '',
+    'OK', function setTooltipOK() {
+      let tooltipText = getModalInputText();
+      if (tooltipText) tooltipText = tooltipText.trim();
+      if (tooltipText) {
+        if (titleNode) {
+          titleNode.textContent = tooltipText;
+        } else {
+          titleNode = document.createElementNS(SVG_NAMESPACE, 'title');
+          titleNode.textContent = tooltipText;
+          topParent.appendChild(titleNode);
+        }
+
+        hasEdits(true);
+      }
+
+      Data.Edit.Node.classList.remove(SELECT_CLASS);
+    },
+    titleNode ? 'Delete' : undefined, function setTooltipDelete() {
+      titleNode.remove();
+      Data.Edit.Node.classList.remove(SELECT_CLASS);
+    },
+    'Cancel', function setTooltipCancel() {
+      Data.Edit.Node.classList.remove(SELECT_CLASS);
+    });
+}
+
+/** Adds a hyperlink to an element or updates an existing hyperlink. */
+function setNodeHyperlink() {
+  if (!Data.Edit.Node) {
+    return;
+  }
+
+  let linkNode = undefined;
+  for (let node = Data.Edit.Node;
+    node && node != Data.Svg.Node && node != document;
+    node = node.parentNode) {
+    if (node.tagName === 'a') {
+      linkNode = node;
+      break;
     }
-  });
+  }
+
+  // Can only add links to images, text, or drawings ...
+  if (!linkNode &&
+    !Data.Edit.Node.classList.contains(TEXT_CLASS) &&
+    !Data.Edit.Node.classList.contains(IMAGE_CLASS) &&
+    !Data.Edit.Node.classList.contains(DRAW_CLASS)) {
+    Data.Edit.Node.classList.remove(SELECT_CLASS);
+    return;
+  }
+
+  const existingUrl = linkNode ? linkNode.getAttribute('href') : undefined;
+
+  showModalDialog(
+    (linkNode && existingUrl) ?
+      'Update or delete item hyperlink' : 'Set item hyperlink',
+    true, existingUrl ? existingUrl : 'https://',
+    'OK', function setHyperlinkOK() {
+      let linkUrl = getModalInputText();
+      if (linkUrl) linkUrl = linkUrl.trim();
+      if (linkUrl) {
+        if (linkNode) {
+          linkNode.setAttribute('href', linkUrl);
+        } else {
+          linkNode = document.createElementNS(SVG_NAMESPACE, 'a');
+          linkNode.setAttribute('target', '_blank');
+          linkNode.setAttribute('href', linkUrl);
+
+          const parent = Data.Edit.Node.parentNode;
+          parent.insertBefore(linkNode, Data.Edit.Node);
+          parent.removeChild(Data.Edit.Node);
+          linkNode.appendChild(Data.Edit.Node);
+        }
+
+        hasEdits(true);
+      }
+
+      Data.Edit.Node.classList.remove(SELECT_CLASS);
+    },
+    (linkNode && existingUrl) ? 'Delete' : undefined,
+    function setHyperlinkDelete() {
+      linkNode.removeAttribute('href');
+      Data.Edit.Node.classList.remove(SELECT_CLASS);
+    },
+    'Cancel', function setHyperlinkCancel() {
+      Data.Edit.Node.classList.remove(SELECT_CLASS);
+    });
+}
+
+/** Inserts an image at the current pointer position, from a url. */
+function insertImage(url, w, h) {
+  const image = new Image();
+
+  if (w) image.width = w;
+  if (h) image.height = h;
+
+  image.onload = function imageLoaded() {
+    const x = (Data.Pointer.X - parseFloat(Data.Svg.Node.style.left)) /
+      Data.Svg.RatioX;
+    const y = (Data.Pointer.Y - parseFloat(Data.Svg.Node.style.top)) /
+      Data.Svg.RatioY;
+
+    let width = image.width;
+    let height = image.height;
+
+    console.log('Image Loaded (w,h):', width, height);
+
+    // Scale image to fit inside the bounds of the SVG
+    if (width > Data.Svg.NativeWidth || height > Data.Svg.NativeHeight) {
+      scale = 0.9 * Math.min(
+        Data.Svg.NativeWidth / width,
+        Data.Svg.NativeHeight / height);
+
+      width *= scale;
+      height *= scale;
+    }
+
+    const svgImage = document.createElementNS(SVG_NAMESPACE, 'image');
+    svgImage.setAttribute('href', image.src);
+    svgImage.setAttribute('width', width.toFixed(1));
+    svgImage.setAttribute('height', height.toFixed(1));
+    svgImage.setAttribute('x', 0); // position controlled by transform
+    svgImage.setAttribute('y', 0); // position controlled by transform
+    svgImage.setAttribute('class', IMAGE_CLASS);
+    svgImage.setAttribute('transform',
+      `translate(${x.toFixed(1)} ${y.toFixed(1)})`);
+
+    // Data attributes
+    svgImage.setAttribute('data-width', image.width);
+    svgImage.setAttribute('data-height', image.height);
+
+    Data.Svg.Node.appendChild(svgImage);
+
+    hasEdits(true);
+  };
+
+  image.src = url;
+}
+
+/** When an image file upload occurs place the image at the current cursor
+ *  position. */
+function fileSelectorUploadEvent(changeEvent) {
+  if (changeEvent.target.files.length === 0) return;
+
+  const reader = new FileReader();
+  reader.onload = function readerLoaded(loadEvent) {
+    insertImage(loadEvent.target.result);
+  };
+
+  const file = changeEvent.target.files[0];
+  reader.readAsDataURL(file);
+};
+
+/** Handle a image list dialog image click. */
+function imageListItemCallback(event) {
+  const regex = new RegExp('(.*)\\(([0-9]+)x([0-9]+)\\)');
+  const result = regex.exec(event.target.value);
+  if (result && result.length === 4) {
+    insertImage(result[1], result[2], result[3])
+  } else {
+    insertImage(event.target.value);
+  }
+}
+
+/** Take an image from the user's machine and add it to the diagram. */
+function addImageOnClick() {
+  showModalDialog('Select or upload an image',
+    false, undefined,
+    'Upload', function uploadImage() {
+      document.getElementById('file-selector').click();
+    }, undefined, undefined,
+    'Cancel', undefined,
+    true, IMAGE_GALLERY, imageListItemCallback);
+}
+
+/** Prompt the user for text to create or update a text label with. */
+function addOrUpdateTextLabel() {
+  showModalDialog(
+    Data.Edit.Node ? 'Update or delete text label' : 'Add a text label',
+    true, Data.Edit.Node ? Data.Edit.Node.textContent : '',
+    'OK', function textModalOK() {
+      let textContent = getModalInputText();
+      if (textContent) textContent = textContent.trim();
+      if (textContent) {
+        if (Data.Edit.Node) {
+          Data.Edit.Node.textContent = textContent;
+          const colour = getModalColourValue();
+          if (colour) Data.Edit.Node.style.fill = colour;
+          Data.Edit.Node.classList.remove(SELECT_CLASS);
+        } else {
+          const x = (Data.Pointer.X - parseFloat(Data.Svg.Node.style.left)) /
+            Data.Svg.RatioX;
+          const y = (Data.Pointer.Y - parseFloat(Data.Svg.Node.style.top)) /
+            Data.Svg.RatioY;
+
+          const text = document.createElementNS(SVG_NAMESPACE, 'text');
+          text.setAttribute('class', TEXT_CLASS);
+          text.setAttribute('transform',
+            `translate(${x.toFixed(1)} ${y.toFixed(1)})`);
+          text.textContent = textContent;
+
+          const colour = getModalColourValue();
+          text.style.fill = colour ? colour : Colours[0];
+
+          Data.Svg.Node.appendChild(text);
+        }
+
+        hasEdits(true);
+      }
+    },
+    Data.Edit.Node ? 'Delete' : undefined, function textDelete() {
+      Data.Edit.Node.remove();
+      hasEdits(true);
+    },
+    'Cancel', function textModalCancel() {
+      if (Data.Edit.Node) Data.Edit.Node.classList.remove(SELECT_CLASS);
+    },
+    false, undefined, undefined,
+    true, 'Select a label colour:',
+    Data.Edit.Node ? getHexForColour(Data.Edit.Node.style.fill) : '#ff0000');
 }
 
 /** Cycle through the sequence in Data.Colours. */
 function cycleColour(colour) {
-  let index = Data.Colours.indexOf(colour);
+  let index = Colours.findIndex(item =>
+    item.toUpperCase() === colour.toUpperCase());
   if (index === -1) index = 0;
-  index = (index + 1) % Data.Colours.length;
-  return Data.Colours[index];
+  index = (index + 1) % Colours.length;
+  return Colours[index];
 }
 
 /** Cycle the colour of the Draw Node. */
@@ -339,17 +603,15 @@ function cycleDrawColour() {
   hasEdits(true);
 }
 
-/** Cycle the colour of the Text Node. */
-function cycleTextColour() {
-  Data.Edit.Node.style.fill = cycleColour(Data.Edit.Node.style.fill);
-  hasEdits(true);
-}
-
 /** Handles mouse middle button click events. */
 function auxClickEvent(event) {
   if (event.button !== Mouse.Button.Right) return;
 
   if (Data.IgnoreClick) return;
+
+  if (Data.Edit.Node) {
+    Data.Edit.Node.classList.remove(SELECT_CLASS);
+  }
 
   switch (Data.Edit.Mode) {
     case EditModes.Draw:
@@ -360,7 +622,7 @@ function auxClickEvent(event) {
       break;
 
     case EditModes.Highlight:
-      clearAllHighlights();
+      removeHighlights(event.target);
       break;
 
     case EditModes.Text:
@@ -370,6 +632,15 @@ function auxClickEvent(event) {
       }
       break;
 
+    case EditModes.Image:
+      if (event.target.classList.contains(IMAGE_CLASS)) {
+        event.target.remove();
+        hasEdits(true);
+      }
+      break;
+
+    case EditModes.Link:
+    case EditModes.Notes:
     default:
       resizeSvg();
       break;
@@ -388,23 +659,63 @@ function clickSvgEvent(event) {
   switch (Data.Edit.Mode) {
     case EditModes.Highlight:
       applyHighlightOnClick(event);
+      if (Data.Edit.Node) Data.Edit.Node.classList.remove(SELECT_CLASS);
       event.preventDefault();
       break;
 
     case EditModes.Draw:
       if (Data.Edit.Node) {
         cycleDrawColour();
+        Data.Edit.Node.classList.remove(SELECT_CLASS);
       }
       event.preventDefault();
       break;
 
     case EditModes.Text:
       if (Data.Edit.Node) {
-        cycleTextColour();
+        if (event.ctrlKey) {
+          resetScaleTransform();
+          Data.Edit.Node.classList.remove(SELECT_CLASS);
+        } else if (event.shiftKey) {
+          stepRotationTransform();
+          Data.Edit.Node.classList.remove(SELECT_CLASS);
+        } else {
+          addOrUpdateTextLabel();
+        }
       } else {
-        addTextOnClick();
+        addOrUpdateTextLabel();
       }
       event.preventDefault();
+      break;
+
+    case EditModes.Image:
+      if (Data.Edit.Node) {
+        Data.Edit.Node.classList.remove(SELECT_CLASS);
+        if (event.ctrlKey) {
+          resetScaleTransform();
+        } else if (event.shiftKey) {
+          stepRotationTransform();
+        } else {
+          addImageOnClick();
+        }
+      } else {
+        addImageOnClick();
+      }
+      event.preventDefault();
+      break;
+
+    case EditModes.Link:
+      setNodeHyperlink();
+      event.preventDefault();
+      break;
+
+    case EditModes.Notes:
+      setNodeTooltip();
+      event.preventDefault();
+      break;
+
+    default:
+      if (Data.Edit.Node) Data.Edit.Node.classList.remove(SELECT_CLASS);
       break;
   }
 }
@@ -485,13 +796,20 @@ function pointerDown(target, x, y, ctrlKey, shiftKey) {
   Data.Action.Type = undefined;
 
   switch (Data.Edit.Mode) {
+    case EditModes.Highlight:
+      Data.Edit.Node = findHighlightTarget(target);
+      if (Data.Edit.Node)
+        Data.Edit.Node.classList.add(SELECT_CLASS);
+      break;
+
     case EditModes.Draw:
       if (target.classList.contains(DRAW_CLASS)) {
         Data.Edit.Node = target;
+        Data.Edit.Node.classList.add(SELECT_CLASS);
         parseTransform(target);
-        const bbox = target.getBBox();
-        Data.Edit.Centre.X = bbox.x + (bbox.width / 2);
-        Data.Edit.Centre.Y = bbox.y + (bbox.height / 2);
+        // const bbox = target.getBBox();
+        // Data.Edit.Centre.X = bbox.x + (bbox.width / 2);
+        // Data.Edit.Centre.Y = bbox.y + (bbox.height / 2);
 
         // if (ctrlKey) {
         //   Data.Action.Type = Actions.Resize;
@@ -511,10 +829,11 @@ function pointerDown(target, x, y, ctrlKey, shiftKey) {
     case EditModes.Text:
       if (target.classList.contains(TEXT_CLASS)) {
         Data.Edit.Node = target;
+        Data.Edit.Node.classList.add(SELECT_CLASS);
         parseTransform(target);
-        const bbox = target.getBBox();
-        Data.Edit.Centre.X = bbox.x + (bbox.width / 2);
-        Data.Edit.Centre.Y = bbox.y + (bbox.height / 2);
+        // const bbox = target.getBBox();
+        // Data.Edit.Centre.X = bbox.x + (bbox.width / 2);
+        // Data.Edit.Centre.Y = bbox.y + (bbox.height / 2);
 
         if (ctrlKey) {
           Data.Action.Type = Actions.Resize;
@@ -527,11 +846,50 @@ function pointerDown(target, x, y, ctrlKey, shiftKey) {
         }
       }
       break;
+
+    case EditModes.Image:
+      if (target.classList.contains(IMAGE_CLASS)) {
+        Data.Edit.Node = target;
+        Data.Edit.Node.classList.add(SELECT_CLASS);
+        parseTransform(target);
+        // const bbox = target.getBBox();
+        // Data.Edit.Centre.X = bbox.x + (bbox.width / 2);
+        // Data.Edit.Centre.Y = bbox.y + (bbox.height / 2);
+
+        if (ctrlKey) {
+          Data.Action.Type = Actions.Resize;
+        } else if (shiftKey) {
+          Data.Action.Type = Actions.Rotate;
+        } else {
+          Data.Action.Type = Actions.Move;
+          Data.Pointer.X -= Data.Edit.Transform.Translate.X * Data.Svg.RatioX;
+          Data.Pointer.Y -= Data.Edit.Transform.Translate.Y * Data.Svg.RatioY;
+        }
+      }
+      break;
+
+    case EditModes.Link:
+      Data.Edit.Node = target;
+      if (target.classList.contains(IMAGE_CLASS) ||
+        target.classList.contains(TEXT_CLASS) ||
+        target.classList.contains(DRAW_CLASS)) {
+        target.classList.add(SELECT_CLASS);
+      }
+      break;
+
+    case EditModes.Notes:
+      Data.Edit.Node = target;
+      if (target.classList.contains(IMAGE_CLASS) ||
+        target.classList.contains(TEXT_CLASS) ||
+        target.classList.contains(DRAW_CLASS)) {
+        target.classList.add(SELECT_CLASS);
+      }
+      break;
   }
 }
 
 /** Sets drag, paint, and scroll reference data on left button and ignores
- * other button events. */
+ *  other button events. */
 function mouseDown(event) {
   Data.IgnoreClick = false;
 
@@ -567,9 +925,10 @@ function drawModePaint(x, y, ctrlKey, shiftKey) {
   if (!Data.Edit.Node) {
     const startX = (Data.Pointer.X - left) / Data.Svg.RatioX;
     const startY = (Data.Pointer.Y - top) / Data.Svg.RatioY;
-    var path = document.createElementNS(SVG_NAMESPACE, 'path');
+    const path = document.createElementNS(SVG_NAMESPACE, 'path');
     path.setAttribute('class', DRAW_CLASS);
     path.setAttribute('d', `M${startX.toFixed(1)} ${startY.toFixed(1)}`);
+    path.style.stroke = Colours[0];
     Data.Svg.Node.appendChild(path);
 
     Data.Edit.Node = path;
@@ -615,10 +974,13 @@ function scrollMove(x, y) {
 
   const top = (Data.Scroll.StartTop - Data.Pointer.Y + y).toFixed(0);
   Data.Svg.Node.style.top = top + 'px';
+
+  if (Data.Edit.Node) Data.Edit.Node.classList.remove(SELECT_CLASS);
 }
 
-/** Translate the position of the current Edit Node. */
-function translateNode(x, y) {
+/** Translate the position of the current Edit Node with the transform
+ *  attribute. */
+function moveNodeByTransform(x, y) {
   if (!Data.Action.Active) {
     document.body.classList.add('moving');
     Data.Action.Type = Actions.Move;
@@ -634,7 +996,7 @@ function translateNode(x, y) {
 }
 
 /** Rotate the current Edit Node. */
-function rotateNode(x, y) {
+function rotateNodeByTransform(x, y) {
   if (!Data.Action.Active) {
     document.body.classList.add('rotating');
     Data.Action.Type = Actions.Rotate;
@@ -654,8 +1016,8 @@ function rotateNode(x, y) {
   updateTransform();
 }
 
-/** Scale the current Edit Node. */
-function resizeNode(y) {
+/** Scale the current Edit Node with the transform attribute. */
+function resizeNodeByTransform(y) {
   if (!Data.Action.Active) {
     document.body.classList.add('resizing');
     Data.Action.Type = Actions.Resize;
@@ -668,19 +1030,31 @@ function resizeNode(y) {
   const maxDelta = Data.Pointer.Y;
   const minDelta = -window.innerHeight - Data.Pointer.Y;
 
-  const scaleUp = (15 - Data.Edit.Transform.StartScale) / maxDelta;
+  const scaleUp = (10.0 - Data.Edit.Transform.StartScale) / maxDelta;
   const scaleDown = (0.05 - Data.Edit.Transform.StartScale) / minDelta;
 
   let delta = Data.Pointer.Y - y;
   if (delta > maxDelta) delta = maxDelta;
   if (delta < minDelta) delta = minDelta;
 
-  Data.Edit.Transform.Scale = Data.Edit.Transform.StartScale;
+  // if (Math.abs(delta) > 3) {
+  Data.Edit.Transform.Scale = Data.Edit.Transform.StartScale +
+    (delta * (delta > 0 ? scaleUp : scaleDown));
+  updateTransform();
+  // }
+}
 
-  if (Math.abs(delta) > 3) {
-    Data.Edit.Transform.Scale += delta * (delta > 0 ? scaleUp : scaleDown);
-  }
+/** Resets the Transform Scale value to 1x. */
+function resetScaleTransform() {
+  Data.Edit.Transform.Scale = 1;
+  updateTransform();
+}
 
+/** Steps through Transform Rotation values in stepSize increments. */
+function stepRotationTransform(stepSize = 90) {
+  const rotation = (Data.Edit.Transform.Rotate + stepSize) % 360;
+  const stepMultiple = Math.floor(rotation / stepSize);
+  Data.Edit.Transform.Rotate = stepMultiple * stepSize;
   updateTransform();
 }
 
@@ -693,36 +1067,56 @@ function pointerMove(x, y, ctrlKey, shiftKey) {
     case EditModes.Draw:
       switch (Data.Action.Type) {
         case Actions.Add: drawModePaint(x, y, ctrlKey, shiftKey); break;
-        case Actions.Move: translateNode(x, y); break;
-        // case Actions.Rotate: rotateNode(x, y); break;
-        // case Actions.Resize: resizeNode(y); break;
+        case Actions.Move: moveNodeByTransform(x, y); break;
+        // case Actions.Rotate: rotateNodeByTransform(x, y); break;
+        // case Actions.Resize: resizeNodeByTransform(y); break;
       }
       break;
 
     case EditModes.Text:
       switch (Data.Action.Type) {
-        case Actions.Move: translateNode(x, y); break;
-        case Actions.Rotate: rotateNode(x, y); break;
-        case Actions.Resize: resizeNode(y); break;
+        case Actions.Move: moveNodeByTransform(x, y); break;
+        case Actions.Rotate: rotateNodeByTransform(x, y); break;
+        case Actions.Resize: resizeNodeByTransform(y); break;
         default: scrollMove(x, y); break;
       }
+      break;
+
+    case EditModes.Image:
+      switch (Data.Action.Type) {
+        case Actions.Move: moveNodeByTransform(x, y); break;
+        case Actions.Rotate: rotateNodeByTransform(x, y); break;
+        case Actions.Resize: resizeNodeByTransform(y); break;
+        default: scrollMove(x, y); break;
+      }
+      break;
+
+    case EditModes.Link:
+      scrollMove(x, y);
+      break;
+
+    case EditModes.Notes:
+      scrollMove(x, y);
       break;
   }
 }
 
 /** Removes highlights from the target node. */
-function deleteHighlights(target) {
+function removeHighlights(target) {
   const node = findHighlightTarget(target);
   if (!node) return;
 
-  if (node.classList.includes(HIGH_CLASS_1)) {
+  if (node.classList.contains(HIGH_CLASS_1)) {
     node.classList.remove(HIGH_CLASS_1);
     hasEdits(true);
-  } else if (node.classList.includes(HIGH_CLASS_2)) {
+  } else if (node.classList.contains(HIGH_CLASS_2)) {
     node.classList.remove(HIGH_CLASS_2);
     hasEdits(true);
-  } else if (node.classList.includes(HIGH_CLASS_3)) {
+  } else if (node.classList.contains(HIGH_CLASS_3)) {
     node.classList.remove(HIGH_CLASS_3);
+    hasEdits(true);
+  } else if (node.classList.contains(HIGH_CLASS_4)) {
+    node.classList.remove(HIGH_CLASS_4);
     hasEdits(true);
   }
 }
@@ -738,7 +1132,7 @@ function eraserMove(target) {
 
   switch (Data.Edit.Mode) {
     case EditModes.Highlight:
-      deleteHighlights(target);
+      removeHighlights(target);
       break;
 
     case EditModes.Draw:
@@ -754,6 +1148,17 @@ function eraserMove(target) {
         hasEdits(true);
       }
       break;
+
+    case EditModes.Image:
+      if (target.classList.contains(IMAGE_CLASS)) {
+        target.remove();
+        hasEdits(true);
+      }
+      break;
+
+    case EditModes.Link: break;
+
+    case EditModes.Notes: break;
   }
 }
 
@@ -837,6 +1242,11 @@ function applyZoomStep(step) {
 /** Intercepts the mouse wheel event and uses it to zoom in/out on SVG (when
   * present). */
 function wheelEvent(event) {
+  if (modalVisible) {
+    if (event.ctrlKey) event.preventDefault();
+    return;
+  }
+
   event.preventDefault();
 
   if (Data.Action.Active) return;
@@ -921,31 +1331,6 @@ function keyUpEvent(event) {
   }
 }
 
-/** Adds custom tooltips to the individual tiles of the current diagram. */
-// function addTooltips() {
-//   const tooltipText = [
-//     { text: 'Microsoft 365 E3', description: 'Microsoft 365 E3' },
-//     { text: 'Self-Service Password Reset in AD', description: 'Self-Service Password Reset in AD' }
-//   ];
-
-//   const links = Data.Svg.Node.getElementsByTagName('a');
-//   Array.from(links).forEach(function forEachLink(link) {
-//     const texts = link.getElementsByTagName('text');
-//     if (texts.length === 1) {
-//       const text = texts[0].textContent;
-//       const tooltip = tooltipText.find(item => item.text === text);
-//       if (tooltip) {
-//         link.dataset.tooltip = tooltip.description;
-//         // link.addEventListener('mouseover', () => {
-//         //   mouseOverCallback(tooltip.description);
-//         // });
-//         //   link.addEventListener('mouseout', () => {
-//         // });
-//       }
-//     }
-//   });
-// }
-
 /** Handles the window size change event. Could be an orientation change. */
 function windowResize() {
   resizeSvg();
@@ -1016,6 +1401,12 @@ function touchStart(event) {
 
 /** Handles the touch move event. */
 function touchMove(event) {
+  event.preventDefault();
+
+  if (modalVisible) return;
+
+  if (Data.Pointer.IgnoreMove) return;
+
   if (event.touches.length === 1 && Data.Pointer.TouchCount === 1) {
     pointerMove(
       event.touches[0].clientX,
@@ -1040,14 +1431,19 @@ function pointerUp() {
     document.body.classList.remove('resizing');
     document.body.classList.remove('rotating');
     document.body.classList.remove('scrolling');
+
     Data.Action.Active = false;
+  }
+
+  if (Data.Edit.Node && Data.IgnoreClick) {
+    Data.Edit.Node.classList.remove(SELECT_CLASS);
   }
 
   Data.Pointer.TouchCount = 0;
 }
 
 /** Register the SVG related event handlers. */
-function registerSvgEvents() {
+function registerEventHandlers() {
   // SVG Click event
   Data.Svg.Node.addEventListener('click', clickSvgEvent);
 
@@ -1069,9 +1465,14 @@ function registerSvgEvents() {
 
   // Listen for the scroll wheel for zooming
   window.addEventListener('wheel', wheelEvent, { passive: false });
+  // Data.Svg.Node.addEventListener('wheel', wheelEvent, { passive: false });
 
   // Detect window resize events (coud be an orientation change!)
   window.addEventListener('resize', windowResize);
+
+  // File selector for uploading images
+  document.getElementById('file-selector').
+    addEventListener('change', fileSelectorUploadEvent);
 
   // Setup timer function for zooming actions outside the event listener
   setInterval(zoomTimer, 100);
@@ -1079,9 +1480,9 @@ function registerSvgEvents() {
 
 /** Handles the user clicking the menu Flag item. */
 function flagClick() {
-  if (Data.Flags.includes(Data.Filename)) {
-    const flagIndex = Data.Flags.indexOf(Data.Filename);
-    if (flagIndex > -1) Data.Flags.splice(flagIndex, 1);
+  const flagIndex = Data.Flags.indexOf(Data.Filename);
+  if (flagIndex !== -1) {
+    Data.Flags.splice(flagIndex, 1);
   } else {
     Data.Flags.push(Data.Filename);
   }
@@ -1164,12 +1565,15 @@ function imageControlsSaveClick() {
 /** Sets the image controls panel position based on Data.Controls.Open. */
 function setControlsPosition() {
   const menu = document.getElementById('menu');
-  const filters = document.getElementById('image-controls');
+  const panel = document.getElementById('image-controls');
 
-  const top =
-    Data.Controls.Open ? menu.clientHeight : -filters.clientHeight - 2;
+  const top = Data.Controls.Open ? menu.clientHeight : -panel.clientHeight - 2;
+  panel.style.top = top + 'px';
 
-  filters.style.top = top + 'px';
+  if (Data.Controls.Open)
+    document.getElementById('menu-controls').classList.add('active');
+  else
+    document.getElementById('menu-controls').classList.remove('active');
 }
 
 /** Set values and attach event listeners to image control elements. */
@@ -1193,6 +1597,20 @@ function setupImageControls() {
     addEventListener('click', imageControlsResetClick);
   document.getElementById('image-controls-save').
     addEventListener('click', imageControlsSaveClick);
+}
+
+/** Sets the edit menu panel position based on Data.Edit.Open. */
+function setEditMenuPosition() {
+  const menu = document.getElementById('menu');
+  const panel = document.getElementById('edit-controls');
+
+  const top = Data.Edit.Open ? menu.clientHeight : -panel.clientHeight - 2;
+  panel.style.top = top + 'px';
+
+  if (Data.Edit.Open)
+    document.getElementById('menu-edit').classList.add('active');
+  else
+    document.getElementById('menu-edit').classList.remove('active');
 }
 
 /** Updates the visual state of the menu flag button based on IsFlagged. */
@@ -1223,71 +1641,26 @@ function updateDownloadButtonState() {
   }
 }
 
-/** Updates all data on the Menu elements and sets the size and offset data. */
+/** Updates all data on the Menu elements. */
 function updateMenu() {
   const menuExportSvg = document.getElementById('menu-export-svg');
   const menuExportPng = document.getElementById('menu-export-png');
   const menuDownloadPdf = document.getElementById('menu-download-pdf');
   const menuDownloadPng = document.getElementById('menu-download-png');
 
-  switch (Data.Edit.Mode) {
-    case EditModes.Off:
-      Data.Svg.Node.classList.remove('edit-mode');
-      Data.Svg.Node.classList.remove('draw-mode');
-      Data.Svg.Node.classList.remove('highlight-mode');
-      Data.Svg.Node.classList.remove('text-mode');
+  if (Data.Edit.Mode === EditModes.Off) {
+    Data.Svg.Node.classList.remove('edit-mode');
 
-      document.getElementById('menu-edit').style.display = 'inline-block';
-      document.getElementById('menu-highlight').style.display = 'none';
-      document.getElementById('menu-draw').style.display = 'none';
-      document.getElementById('menu-text').style.display = 'none';
+    if (!Data.IsSavedDiagram) {
+      if (menuExportSvg) menuExportSvg.style.display = 'none';
+      if (menuExportPng) menuExportPng.style.display = 'none';
+    }
 
-      if (!Data.IsSavedDiagram) {
-        if (menuExportSvg) menuExportSvg.style.display = 'none';
-        if (menuExportPng) menuExportPng.style.display = 'none';
-      }
+    if (menuDownloadPdf) menuDownloadPdf.style.display = 'inline-block';
+    if (menuDownloadPng) menuDownloadPng.style.display = 'inline-block';
 
-      if (menuDownloadPdf) menuDownloadPdf.style.display = 'inline-block';
-      if (menuDownloadPng) menuDownloadPng.style.display = 'inline-block';
-
-      updateDownloadButtonState();
-      break;
-
-    case EditModes.Draw:
-      Data.Svg.Node.classList.add('draw-mode');
-      Data.Svg.Node.classList.remove('highlight-mode');
-      Data.Svg.Node.classList.remove('text-mode');
-
-      document.getElementById('menu-edit').style.display = 'none';
-      document.getElementById('menu-highlight').style.display = 'none';
-      document.getElementById('menu-draw').style.display = 'inline-block';
-      document.getElementById('menu-text').style.display = 'none';
-      break;
-
-    case EditModes.Highlight:
-      Data.Svg.Node.classList.remove('draw-mode');
-      Data.Svg.Node.classList.add('highlight-mode');
-      Data.Svg.Node.classList.remove('text-mode');
-
-      document.getElementById('menu-edit').style.display = 'none';
-      document.getElementById('menu-highlight').style.display = 'inline-block';
-      document.getElementById('menu-draw').style.display = 'none';
-      document.getElementById('menu-text').style.display = 'none';
-      break;
-
-    case EditModes.Text:
-      Data.Svg.Node.classList.remove('draw-mode');
-      Data.Svg.Node.classList.remove('highlight-mode');
-      Data.Svg.Node.classList.add('text-mode');
-
-      document.getElementById('menu-edit').style.display = 'none';
-      document.getElementById('menu-highlight').style.display = 'none';
-      document.getElementById('menu-draw').style.display = 'none';
-      document.getElementById('menu-text').style.display = 'inline-block';
-      break;
-  }
-
-  if (Data.Edit.Mode !== EditModes.Off) {
+    updateDownloadButtonState();
+  } else {
     Data.Svg.Node.classList.add('edit-mode');
 
     if (!Data.IsSavedDiagram) {
@@ -1297,6 +1670,52 @@ function updateMenu() {
 
     if (menuDownloadPdf) menuDownloadPdf.style.display = 'none';
     if (menuDownloadPng) menuDownloadPng.style.display = 'none';
+  }
+
+  Data.Svg.Node.classList.remove('draw-mode');
+  Data.Svg.Node.classList.remove('highlight-mode');
+  Data.Svg.Node.classList.remove('text-mode');
+  Data.Svg.Node.classList.remove('image-mode');
+  Data.Svg.Node.classList.remove('link-mode');
+  Data.Svg.Node.classList.remove('notes-mode');
+
+  document.getElementById('menu-highlight').classList.remove('active');
+  document.getElementById('menu-draw').classList.remove('active');
+  document.getElementById('menu-text').classList.remove('active');
+  document.getElementById('menu-image').classList.remove('active');
+  document.getElementById('menu-link').classList.remove('active');
+  document.getElementById('menu-notes').classList.remove('active');
+
+  switch (Data.Edit.Mode) {
+    case EditModes.Draw:
+      Data.Svg.Node.classList.add('draw-mode');
+      document.getElementById('menu-draw').classList.add('active');
+      break;
+
+    case EditModes.Highlight:
+      Data.Svg.Node.classList.add('highlight-mode');
+      document.getElementById('menu-highlight').classList.add('active');
+      break;
+
+    case EditModes.Text:
+      Data.Svg.Node.classList.add('text-mode');
+      document.getElementById('menu-text').classList.add('active');
+      break;
+
+    case EditModes.Image:
+      Data.Svg.Node.classList.add('image-mode');
+      document.getElementById('menu-image').classList.add('active');
+      break;
+
+    case EditModes.Link:
+      Data.Svg.Node.classList.add('link-mode');
+      document.getElementById('menu-link').classList.add('active');
+      break;
+
+    case EditModes.Notes:
+      Data.Svg.Node.classList.add('notes-mode');
+      document.getElementById('menu-notes').classList.add('active');
+      break;
   }
 }
 
@@ -1312,10 +1731,14 @@ function setMenuPosition() {
 
     if (window.innerWidth < 450) {
       menu.style.left = 0;
+      menu.style.borderLeft = 'none';
       menu.style.borderRadius = 0;
+      menu.style.width = '100vw';
     } else {
       menu.style.removeProperty('left');
+      menu.style.removeProperty('border-left');
       menu.style.removeProperty('border-radius');
+      menu.style.removeProperty('width');
     }
 
     menu.style.right = 0;
@@ -1325,10 +1748,13 @@ function setMenuPosition() {
 
     if (window.innerWidth < 450) {
       menu.style.removeProperty('left');
+      menu.style.removeProperty('border-left');
       menu.style.removeProperty('border-radius');
+      menu.style.removeProperty('width');
     }
 
-    menu.style.right = -Data.Menu.Offset + 'px';
+    const offset = menu.clientWidth - grip.clientWidth - 8;
+    menu.style.right = -offset + 'px';
   }
 }
 
@@ -1342,19 +1768,70 @@ function gripClick() {
     Data.Controls.Open = false;
     setControlsPosition();
   }
+
+  if (!Data.Menu.Open && Data.Edit.Open) {
+    Data.Edit.Open = false;
+    setEditMenuPosition();
+
+    Data.Edit.LastMode = Data.Edit.Mode;
+    Data.Edit.Mode = EditModes.Off;
+    updateMenu();
+  }
 }
 
 /** Handles the user clicking the menu edit item. */
 function menuEditClick() {
-  // Cycle through edit modes
-  switch (Data.Edit.Mode) {
-    case EditModes.Off: Data.Edit.Mode = EditModes.Highlight; break;
-    case EditModes.Highlight: Data.Edit.Mode = EditModes.Draw; break;
-    case EditModes.Draw: Data.Edit.Mode = EditModes.Text; break;
-    case EditModes.Text: Data.Edit.Mode = EditModes.Off; break;
-    default: throw `Unexpected Edit Mode: ${Data.Edit.Mode}`;
-  }
+  Data.Edit.Open = !Data.Edit.Open;
+  setEditMenuPosition();
 
+  if (Data.Edit.Open) {
+    if (Data.Edit.LastMode)
+      Data.Edit.Mode = Data.Edit.LastMode;
+  } else {
+    Data.Edit.LastMode = Data.Edit.Mode;
+    Data.Edit.Mode = EditModes.Off;
+  }
+  updateMenu();
+
+  if (Data.Edit.Open && Data.Controls.Open) {
+    Data.Controls.Open = false;
+    setControlsPosition();
+  }
+}
+
+/** Handles the user clicking the highlight edit menu item. */
+function menuHighlightClick() {
+  Data.Edit.Mode = EditModes.Highlight;
+  updateMenu();
+}
+
+/** Handles the user clicking the draw edit menu item. */
+function menuDrawClick() {
+  Data.Edit.Mode = EditModes.Draw;
+  updateMenu();
+}
+
+/** Handles the user clicking the text edit menu item. */
+function menuTextClick() {
+  Data.Edit.Mode = EditModes.Text;
+  updateMenu();
+}
+
+/** Handles the user clicking the image edit menu item. */
+function menuImageClick() {
+  Data.Edit.Mode = EditModes.Image;
+  updateMenu();
+}
+
+/** Handles the user clicking the link edit menu item. */
+function menuLinkClick() {
+  Data.Edit.Mode = EditModes.Link;
+  updateMenu();
+}
+
+/** Handles the user clicking the tooltip edit menu item. */
+function menuTooltipClick() {
+  Data.Edit.Mode = EditModes.Notes;
   updateMenu();
 }
 
@@ -1362,6 +1839,15 @@ function menuEditClick() {
 function menuControlsClick() {
   Data.Controls.Open = !Data.Controls.Open;
   setControlsPosition();
+
+  if (Data.Controls.Open && Data.Edit.Open) {
+    Data.Edit.Open = false;
+    setEditMenuPosition();
+
+    Data.Edit.LastMode = Data.Edit.Mode;
+    Data.Edit.Mode = EditModes.Off;
+    updateMenu();
+  }
 }
 
 /** Save current SVG to local storage using title and key supplied. */
@@ -1370,7 +1856,6 @@ function saveSvg(title, storageKey) {
   const svgObject = { Title: title, SvgXml: svgXml };
   const jsonData = JSON.stringify(svgObject);
   localStorage.setItem(storageKey, jsonData);
-
   hasEdits(false);
 }
 
@@ -1398,18 +1883,30 @@ function overwriteYes(callback) {
 
 /** Handles the No outcome on the Overwrite Modal Confirm. */
 function overwriteNo(okCallback, cancelCallback) {
-  modalPrompt('Save diagram as:', Data.SavedDiagramTitle,
-    () => saveOK(okCallback), cancelCallback);
+  showModalDialog('Save diagram as',
+    true, Data.SavedDiagramTitle,
+    'OK', () => saveOK(okCallback),
+    undefined, undefined,
+    'Cancel', cancelCallback);
 }
 
 /** Process the request to save the diagram. */
 function requestSave(yesCallback) {
   if (Data.IsSavedDiagram) {
-    modalConfirm('Overwrite existing diagram?',
-      () => overwriteYes(yesCallback), () => overwriteNo(yesCallback), () => { });
+    showModalDialog(`Overwrite existing diagram "${Data.SavedDiagramTitle}"?`,
+      false, undefined,
+      'Yes', () => overwriteYes(yesCallback),
+      'No', () => overwriteNo(yesCallback),
+      'Cancel', undefined);
   } else {
-    const diagramTitle = decodeURIComponent(Data.Filename);
-    modalPrompt('Save diagram as:', diagramTitle, () => saveOK(yesCallback));
+    const diagramNameElement = document.getElementById('diagram-name');
+    const diagramName = diagramNameElement ?
+      diagramNameElement.textContent : decodeURIComponent(Data.Filename);
+    showModalDialog('Save diagram as',
+      true, diagramName,
+      'OK', () => saveOK(yesCallback),
+      undefined, undefined,
+      'Cancel', undefined);
   }
 }
 
@@ -1442,9 +1939,12 @@ function exportPngClick() {
 /** Handles the user clicking the menu back button. */
 function backClick() {
   if (Data.Edit.HasEdits) {
-    modalConfirm(
-      'Would you like to save your changes before leaving this page?',
-      () => requestSave(backOrHome), backOrHome, () => { });
+    showModalDialog(
+      'Would you like to save your changes before leaving the page?',
+      false, undefined,
+      'Yes', () => requestSave(backOrHome),
+      'No', backOrHome,
+      'Cancel', undefined);
   } else {
     backOrHome();
   }
@@ -1458,20 +1958,26 @@ function setupMenu() {
   document.getElementById('menu-back').
     addEventListener('click', backClick);
 
-  document.getElementById('menu-print').
-    addEventListener('click', () => window.print());
-
   document.getElementById('menu-edit').
     addEventListener('click', menuEditClick);
 
   document.getElementById('menu-highlight').
-    addEventListener('click', menuEditClick);
+    addEventListener('click', menuHighlightClick);
 
   document.getElementById('menu-draw').
-    addEventListener('click', menuEditClick);
+    addEventListener('click', menuDrawClick);
 
   document.getElementById('menu-text').
-    addEventListener('click', menuEditClick);
+    addEventListener('click', menuTextClick);
+
+  document.getElementById('menu-image').
+    addEventListener('click', menuImageClick);
+
+  document.getElementById('menu-link').
+    addEventListener('click', menuLinkClick);
+
+  document.getElementById('menu-notes').
+    addEventListener('click', menuTooltipClick);
 
   document.getElementById('menu-controls').
     addEventListener('click', menuControlsClick);
@@ -1527,8 +2033,9 @@ function legacyRedirect() {
 /** Loads the saved diagram referenced in the URL hash. */
 function loadSavedDiagram() {
   if (!window.location.hash || window.location.hash.length <= 2) {
-    modalAlert('Missing saved diagram details',
-      Data.IsComparing ? undefined : backOrHome);
+    showModalDialog('Missing saved diagram details',
+      false, undefined,
+      'OK', Data.IsComparing ? undefined : backOrHome);
 
     return false;
   }
@@ -1542,16 +2049,18 @@ function loadSavedDiagram() {
 
   const json = localStorage.getItem(Data.Filename);
   if (!json) {
-    modalAlert('Failed to locate saved diagram',
-      Data.IsComparing ? undefined : backOrHome);
+    showModalDialog('Failed to locate saved diagram',
+      false, undefined,
+      'OK', Data.IsComparing ? undefined : backOrHome);
 
     return false;
   }
 
   const data = JSON.parse(json);
   if (!data || !data.SvgXml) {
-    modalAlert('Failed to process saved diagram data',
-      Data.IsComparing ? undefined : backOrHome);
+    showModalDialog('Failed to process saved diagram data',
+      false, undefined,
+      'OK', Data.IsComparing ? undefined : backOrHome);
 
     return false;
   }
@@ -1578,11 +2087,11 @@ function DOMContentLoaded() {
   if (Data.IsComparing) {
     document.body.style.overflow = 'hidden';
     document.getElementById('menu').style.display = 'none';
+    document.getElementById('edit-controls').style.display = 'none';
     document.getElementById('image-controls').style.display = 'none';
   } else {
     setupMenu();
 
-    setupOfflineIndicator();
     window.addEventListener('offline', updateDownloadButtonState);
     window.addEventListener('online', updateDownloadButtonState);
 
@@ -1620,10 +2129,9 @@ function pageLoad() {
     updateMenuFlag();
     setMenuPosition();
     setControlsPosition();
-    // addTooltips();
   }
 
-  registerSvgEvents();
+  registerEventHandlers();
 
   Data.Svg.Node.style.display = 'inline';
 }

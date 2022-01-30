@@ -2,7 +2,7 @@ h1 {
   font-size: 24px;
   padding-left: 28px;
   background: url(/media/sprites.svg#cog) center left no-repeat;
-  background-size: 20px 20px;
+  background-size: 20px;
 }
 
 #menu {
@@ -22,7 +22,7 @@ div.divider {
   grid-row: auto;
   grid-column: span 2;
   margin: 4px 0;
-  border-top: 1px solid #CCC;
+  border-top: 1px solid #ccc;
 }
 
 h2.settings-header {
@@ -79,7 +79,7 @@ div.settings-values {
 }
 
 #defaults {
-  padding: 6px 8px 6px 32px;
+  padding: 8px 8px 6px 32px;
   background-image: url(/media/sprites.svg#defaults);
   background-position: center left 8px;
   background-repeat: no-repeat;
@@ -87,7 +87,7 @@ div.settings-values {
 }
 
 #save {
-  padding: 6px 8px 6px 32px;
+  padding: 8px 8px 6px 32px;
   background-image: url(/media/sprites.svg#save);
   background-position: center left 8px;
   background-repeat: no-repeat;
@@ -95,7 +95,7 @@ div.settings-values {
 }
 
 #cancel {
-  padding: 6px 8px 6px 32px;
+  padding: 8px 8px 6px 32px;
   background-image: url(/media/sprites.svg#delete);
   background-position: center left 8px;
   background-repeat: no-repeat;
