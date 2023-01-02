@@ -1,7 +1,7 @@
 h1 {
   font-size: 24px;
   padding-left: 28px;
-  background: url(/media/sprites.svg#compare) center left no-repeat;
+  background: url(/media/sprites.svg#compare) left center no-repeat;
   background-size: 20px;
 }
 
@@ -17,8 +17,6 @@ h1 {
 div.divider {
   grid-row: auto;
   grid-column: span 2;
-  margin: 4px 0;
-  border-top: 1px solid #ccc;
 }
 
 span.diagram-header {
@@ -64,9 +62,7 @@ label.disabled {
   margin: 0;
   padding: 8px 8px 6px 32px;
   width: min-content;
-  background-image: url(/media/sprites.svg#compare);
-  background-position: center left 8px;
-  background-repeat: no-repeat;
+  background: var(--menu-color) url(/media/sprites.svg#compare) left 8px center no-repeat;
   background-size: 18px;
 }
 

@@ -16,7 +16,7 @@ body noscript {
 h1 {
   font-size: 30px;
   padding-left: 36px;
-  background: url(/media/favicon.svg) center left no-repeat;
+  background: url(/media/favicon.svg) left center no-repeat;
   background-size: 28px;
   margin-bottom: 4px;
 }
@@ -39,8 +39,6 @@ h2 {
 div.divider {
   grid-row: auto;
   grid-column: span 2;
-  margin: 4px 0;
-  border-top: 1px solid #ccc;
 }
 
 span.diagram-header {
@@ -70,7 +68,7 @@ a.diagram-link {
 }
 
 a.flagged {
-  background: url(/media/sprites.svg#flagged) center left no-repeat;
+  background: url(/media/sprites.svg#flagged) left center no-repeat;
   background-size: 16px;
 }
 
@@ -84,56 +82,63 @@ a.flagged {
 }
 
 a.changes {
-  background: url(/media/sprites.svg#changes) center left no-repeat;
+  background: url(/media/sprites.svg#changes) left center no-repeat;
   background-size: 16px;
   padding-left: 22px;
   margin: 0 2px;
 }
 
 a.compare {
-  background: url(/media/sprites.svg#compare) center left no-repeat;
+  background: url(/media/sprites.svg#compare) left center no-repeat;
   background-size: 16px;
   padding-left: 22px;
   margin: 0 2px;
 }
 
 a.downloads {
-  background: url(/media/sprites.svg#download) center left no-repeat;
+  background: url(/media/sprites.svg#download) left center no-repeat;
   background-size: 16px;
   padding-left: 22px;
   margin: 0 2px;
 }
 
 a.guide {
-  background: url(/media/sprites.svg#guide) center left no-repeat;
+  background: url(/media/sprites.svg#guide) left center no-repeat;
   background-size: 16px;
   padding-left: 22px;
   margin: 0 2px;
 }
 
 a.matrix {
-  background: url(/media/sprites.svg#matrix) center left no-repeat;
+  background: url(/media/sprites.svg#matrix) left center no-repeat;
+  background-size: 16px;
+  padding-left: 22px;
+  margin: 0 2px;
+}
+
+a.related {
+  background: url(/media/sprites.svg#related) left center no-repeat;
   background-size: 16px;
   padding-left: 22px;
   margin: 0 2px;
 }
 
 a.renames {
-  background: url(/media/sprites.svg#rename) center left no-repeat;
+  background: url(/media/sprites.svg#rename) left center no-repeat;
   background-size: 16px;
   padding-left: 22px;
   margin: 0 2px;
 }
 
 a.settings {
-  background: url(/media/sprites.svg#cog) center left no-repeat;
+  background: url(/media/sprites.svg#cog) left center no-repeat;
   background-size: 16px;
   padding-left: 22px;
   margin: 0 2px;
 }
 
 a.saved {
-  background: url(/media/sprites.svg#save) center left no-repeat;
+  background: url(/media/sprites.svg#save) left center no-repeat;
   background-size: 16px;
   padding-left: 22px;
   margin: 0 2px;

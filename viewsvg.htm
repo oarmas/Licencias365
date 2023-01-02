@@ -54,12 +54,27 @@
     </div>
 
     <div id="edit-controls">
-      <button type="button" id="menu-highlight">Highlight</button>
-      <button type="button" id="menu-draw">Draw</button>
-      <button type="button" id="menu-text">Text</button>
-      <button type="button" id="menu-image">Image</button>
-      <button type="button" id="menu-link">Link</button>
-      <button type="button" id="menu-notes">Notes</button>
+      <div id="menu-highlight-box">
+        <button type="button" id="menu-highlight">Highlight</button>
+        <input type="color" id="menu-highlight-colour" title="Highlight colour" />
+      </div>
+      <div id="menu-draw-box">
+        <button type="button" id="menu-draw">Draw</button>
+        <input type="color" id="menu-draw-colour" title="Draw colour" />
+      </div>
+      <div id="menu-text-box">
+        <button type="button" id="menu-text">Text</button>
+        <input type="color" id="menu-text-colour" title="Text colour" />
+      </div>
+      <div id="menu-image-box">
+        <button type="button" id="menu-image">Image</button>
+      </div>
+      <div id="menu-link-box">
+        <button type="button" id="menu-link">Link</button>
+      </div>
+      <div id="menu-notes-box">
+        <button type="button" id="menu-notes">Notes</button>
+      </div>
     </div>
 
     <div id="image-controls">
@@ -75,6 +90,12 @@
         <button type="button" id="image-controls-reset" title="Reset to defaults">Reset</button>
         <button type="button" id="image-controls-save" title="Save and apply to all diagrams">Save</button>
       </div>
+    </div>
+
+    <div id="zoom-controls">
+      <button type="button" id="menu-zoom-in" accesskey="+" title="Zoom in"></button>
+      <button type="button" id="menu-zoom-reset" accesskey="=" title="Reset zoom"></button>
+      <button type="button" id="menu-zoom-out" accesskey="-" title="Zoom out"></button>
     </div>
 
   </body>

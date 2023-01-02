@@ -65,6 +65,9 @@ function addDiagram(container, key, entry) {
   label.appendChild(checkbox);
   label.append(entry.Title);
 
+  const createdDate = new Date(Number.parseInt(key));
+  label.title = 'Created: ' + createdDate.toLocaleString();
+
   container.appendChild(label);
 }
 

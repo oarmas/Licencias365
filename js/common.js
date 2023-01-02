@@ -42,6 +42,12 @@ const Settings = {
   Highlight2: '',
   Highlight3: '',
   Highlight4: '',
+  Highlight5: '',
+  Highlight6: '',
+  Highlight7: '',
+  Highlight8: '',
+  Highlight9: '',
+  Highlight0: '',
   Menu: '',
   Theme: '',
   Zoom: '',
@@ -203,6 +209,14 @@ function defaultSettings() {
   Settings.Highlight2 = '#AA00CC';
   Settings.Highlight3 = '#00CCBB';
   Settings.Highlight4 = '#222222';
+
+  Settings.Highlight5 = '#3BAF53';
+  Settings.Highlight6 = '#4F73C2';
+  Settings.Highlight7 = '#F20F19';
+  Settings.Highlight8 = '#F79ACC';
+  Settings.Highlight9 = '#808080';
+  Settings.Highlight0 = '#F8C026';
+
   Settings.Menu = 'Open';
   Settings.Theme = 'System';
   Settings.Zoom = 'Fit';
@@ -234,21 +248,16 @@ function loadSettings() {
         }
       }
 
-      if (newSettings.Highlight1) {
-        Settings.Highlight1 = newSettings.Highlight1;
-      }
-
-      if (newSettings.Highlight2) {
-        Settings.Highlight2 = newSettings.Highlight2;
-      }
-
-      if (newSettings.Highlight3) {
-        Settings.Highlight3 = newSettings.Highlight3;
-      }
-
-      if (newSettings.Highlight4) {
-        Settings.Highlight4 = newSettings.Highlight4;
-      }
+      if (newSettings.Highlight1) Settings.Highlight1 = newSettings.Highlight1;
+      if (newSettings.Highlight2) Settings.Highlight2 = newSettings.Highlight2;
+      if (newSettings.Highlight3) Settings.Highlight3 = newSettings.Highlight3;
+      if (newSettings.Highlight4) Settings.Highlight4 = newSettings.Highlight4;
+      if (newSettings.Highlight5) Settings.Highlight5 = newSettings.Highlight5;
+      if (newSettings.Highlight6) Settings.Highlight6 = newSettings.Highlight6;
+      if (newSettings.Highlight7) Settings.Highlight7 = newSettings.Highlight7;
+      if (newSettings.Highlight8) Settings.Highlight8 = newSettings.Highlight8;
+      if (newSettings.Highlight9) Settings.Highlight9 = newSettings.Highlight9;
+      if (newSettings.Highlight0) Settings.Highlight0 = newSettings.Highlight0;
 
       if (newSettings.Menu) {
         Settings.Menu = newSettings.Menu;
@@ -502,10 +511,12 @@ function showModalDialog(messageHtml = 'ERROR',
   modalVisible = true;
 
   if (!showInput && option1Name && !option2Name && !option3Name) {
+    document.activeElement.blur();
     modalOption1.focus();
   }
 
   if (showInput) {
+    document.activeElement.blur();
     modalInput.focus();
   }
 }

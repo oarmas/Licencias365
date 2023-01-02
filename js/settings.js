@@ -8,6 +8,12 @@ function saveClick() {
   Settings.Highlight2 = document.getElementById('highlight2').value;
   Settings.Highlight3 = document.getElementById('highlight3').value;
   Settings.Highlight4 = document.getElementById('highlight4').value;
+  Settings.Highlight5 = document.getElementById('highlight5').value;
+  Settings.Highlight6 = document.getElementById('highlight6').value;
+  Settings.Highlight7 = document.getElementById('highlight7').value;
+  Settings.Highlight8 = document.getElementById('highlight8').value;
+  Settings.Highlight9 = document.getElementById('highlight9').value;
+  Settings.Highlight0 = document.getElementById('highlight0').value;
   Settings.Menu = document.getElementById('menu-state').value;
   Settings.Theme = document.getElementById('theme').value;
   Settings.Zoom = document.getElementById('zoom').value;
@@ -41,6 +47,12 @@ function setControlValues() {
   document.getElementById('highlight2').value = Settings.Highlight2;
   document.getElementById('highlight3').value = Settings.Highlight3;
   document.getElementById('highlight4').value = Settings.Highlight4;
+  document.getElementById('highlight5').value = Settings.Highlight5;
+  document.getElementById('highlight6').value = Settings.Highlight6;
+  document.getElementById('highlight7').value = Settings.Highlight7;
+  document.getElementById('highlight8').value = Settings.Highlight8;
+  document.getElementById('highlight9').value = Settings.Highlight9;
+  document.getElementById('highlight0').value = Settings.Highlight0;
 
   selectByLabel(document.getElementById('menu-state'), Settings.Menu);
   selectByLabel(document.getElementById('zoom'), Settings.Zoom);

@@ -7,6 +7,7 @@ let TriggerSearch = false;
 // Constants
 const DIAGRAM_COUNT = 21;
 const DIAGRAM_GROUPS = [3, 3, 5, 4, 6];
+const EXPORT_FILENAME = 'Microsoft-365-Matrix-Export.xls';
 
 /** Toggle the Trigger Search variable when a Key Up event occurs. */
 function searchKeyUp() {
@@ -36,7 +37,8 @@ function applySearch() {
 
         const featureName = cell.textContent || cell.innerText;
         if (featureName.toUpperCase().includes(search) || inGroup) {
-          row.style.display = 'table-row';
+          // row.style.display = 'table-row';
+          row.classList.remove('hidden');
 
           // If the match is on a group header keep the features under this
           // group visible
@@ -44,7 +46,8 @@ function applySearch() {
             inGroup = true;
           }
         } else {
-          row.style.display = 'none';
+          // row.style.display = 'none';
+          row.classList.add('hidden');
         }
       }
     }
@@ -124,8 +127,6 @@ function findGroup(find, groups) {
 function showColumns(selected) {
   const noneSelected = selected.every(value => !value);
 
-  const groupClasses = [];
-
   const rows = document.querySelectorAll('tr');
   for (let row = 0; row < rows.length; row += 1) {
     const tr = rows[row];
@@ -136,22 +137,16 @@ function showColumns(selected) {
     if (row === 0) {
       cells = tr.getElementsByTagName('th');
 
-      let groupA = true;
-
       for (let col = 1; col < cells.length; col += 1) {
         const cell = cells[col];
 
         const count = countInGroup(col - 1, selected);
-        cell.style.display = (count > 0 ? 'table-cell' : 'none');
-        cell.setAttribute('colspan', count);
-
-        const groupClass = (groupA ? 'group-a' : 'group-b');
-        groupClasses.push(groupClass);
-
-        if (count !== 0) {
-          cell.className = groupClass;
-          groupA = !groupA;
+        if (count > 0) {
+          cell.classList.remove('hidden');
+        } else {
+          cell.classList.add('hidden');
         }
+        cell.setAttribute('colspan', count);
       }
     } else {
       const isGroupHeaderRow = (tr.className.indexOf('sticky-row-3') !== -1);
@@ -170,24 +165,22 @@ function showColumns(selected) {
       for (let col = 1; col < cells.length; col += 1) {
         const cell = cells[col];
 
-        if (row === 1) {
-          const groupIndex = findGroup(col - 1, DIAGRAM_GROUPS);
-          const groupClass = groupClasses[groupIndex];
-          cell.className = groupClass;
-        }
-
         if (selected[col - 1]) {
-          cell.style.display = 'table-cell';
+          cell.classList.remove('hidden');
 
           if (cell.textContent !== '') {
             emptyRow = false;
           }
         } else {
-          cell.style.display = 'none';
+          cell.classList.add('hidden');
         }
       }
 
-      tr.style.display = (emptyRow ? 'none' : 'table-row');
+      if (emptyRow) {
+        tr.classList.add('hidden');
+      } else {
+        tr.classList.remove('hidden');
+      }
     }
   }
 
@@ -270,11 +263,84 @@ function selectSave() {
     false, undefined, 'OK');
 }
 
-/** Attach event listeners to Select All & Select None. */
-function setupSelectAllNoneSave() {
+/** Generates and downloads a spreadsheet from the current matrix view. */
+function exportClick() {
+  const table = document.getElementById('features-table').cloneNode(true);
+
+  // Remove search text box from export
+  const filter = table.querySelector('#feature-search');
+  if (filter.value !== '') {
+    filter.parentNode.innerText = 'Feature filter: ' + filter.value;
+  } else {
+    filter.remove();
+  }
+
+  // Remove all hidden cells
+  const hidden = table.getElementsByClassName('hidden');
+  Array.from(hidden).forEach(item => item.remove());
+
+  // Fix indents
+  const indent1 = table.getElementsByClassName('indent1');
+  Array.from(indent1).forEach(item => {
+    item.insertAdjacentText('afterBegin', '> ');
+  });
+  const indent2 = table.getElementsByClassName('indent2');
+  Array.from(indent2).forEach(item => {
+    item.insertAdjacentText('afterBegin', '> > ');
+  });
+
+  // Centre align feature columns
+  const featureCells = table.querySelectorAll('td:not(:first-of-type)');
+  Array.from(featureCells).forEach(item => {
+    item.style.textAlign = 'center';
+  });
+
+  // Left align first column
+  const first = table.querySelectorAll('th:first-of-type, td:first-of-type');
+  Array.from(first).forEach(item => {
+    item.style.textAlign = 'left';
+  });
+
+  // Colour the office, ems, windows, and suite section headers
+  const office = table.querySelectorAll('.office>th, .office>td');
+  Array.from(office).forEach(item => {
+    item.style.backgroundColor = '#E82200';
+    item.style.color = '#FFFFFF';
+  });
+  const ems = table.querySelectorAll('.ems>th, .ems>td');
+  Array.from(ems).forEach(item => {
+    item.style.backgroundColor = '#2080A0';
+    item.style.color = '#FFFFFF';
+  });
+  const windows = table.querySelectorAll('.windows>th, .windows>td');
+  Array.from(windows).forEach(item => {
+    item.style.backgroundColor = '#006600';
+    item.style.color = '#FFFFFF';
+  });
+  const suite = table.querySelectorAll('.suite>th, .suite>td');
+  Array.from(suite).forEach(item => {
+    item.style.backgroundColor = '#7030A0';
+    item.style.color = '#FFFFFF';
+  });
+
+  const html = '<html><head><base href="https://m365maps.com/"></head><body>' +
+    table.outerHTML + '</body></html>';
+
+  const blob = new Blob(['\ufeff', html], {
+    type: 'application/vnd.ms-excel'
+  });
+
+  downloadBlob(EXPORT_FILENAME, blob);
+}
+
+/** Attach event listeners on buttons. */
+function setupButtons() {
   document.getElementById('button-all').addEventListener('click', selectAll);
   document.getElementById('button-none').addEventListener('click', selectNone);
   document.getElementById('button-save').addEventListener('click', selectSave);
+
+  document.getElementById('button-export').
+    addEventListener('click', exportClick);
 }
 
 /** Checks for the lack of a page hash and injects the saved hash. */
@@ -294,7 +360,7 @@ function DOMContentLoaded() {
   }
 
   setupModal();
-  setupSelectAllNoneSave();
+  setupButtons();
   setupFeatureSearch();
   setupCheckboxes();
 

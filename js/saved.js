@@ -10,11 +10,14 @@ function newDivider() {
 }
 
 /** Creates a diagram name link. */
-function newDiagramLink(text, href) {
+function newDiagramLink(text, key) {
   const element = document.createElement('a');
   element.className = 'diagram';
   element.textContent = text;
-  element.href = href;
+  element.href = `/viewsvg.htm#*${key}`;
+
+  const createdDate = new Date(Number.parseInt(key));
+  element.title = 'Created: ' + createdDate.toLocaleString();
   return element;
 }
 
@@ -65,7 +68,7 @@ function addEmptyMessage(container) {
 
 /** Adds a new row to the saved diagrams list. */
 function addNewRow(container, key, entry) {
-  const entryLink = newDiagramLink(entry.Title, `/viewsvg.htm#*${key}`);
+  const entryLink = newDiagramLink(entry.Title, key);
   container.appendChild(entryLink);
 
   const entryRename = newRenameButton();

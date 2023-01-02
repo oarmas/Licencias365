@@ -323,23 +323,30 @@ function resetSvgPosition() {
 function applyHighlightOnClick(event) {
   if (!Data.Edit.Node) return;
 
-  let newHighlight = HIGH_CLASS_1;
-  if (event.shiftKey && event.ctrlKey) {
-    newHighlight = HIGH_CLASS_4;
-  } else if (event.ctrlKey) {
-    newHighlight = HIGH_CLASS_3;
-  } else if (event.shiftKey) {
-    newHighlight = HIGH_CLASS_2;
-  }
-
-  if (Data.Edit.Node.classList.contains(newHighlight)) {
-    Data.Edit.Node.classList.remove(newHighlight);
-  } else {
+  if (Data.Edit.Node.classList.contains(HIGH_CLASS_1) ||
+    Data.Edit.Node.classList.contains(HIGH_CLASS_2) ||
+    Data.Edit.Node.classList.contains(HIGH_CLASS_3) ||
+    Data.Edit.Node.classList.contains(HIGH_CLASS_4)) {
     Data.Edit.Node.classList.remove(HIGH_CLASS_1);
     Data.Edit.Node.classList.remove(HIGH_CLASS_2);
     Data.Edit.Node.classList.remove(HIGH_CLASS_3);
     Data.Edit.Node.classList.remove(HIGH_CLASS_4);
-    Data.Edit.Node.classList.add(newHighlight);
+  } else {
+    let newFill = document.getElementById('menu-highlight-colour').value;
+    if (event.shiftKey && event.ctrlKey) {
+      newFill = Settings.Highlight4;
+    } else if (event.ctrlKey) {
+      newFill = Settings.Highlight3;
+    } else if (event.shiftKey) {
+      newFill = Settings.Highlight2;
+    }
+
+    if (Data.Edit.Node.style.fill &&
+      getHexForColour(Data.Edit.Node.style.fill) === newFill) {
+      Data.Edit.Node.style.fill = '';
+    } else {
+      Data.Edit.Node.style.fill = newFill;
+    }
   }
 
   hasEdits(true);
@@ -471,7 +478,7 @@ function insertImage(url, w, h) {
     let width = image.width;
     let height = image.height;
 
-    console.log('Image Loaded (w,h):', width, height);
+    // console.log('Image Loaded (w,h):', width, height);
 
     // Scale image to fit inside the bounds of the SVG
     if (width > Data.Svg.NativeWidth || height > Data.Svg.NativeHeight) {
@@ -585,7 +592,9 @@ function addOrUpdateTextLabel() {
     },
     false, undefined, undefined,
     true, 'Select a label colour:',
-    Data.Edit.Node ? getHexForColour(Data.Edit.Node.style.fill) : '#ff0000');
+    Data.Edit.Node ?
+      getHexForColour(Data.Edit.Node.style.fill) :
+      document.getElementById('menu-text-colour').value);
 }
 
 /** Cycle through the sequence in Data.Colours. */
@@ -656,6 +665,8 @@ function clickSvgEvent(event) {
     return;
   }
 
+  document.activeElement.blur();
+
   switch (Data.Edit.Mode) {
     case EditModes.Highlight:
       applyHighlightOnClick(event);
@@ -665,7 +676,14 @@ function clickSvgEvent(event) {
 
     case EditModes.Draw:
       if (Data.Edit.Node) {
-        cycleDrawColour();
+        if (event.ctrlKey) {
+          Data.Edit.Node.style.stroke =
+            document.getElementById('menu-draw-colour').value;
+
+          hasEdits(true);
+        } else {
+          cycleDrawColour();
+        }
         Data.Edit.Node.classList.remove(SELECT_CLASS);
       }
       event.preventDefault();
@@ -928,7 +946,7 @@ function drawModePaint(x, y, ctrlKey, shiftKey) {
     const path = document.createElementNS(SVG_NAMESPACE, 'path');
     path.setAttribute('class', DRAW_CLASS);
     path.setAttribute('d', `M${startX.toFixed(1)} ${startY.toFixed(1)}`);
-    path.style.stroke = Colours[0];
+    path.style.stroke = document.getElementById('menu-draw-colour').value;
     Data.Svg.Node.appendChild(path);
 
     Data.Edit.Node = path;
@@ -1118,6 +1136,9 @@ function removeHighlights(target) {
   } else if (node.classList.contains(HIGH_CLASS_4)) {
     node.classList.remove(HIGH_CLASS_4);
     hasEdits(true);
+  } else if (node.style.fill) {
+    node.style.fill = '';
+    hasEdits(true);
   }
 }
 
@@ -1283,6 +1304,27 @@ function scrollStep(x, y) {
   }
 }
 
+/** Zoom in button pressed. */
+function zoomInClick(event) {
+  zoomKey(ZOOM_STEP_SIZE);
+  event.preventDefault();
+  document.activeElement.blur();
+}
+
+/** Zoom out button pressed. */
+function zoomOutClick(event) {
+  zoomKey(-ZOOM_STEP_SIZE);
+  event.preventDefault();
+  document.activeElement.blur();
+}
+
+/** Zoom reset button pressed. */
+function zoomResetClick(event) {
+  resizeSvg();
+  event.preventDefault();
+  document.activeElement.blur();
+}
+
 /** Act on key presses for zooming. */
 function keyUpEvent(event) {
   if (event.target !== document.body) return;
@@ -1290,18 +1332,15 @@ function keyUpEvent(event) {
 
   switch (event.key) {
     case '+':
-      zoomKey(ZOOM_STEP_SIZE);
-      event.preventDefault();
+      zoomInClick(event);
       break;
 
     case '-':
-      zoomKey(-ZOOM_STEP_SIZE);
-      event.preventDefault();
+      zoomOutClick(event);
       break;
 
     case '=':
-      resizeSvg();
-      event.preventDefault();
+      zoomResetClick(event);
       break;
 
     case 'ArrowUp':
@@ -1327,6 +1366,63 @@ function keyUpEvent(event) {
     case 'Enter':
       resetSvgPosition();
       event.preventDefault();
+      break;
+
+    case '1':
+      setEditToolColour(Settings.Highlight1);
+      break;
+
+    case '2':
+      setEditToolColour(Settings.Highlight2);
+      break;
+
+    case '3':
+      setEditToolColour(Settings.Highlight3);
+      break;
+
+    case '4':
+      setEditToolColour(Settings.Highlight4);
+      break;
+
+    case '5':
+      setEditToolColour(Settings.Highlight5);
+      break;
+
+    case '6':
+      setEditToolColour(Settings.Highlight6);
+      break;
+
+    case '7':
+      setEditToolColour(Settings.Highlight7);
+      break;
+
+    case '8':
+      setEditToolColour(Settings.Highlight8);
+      break;
+
+    case '9':
+      setEditToolColour(Settings.Highlight9);
+      break;
+
+    case '0':
+      setEditToolColour(Settings.Highlight0);
+      break;
+  }
+}
+
+/** Sets the current edit tool colour. */
+function setEditToolColour(colour) {
+  switch (Data.Edit.Mode) {
+    case EditModes.Draw:
+      document.getElementById('menu-draw-colour').value = colour;
+      break;
+
+    case EditModes.Highlight:
+      document.getElementById('menu-highlight-colour').value = colour;
+      break;
+
+    case EditModes.Text:
+      document.getElementById('menu-text-colour').value = colour;
       break;
   }
 }
@@ -1474,6 +1570,16 @@ function registerEventHandlers() {
   document.getElementById('file-selector').
     addEventListener('change', fileSelectorUploadEvent);
 
+  // Setup zoom buttons
+  document.getElementById('menu-zoom-in').
+    addEventListener('click', zoomInClick);
+
+  document.getElementById('menu-zoom-out').
+    addEventListener('click', zoomOutClick);
+
+  document.getElementById('menu-zoom-reset').
+    addEventListener('click', zoomResetClick);
+
   // Setup timer function for zooming actions outside the event listener
   setInterval(zoomTimer, 100);
 }
@@ -1490,6 +1596,8 @@ function flagClick() {
   localStorage.setItem(StoreName.Flags, JSON.stringify(Data.Flags));
 
   updateMenuFlag();
+
+  document.activeElement.blur();
 }
 
 /** Load IsFlagged diagrms list from local storage. */
@@ -1537,16 +1645,14 @@ function filterChange() {
 
 /** Handles the user clicking the image controls menu reset button. */
 function imageControlsResetClick() {
-  Data.Controls.Brightness.value =
-    Data.Controls.Brightness.defaultValue;
-  Data.Controls.Contrast.value =
-    Data.Controls.Contrast.defaultValue;
-  Data.Controls.Hue.value =
-    Data.Controls.Hue.defaultValue;
-  Data.Controls.Saturation.value =
-    Data.Controls.Saturation.defaultValue;
+  Data.Controls.Brightness.value = Data.Controls.Brightness.defaultValue;
+  Data.Controls.Contrast.value = Data.Controls.Contrast.defaultValue;
+  Data.Controls.Hue.value = Data.Controls.Hue.defaultValue;
+  Data.Controls.Saturation.value = Data.Controls.Saturation.defaultValue;
 
   filterChange();
+
+  document.activeElement.blur();
 }
 
 /** Handles the user clicking the image controls menu save button. */
@@ -1560,6 +1666,8 @@ function imageControlsSaveClick() {
 
   Data.Controls.Open = false;
   setControlsPosition();
+
+  document.activeElement.blur();
 }
 
 /** Sets the image controls panel position based on Data.Controls.Open. */
@@ -1641,6 +1749,55 @@ function updateDownloadButtonState() {
   }
 }
 
+/** Update tehe edit menu items according to the current mode. */
+function updateEditMenu() {
+  Data.Svg.Node.classList.remove('draw-mode');
+  Data.Svg.Node.classList.remove('highlight-mode');
+  Data.Svg.Node.classList.remove('text-mode');
+  Data.Svg.Node.classList.remove('image-mode');
+  Data.Svg.Node.classList.remove('link-mode');
+  Data.Svg.Node.classList.remove('notes-mode');
+
+  document.getElementById('menu-highlight-box').classList.remove('active');
+  document.getElementById('menu-draw-box').classList.remove('active');
+  document.getElementById('menu-text-box').classList.remove('active');
+  document.getElementById('menu-image-box').classList.remove('active');
+  document.getElementById('menu-link-box').classList.remove('active');
+  document.getElementById('menu-notes-box').classList.remove('active');
+
+  switch (Data.Edit.Mode) {
+    case EditModes.Draw:
+      Data.Svg.Node.classList.add('draw-mode');
+      document.getElementById('menu-draw-box').classList.add('active');
+      break;
+
+    case EditModes.Highlight:
+      Data.Svg.Node.classList.add('highlight-mode');
+      document.getElementById('menu-highlight-box').classList.add('active');
+      break;
+
+    case EditModes.Text:
+      Data.Svg.Node.classList.add('text-mode');
+      document.getElementById('menu-text-box').classList.add('active');
+      break;
+
+    case EditModes.Image:
+      Data.Svg.Node.classList.add('image-mode');
+      document.getElementById('menu-image-box').classList.add('active');
+      break;
+
+    case EditModes.Link:
+      Data.Svg.Node.classList.add('link-mode');
+      document.getElementById('menu-link-box').classList.add('active');
+      break;
+
+    case EditModes.Notes:
+      Data.Svg.Node.classList.add('notes-mode');
+      document.getElementById('menu-notes-box').classList.add('active');
+      break;
+  }
+}
+
 /** Updates all data on the Menu elements. */
 function updateMenu() {
   const menuExportSvg = document.getElementById('menu-export-svg');
@@ -1672,51 +1829,9 @@ function updateMenu() {
     if (menuDownloadPng) menuDownloadPng.style.display = 'none';
   }
 
-  Data.Svg.Node.classList.remove('draw-mode');
-  Data.Svg.Node.classList.remove('highlight-mode');
-  Data.Svg.Node.classList.remove('text-mode');
-  Data.Svg.Node.classList.remove('image-mode');
-  Data.Svg.Node.classList.remove('link-mode');
-  Data.Svg.Node.classList.remove('notes-mode');
+  updateEditMenu();
 
-  document.getElementById('menu-highlight').classList.remove('active');
-  document.getElementById('menu-draw').classList.remove('active');
-  document.getElementById('menu-text').classList.remove('active');
-  document.getElementById('menu-image').classList.remove('active');
-  document.getElementById('menu-link').classList.remove('active');
-  document.getElementById('menu-notes').classList.remove('active');
-
-  switch (Data.Edit.Mode) {
-    case EditModes.Draw:
-      Data.Svg.Node.classList.add('draw-mode');
-      document.getElementById('menu-draw').classList.add('active');
-      break;
-
-    case EditModes.Highlight:
-      Data.Svg.Node.classList.add('highlight-mode');
-      document.getElementById('menu-highlight').classList.add('active');
-      break;
-
-    case EditModes.Text:
-      Data.Svg.Node.classList.add('text-mode');
-      document.getElementById('menu-text').classList.add('active');
-      break;
-
-    case EditModes.Image:
-      Data.Svg.Node.classList.add('image-mode');
-      document.getElementById('menu-image').classList.add('active');
-      break;
-
-    case EditModes.Link:
-      Data.Svg.Node.classList.add('link-mode');
-      document.getElementById('menu-link').classList.add('active');
-      break;
-
-    case EditModes.Notes:
-      Data.Svg.Node.classList.add('notes-mode');
-      document.getElementById('menu-notes').classList.add('active');
-      break;
-  }
+  document.activeElement.blur();
 }
 
 /** Sets the menu position, grip title, and grip graphic based on
@@ -1777,6 +1892,8 @@ function gripClick() {
     Data.Edit.Mode = EditModes.Off;
     updateMenu();
   }
+
+  document.activeElement.blur();
 }
 
 /** Handles the user clicking the menu edit item. */
@@ -1784,37 +1901,59 @@ function menuEditClick() {
   Data.Edit.Open = !Data.Edit.Open;
   setEditMenuPosition();
 
+  if (Data.Edit.Open && Data.Controls.Open) {
+    Data.Controls.Open = false;
+    setControlsPosition();
+  }
+
   if (Data.Edit.Open) {
-    if (Data.Edit.LastMode)
+    if (Data.Edit.LastMode) {
       Data.Edit.Mode = Data.Edit.LastMode;
+    }
   } else {
     Data.Edit.LastMode = Data.Edit.Mode;
     Data.Edit.Mode = EditModes.Off;
   }
   updateMenu();
-
-  if (Data.Edit.Open && Data.Controls.Open) {
-    Data.Controls.Open = false;
-    setControlsPosition();
-  }
 }
 
 /** Handles the user clicking the highlight edit menu item. */
 function menuHighlightClick() {
   Data.Edit.Mode = EditModes.Highlight;
-  updateMenu();
+  updateEditMenu();
+  document.activeElement.blur();
 }
 
 /** Handles the user clicking the draw edit menu item. */
 function menuDrawClick() {
   Data.Edit.Mode = EditModes.Draw;
-  updateMenu();
+  updateEditMenu();
+  document.activeElement.blur();
 }
 
 /** Handles the user clicking the text edit menu item. */
 function menuTextClick() {
   Data.Edit.Mode = EditModes.Text;
-  updateMenu();
+  updateEditMenu();
+  document.activeElement.blur();
+}
+
+/** Handles the user clicking the highlight edit menu colour item. */
+function menuHighlightColourClick() {
+  Data.Edit.Mode = EditModes.Highlight;
+  updateEditMenu();
+}
+
+/** Handles the user clicking the draw edit menu colour item. */
+function menuDrawColourClick() {
+  Data.Edit.Mode = EditModes.Draw;
+  updateEditMenu();
+}
+
+/** Handles the user clicking the text edit menu colour item. */
+function menuTextColourClick() {
+  Data.Edit.Mode = EditModes.Text;
+  updateEditMenu();
 }
 
 /** Handles the user clicking the image edit menu item. */
@@ -1848,6 +1987,8 @@ function menuControlsClick() {
     Data.Edit.Mode = EditModes.Off;
     updateMenu();
   }
+
+  document.activeElement.blur();
 }
 
 /** Save current SVG to local storage using title and key supplied. */
@@ -1890,6 +2031,11 @@ function overwriteNo(okCallback, cancelCallback) {
     'Cancel', cancelCallback);
 }
 
+/** Called if a request to save is cancelled. */
+function saveCancel() {
+  document.activeElement.blur();
+}
+
 /** Process the request to save the diagram. */
 function requestSave(yesCallback) {
   if (Data.IsSavedDiagram) {
@@ -1897,7 +2043,7 @@ function requestSave(yesCallback) {
       false, undefined,
       'Yes', () => overwriteYes(yesCallback),
       'No', () => overwriteNo(yesCallback),
-      'Cancel', undefined);
+      'Cancel', saveCancel);
   } else {
     const diagramNameElement = document.getElementById('diagram-name');
     const diagramName = diagramNameElement ?
@@ -1906,7 +2052,7 @@ function requestSave(yesCallback) {
       true, diagramName,
       'OK', () => saveOK(yesCallback),
       undefined, undefined,
-      'Cancel', undefined);
+      'Cancel', saveCancel);
   }
 }
 
@@ -1923,6 +2069,8 @@ function exportSvgClick() {
 
   const svgXml = getSvgXml();
   exportSvg(filename + '.svg', svgXml);
+
+  document.activeElement.blur();
 }
 
 /** Handles the user clicking the menu Export PNG item. */
@@ -1934,6 +2082,8 @@ function exportPngClick() {
   const svgXml = getSvgXml();
   const background = window.getComputedStyle(document.body).backgroundColor;
   exportPng(filename + '.png', svgXml, background);
+
+  document.activeElement.blur();
 }
 
 /** Handles the user clicking the menu back button. */
@@ -1963,12 +2113,21 @@ function setupMenu() {
 
   document.getElementById('menu-highlight').
     addEventListener('click', menuHighlightClick);
+  document.getElementById('menu-highlight-colour').
+    addEventListener('click', menuHighlightColourClick);
+  document.getElementById('menu-highlight-colour').value = Settings.Highlight1;
 
   document.getElementById('menu-draw').
     addEventListener('click', menuDrawClick);
+  document.getElementById('menu-draw-colour').
+    addEventListener('click', menuDrawColourClick);
+  document.getElementById('menu-draw-colour').value = Settings.Highlight2;
 
   document.getElementById('menu-text').
     addEventListener('click', menuTextClick);
+  document.getElementById('menu-text-colour').
+    addEventListener('click', menuTextColourClick);
+  document.getElementById('menu-text-colour').value = Settings.Highlight3;
 
   document.getElementById('menu-image').
     addEventListener('click', menuImageClick);
@@ -2089,6 +2248,7 @@ function DOMContentLoaded() {
     document.getElementById('menu').style.display = 'none';
     document.getElementById('edit-controls').style.display = 'none';
     document.getElementById('image-controls').style.display = 'none';
+    document.getElementById('zoom-controls').style.display = 'none';
   } else {
     setupMenu();
 

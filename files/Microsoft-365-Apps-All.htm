@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1, maximum-scale=1" />
+<meta name="robots" content="index, follow" />
+<meta name="referrer" content="origin" />
+<meta name="theme-color" content="#002266" />
+<meta name="application-name" content="M365 Maps" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="white" />
+<meta name="apple-mobile-web-app-title" content="M365 Maps" />
+<meta name="description" content="Microsoft 365 Apps All licensing diagram from the m365maps.com collection by Aaron Dinnage" />
+<meta name="author" content="Aaron Dinnage" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:image" content="https://m365maps.com/media/summary.png" />
+<meta name="twitter:image:alt" content="Microsoft 365 Licensing Diagrams by Aaron Dinnage https://m365maps.com/" />
+<meta name="twitter:site" content="@AaronDinnage" />
+<meta name="twitter:creator" content="@AaronDinnage" />
+<meta property="article:author" content="Aaron Dinnage" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Microsoft 365 Apps All License Diagram" />
+<meta property="og:description" content="Microsoft 365 Apps All licensing diagram from the m365maps.com collection by Aaron Dinnage" />
+<meta property="og:site_name" content="M365 Maps" />
+<meta property="og:image" content="https://m365maps.com/media/summary_wide.png" />
+<meta property="og:image:alt" content="Microsoft 365 Licensing Diagrams by Aaron Dinnage https://m365maps.com/" />
+<meta property="og:url" content="https://m365maps.com/files/Microsoft-365-Apps-All.htm" />
+<link rel="canonical" href="https://m365maps.com/files/Microsoft-365-Apps-All.htm" />
+<link rel="icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="icon" href="/media/favicon.svg" type="image/svg+xml" sizes="any" />
+<link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png" />
+<link rel="license" href="https://creativecommons.org/licenses/by/4.0/" />
+<link rel="manifest" href="/manifest.json" />
+<link rel="stylesheet" href="/css/common.min.css" />
+<link rel="stylesheet" href="/css/viewsvg.min.css" />
+<script src="/js/common.min.js"></script>
+<script src="/js/viewsvg.min.js"></script>
+<title>Microsoft 365 Apps All | M365 Maps</title>
+</head>
+<body oncontextmenu="return false">
+<h1 id="diagram-name">Microsoft 365 Apps All</h1>
+
+<input id="file-selector" type="file" accept=".png,.jpg,.svg,image/png,image/jpeg,image/svg+xml" title="Upload image" />
+<a id="download-pdf" href="/files/Microsoft-365-Apps-All.pdf" download="Microsoft-365-Apps-All.pdf" class="download-link" title="PDF"></a>
+<a id="download-png" href="/files/Microsoft-365-Apps-All.png" download="Microsoft-365-Apps-All.png" class="download-link" title="PNG"></a>
+
+<div id="menu">
+<button type="button" id="menu-grip" accesskey="m" title="Menu"></button>
+<button type="button" id="menu-back" accesskey="b" title="Back"></button>
+<button type="button" id="menu-flag" accesskey="g" title="Flag"></button>
+<button type="button" id="menu-save" accesskey="s" title="Save a copy"></button>
+<button type="button" id="menu-controls" accesskey="c" title="Controls"></button>
+<button type="button" id="menu-edit" accesskey="t" title="Edit modes"></button>
+<button type="button" id="menu-download-pdf" title="Download PDF">PDF</button>
+<button type="button" id="menu-download-png" title="Download PNG">PNG</button>
+<button type="button" id="menu-export-svg" title="Export as SVG">SVG</button>
+<button type="button" id="menu-export-png" title="Export as PNG">PNG</button>
+</div>
+
+<div id="edit-controls">
+<div id="menu-highlight-box">
+<button type="button" id="menu-highlight">Highlight</button>
+<input type="color" id="menu-highlight-colour" title="Highlight colour" />
+</div>
+<div id="menu-draw-box">
+<button type="button" id="menu-draw">Draw</button>
+<input type="color" id="menu-draw-colour" title="Draw colour" />
+</div>
+<div id="menu-text-box">
+<button type="button" id="menu-text">Text</button>
+<input type="color" id="menu-text-colour" title="Text colour" />
+</div>
+<div id="menu-image-box">
+<button type="button" id="menu-image">Image</button>
+</div>
+<div id="menu-link-box">
+<button type="button" id="menu-link">Link</button>
+</div>
+<div id="menu-notes-box">
+<button type="button" id="menu-notes">Notes</button>
+</div>
+</div>
+
+<div id="image-controls">
+<label for="brightness">Brightness</label>
+<input type="range" id="brightness" min="0" max="20" value="10" />
+<label for="contrast">Contrast</label>
+<input type="range" id="contrast" min="0" max="20" value="10" />
+<label for="hue">Hue</label>
+<input type="range" id="hue" min="0" max="360" value="0" step="10" />
+<label for="saturation">Saturation</label>
+<input type="range" id="saturation" min="0" max="20" value="10" />
+<div id="image-controls-buttons">
+<button type="button" id="image-controls-reset" title="Reset to defaults">Reset</button>
+<button type="button" id="image-controls-save" title="Save and apply to all diagrams">Save</button>
+</div>
+</div>
+
+<div id="zoom-controls">
+<button type="button" id="menu-zoom-in" accesskey="+" title="Zoom in"></button>
+<button type="button" id="menu-zoom-reset" accesskey="=" title="Reset zoom"></button>
+<button type="button" id="menu-zoom-out" accesskey="-" title="Zoom out"></button>
+</div>
+
+<svg xmlns="http://www.w3.org/2000/svg" width="416" height="624" viewBox="0 0 416 624" class="a"><style>
+.b {fill:#a5a5a5;fill-opacity:0.2;stroke:#e82200;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.2}
+.c {fill:#a5a5a5;fill-opacity:0.2;stroke:#a41500;stroke-dasharray:15.8,11.2;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.2}
+.d {fill:#a41500;stroke:#a41500;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.2}
+.e {fill:#ffffff;font-family:Arial;font-size:1.5em;font-weight:bold}
+.f {fill:#a41500;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:1}
+.g {fill:#ffffff;font-family:Arial;font-size:1.2em;font-weight:bold}
+.h {font-size:1em}
+.i {fill:#e82200;stroke:#e82200;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.2}
+.j {fill:#e82200;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:1}
+.k {fill:none;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.8}
+.l {fill:#7f7f7f;font-family:Arial;font-size:1em}
+.a {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
+</style><rect x="16" y="16" width="384" height="592" rx="8" ry="8" class="b"/><rect x="32" y="64" width="352" height="240" rx="8" ry="8" class="c"/><a target="_blank" href="https://www.microsoft.com/microsoft-365/business/microsoft-365-apps-for-business"><rect x="32" y="64" width="352" height="32" rx="8" ry="8" class="d"/><text x="68" y="85.4" class="e">Microsoft 365 Apps for Business</text></a><a target="_blank" href="https://products.office.com/mobile/office"><rect x="48" y="208" width="96" height="80" rx="8" ry="8" class="f"/><text x="76.2" y="243.8" class="g">Office <tspan x="54.4" dy="1.2em" class="h">Mobile Apps</tspan></text></a><a target="_blank" href="https://learn.microsoft.com/office365/servicedescriptions/office-online-service-description/office-online-service-description"><rect x="272" y="112" width="96" height="80" rx="8" ry="8" class="f"/><text x="300.2" y="139.4" class="g">Office<tspan x="281.5" dy="1.2em" class="h">for the Web</tspan><tspan x="284.6" dy="1.2em" class="h">(incl Visio)</tspan></text></a><a target="_blank" href="https://www.microsoft.com/microsoft-365/business/microsoft-365-apps-for-business"><rect x="160" y="112" width="96" height="80" rx="8" ry="8" class="f"/><text x="188.2" y="139.4" class="g">Office <tspan x="166" dy="1.2em" class="h">Applications </tspan><tspan x="171" dy="1.2em" class="h">(PC &amp; Mac)</tspan></text></a><a target="_blank" href="https://support.office.com/sway"><rect x="272" y="208" width="96" height="80" rx="8" ry="8" class="f"/><text x="302.1" y="252.2" class="g">Sway</text></a><a target="_blank" href="https://support.office.com/forms"><rect x="48" y="112" width="96" height="80" rx="8" ry="8" class="f"/><text x="64.5" y="147.8" class="g">Microsoft <tspan x="74.6" dy="1.2em" class="h">Forms</tspan></text></a><a target="_blank" href="https://learn.microsoft.com/office365/servicedescriptions/onedrive-for-business-service-description"><rect x="160" y="208" width="96" height="80" rx="8" ry="8" class="f"/><text x="165.6" y="235.4" class="g">OneDrive for <tspan x="176.9" dy="1.2em" class="h">Business </tspan><tspan x="187.4" dy="1.2em" class="h">Plan 1</tspan></text></a><a target="_blank" href="https://www.microsoft.com/microsoft-365/business/microsoft-365-apps-for-enterprise-product"><rect x="16" y="16" width="384" height="32" rx="8" ry="8" class="i"/><text x="63.5" y="37.4" class="e">Microsoft 365 Apps for Enterprise</text></a><a target="_blank" href="https://learn.microsoft.com/DeployOffice/overview-shared-computer-activation"><rect x="160" y="512" width="96" height="80" rx="8" ry="8" class="j"/><text x="184.3" y="539.4" class="g">Shared <tspan x="175" dy="1.2em" class="h">Computer </tspan><tspan x="174.2" dy="1.2em" class="h">Activation</tspan></text></a><a target="_blank" href="https://learn.microsoft.com/office365/servicedescriptions/office-applications-service-description/office-applications-service-description"><rect x="272" y="320" width="96" height="80" rx="8" ry="8" class="j"/><text x="276.1" y="355.8" class="g">Office Add-in <tspan x="293.2" dy="1.2em" class="h">Support</tspan></text></a><a target="_blank" href="https://learn.microsoft.com/office365/servicedescriptions/office-applications-service-description/office-applications-service-description"><rect x="160" y="416" width="96" height="80" rx="8" ry="8" class="j"/><text x="165.2" y="443.4" class="g">Office Group <tspan x="187.4" dy="1.2em" class="h">Policy </tspan><tspan x="181.2" dy="1.2em" class="h">Support</tspan></text></a><a target="_blank" href="https://support.microsoft.com/office/1315665a-c6af-4409-a28d-49f8916878ca"><rect x="48" y="320" width="96" height="80" rx="8" ry="8" class="j"/><text x="77.3" y="364.2" class="g">Delve</text></a><a target="_blank" href="https://learn.microsoft.com/deployoffice/compat/compatibility-and-telemetry-in-office"><rect x="272" y="416" width="96" height="80" rx="8" ry="8" class="j"/><text x="300.2" y="451.8" class="g">Office <tspan x="286.9" dy="1.2em" class="h">Telemetry</tspan></text></a><a target="_blank" href="https://learn.microsoft.com/deployoffice/overview-office-cloud-policy-service"><rect x="48" y="416" width="96" height="80" rx="8" ry="8" class="j"/><text x="54.4" y="443.4" class="g">Office Cloud <tspan x="75.4" dy="1.2em" class="h">Policy </tspan><tspan x="71.1" dy="1.2em" class="h">Service</tspan></text></a><a target="_blank" href="https://learn.microsoft.com/office365/servicedescriptions/office-applications-service-description/office-applications-service-description"><rect x="272" y="512" width="96" height="80" rx="8" ry="8" class="j"/><text x="298.2" y="539.4" class="g">Virtual <tspan x="277.6" dy="1.2em" class="h">Desktop Use </tspan><tspan x="298.2" dy="1.2em" class="h">Rights</tspan></text></a><a target="_blank" href="https://learn.microsoft.com/microsoft-365/whiteboard/"><rect x="160" y="320" width="96" height="80" rx="8" ry="8" class="j"/><text x="176.5" y="355.8" class="g">Microsoft <tspan x="169.5" dy="1.2em" class="h">Whiteboard</tspan></text></a><a target="_blank" href="https://learn.microsoft.com/office365/servicedescriptions/office-applications-service-description/office-applications-service-description"><rect x="48" y="512" width="96" height="80" rx="8" ry="8" class="j"/><text x="66.1" y="547.8" class="g">Roaming <tspan x="68.4" dy="1.2em" class="h">Settings</tspan></text></a><a target="_blank" href="https://m365maps.com/"><rect y="608" width="416" height="16" class="k"/><text x="326.6" y="619.6" class="l">m365maps.com</text></a></svg>
+</body>
+</html>

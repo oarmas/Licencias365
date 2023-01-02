@@ -1,13 +1,8 @@
 h1 {
   font-size: 24px;
   padding-left: 28px;
-  background: url(/media/sprites.svg#rename) center left no-repeat;
+  background: url(/media/sprites.svg#rename) left center no-repeat;
   background-size: 20px;
-}
-
-.divider {
-  margin: 4px 0;
-  border-bottom: 1px solid #ccc;
 }
 
 a.header-link {
@@ -15,7 +10,7 @@ a.header-link {
 }
 
 a.header-link:hover {
-  background: url(/media/sprites.svg#link) center right no-repeat;
+  background: url(/media/sprites.svg#link) right center no-repeat;
   background-size: 18px;
 }
 

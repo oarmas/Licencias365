@@ -1,7 +1,7 @@
 h1 {
   font-size: 24px;
   padding-left: 28px;
-  background: url(/media/sprites.svg#save) center left no-repeat;
+  background: url(/media/sprites.svg#save) left center no-repeat;
   background-size: 20px;
 }
 
@@ -37,8 +37,6 @@ h1 {
 div.divider {
   grid-row: auto;
   grid-column: span 5;
-  margin: 4px 0;
-  border-top: 1px solid #ccc;
 }
 
 a.diagram {
@@ -52,21 +50,21 @@ a.diagram {
 button.rename {
   grid-row: auto;
   grid-column: 2;
-  background: url(/media/sprites.svg#rename) center left no-repeat;
+  background: url(/media/sprites.svg#rename) left center no-repeat;
   background-size: 16px;
 }
 
 button.delete {
   grid-row: auto;
   grid-column: 3;
-  background: url(/media/sprites.svg#delete) center left no-repeat;
+  background: url(/media/sprites.svg#delete) left center no-repeat;
   background-size: 16px;
 }
 
 button.export {
   grid-row: auto;
   grid-column: auto;
-  background: url(/media/sprites.svg#export) center left no-repeat;
+  background: url(/media/sprites.svg#export) left center no-repeat;
   background-size: 16px;
   padding: 1px 2px 1px 18px;
   width: 48px !important;
@@ -75,17 +73,13 @@ button.export {
 
 #export-all-png, #export-all-svg {
   padding: 8px 8px 6px 32px;
-  background-image: url(/media/sprites.svg#export);
-  background-position: center left 8px;
-  background-repeat: no-repeat;
+  background: var(--menu-color) url(/media/sprites.svg#export) left 8px center no-repeat;
   background-size: 18px;
 }
 
 #import {
   padding: 8px 8px 6px 32px;
-  background-image: url(/media/sprites.svg#import);
-  background-position: center left 8px;
-  background-repeat: no-repeat;
+  background: var(--menu-color) url(/media/sprites.svg#import) left 8px center no-repeat;
   background-size: 18px;
 }
 

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1, maximum-scale=1" />
+<meta name="robots" content="index, follow" />
+<meta name="referrer" content="origin" />
+<meta name="theme-color" content="#002266" />
+<meta name="application-name" content="M365 Maps" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="white" />
+<meta name="apple-mobile-web-app-title" content="M365 Maps" />
+<meta name="description" content="Microsoft Defender for Office 365 licensing diagram from the m365maps.com collection by Aaron Dinnage" />
+<meta name="author" content="Aaron Dinnage" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:image" content="https://m365maps.com/media/summary.png" />
+<meta name="twitter:image:alt" content="Microsoft 365 Licensing Diagrams by Aaron Dinnage https://m365maps.com/" />
+<meta name="twitter:site" content="@AaronDinnage" />
+<meta name="twitter:creator" content="@AaronDinnage" />
+<meta property="article:author" content="Aaron Dinnage" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Microsoft Defender for Office 365 License Diagram" />
+<meta property="og:description" content="Microsoft Defender for Office 365 licensing diagram from the m365maps.com collection by Aaron Dinnage" />
+<meta property="og:site_name" content="M365 Maps" />
+<meta property="og:image" content="https://m365maps.com/media/summary_wide.png" />
+<meta property="og:image:alt" content="Microsoft 365 Licensing Diagrams by Aaron Dinnage https://m365maps.com/" />
+<meta property="og:url" content="https://m365maps.com/files/Microsoft-Defender-for-Office-365.htm" />
+<link rel="canonical" href="https://m365maps.com/files/Microsoft-Defender-for-Office-365.htm" />
+<link rel="icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="icon" href="/media/favicon.svg" type="image/svg+xml" sizes="any" />
+<link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png" />
+<link rel="license" href="https://creativecommons.org/licenses/by/4.0/" />
+<link rel="manifest" href="/manifest.json" />
+<link rel="stylesheet" href="/css/common.min.css" />
+<link rel="stylesheet" href="/css/viewsvg.min.css" />
+<script src="/js/common.min.js"></script>
+<script src="/js/viewsvg.min.js"></script>
+<title>Microsoft Defender for Office 365 | M365 Maps</title>
+</head>
+<body oncontextmenu="return false">
+<h1 id="diagram-name">Microsoft Defender for Office 365</h1>
+
+<input id="file-selector" type="file" accept=".png,.jpg,.svg,image/png,image/jpeg,image/svg+xml" title="Upload image" />
+<a id="download-pdf" href="/files/Microsoft-Defender-for-Office-365.pdf" download="Microsoft-Defender-for-Office-365.pdf" class="download-link" title="PDF"></a>
+<a id="download-png" href="/files/Microsoft-Defender-for-Office-365.png" download="Microsoft-Defender-for-Office-365.png" class="download-link" title="PNG"></a>
+
+<div id="menu">
+<button type="button" id="menu-grip" accesskey="m" title="Menu"></button>
+<button type="button" id="menu-back" accesskey="b" title="Back"></button>
+<button type="button" id="menu-flag" accesskey="g" title="Flag"></button>
+<button type="button" id="menu-save" accesskey="s" title="Save a copy"></button>
+<button type="button" id="menu-controls" accesskey="c" title="Controls"></button>
+<button type="button" id="menu-edit" accesskey="t" title="Edit modes"></button>
+<button type="button" id="menu-download-pdf" title="Download PDF">PDF</button>
+<button type="button" id="menu-download-png" title="Download PNG">PNG</button>
+<button type="button" id="menu-export-svg" title="Export as SVG">SVG</button>
+<button type="button" id="menu-export-png" title="Export as PNG">PNG</button>
+</div>
+
+<div id="edit-controls">
+<div id="menu-highlight-box">
+<button type="button" id="menu-highlight">Highlight</button>
+<input type="color" id="menu-highlight-colour" title="Highlight colour" />
+</div>
+<div id="menu-draw-box">
+<button type="button" id="menu-draw">Draw</button>
+<input type="color" id="menu-draw-colour" title="Draw colour" />
+</div>
+<div id="menu-text-box">
+<button type="button" id="menu-text">Text</button>
+<input type="color" id="menu-text-colour" title="Text colour" />
+</div>
+<div id="menu-image-box">
+<button type="button" id="menu-image">Image</button>
+</div>
+<div id="menu-link-box">
+<button type="button" id="menu-link">Link</button>
+</div>
+<div id="menu-notes-box">
+<button type="button" id="menu-notes">Notes</button>
+</div>
+</div>
+
+<div id="image-controls">
+<label for="brightness">Brightness</label>
+<input type="range" id="brightness" min="0" max="20" value="10" />
+<label for="contrast">Contrast</label>
+<input type="range" id="contrast" min="0" max="20" value="10" />
+<label for="hue">Hue</label>
+<input type="range" id="hue" min="0" max="360" value="0" step="10" />
+<label for="saturation">Saturation</label>
+<input type="range" id="saturation" min="0" max="20" value="10" />
+<div id="image-controls-buttons">
+<button type="button" id="image-controls-reset" title="Reset to defaults">Reset</button>
+<button type="button" id="image-controls-save" title="Save and apply to all diagrams">Save</button>
+</div>
+</div>
+
+<div id="zoom-controls">
+<button type="button" id="menu-zoom-in" accesskey="+" title="Zoom in"></button>
+<button type="button" id="menu-zoom-reset" accesskey="=" title="Reset zoom"></button>
+<button type="button" id="menu-zoom-out" accesskey="-" title="Zoom out"></button>
+</div>
+
+<svg xmlns="http://www.w3.org/2000/svg" width="416" height="528" viewBox="0 0 416 528" class="a"><style>
+.b {fill:#a5a5a5;fill-opacity:0.2;stroke:#d04a00;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.2}
+.c {fill:#d04a00;stroke:#d04a00;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.2}
+.d {fill:#ffffff;font-family:Arial;font-size:1.5em;font-weight:bold}
+.e {fill:#d04a00;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:1}
+.f {fill:#ffffff;font-family:Arial;font-size:1.2em;font-weight:bold}
+.g {font-size:1em}
+.h {fill:#ffffff;font-family:Arial;font-size:1.1em;font-weight:bold}
+.i {fill:none;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.8}
+.j {fill:#7f7f7f;font-family:Arial;font-size:1em}
+.a {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
+</style><rect x="16" y="16" width="384" height="496" rx="8" ry="8" class="b"/><rect x="32" y="64" width="352" height="240" rx="8" ry="8" class="b"/><a target="_blank" href="https://learn.microsoft.com/office365/servicedescriptions/office-365-advanced-threat-protection-service-description#feature-availability-across-advanced-threat-protection-atp-plans"><rect x="16" y="16" width="384" height="32" rx="8" ry="8" class="c"/><text x="80" y="37.4" class="d">Defender for Office 365 Plan 2</text></a><a target="_blank" href="https://learn.microsoft.com/office365/securitycompliance/threat-trackers"><rect x="272" y="416" width="96" height="80" rx="8" ry="8" class="e"/><text x="298.6" y="451.8" class="f">Threat <tspan x="290.8" dy="1.2em" class="g">Trackers</tspan></text></a><a target="_blank" href="https://learn.microsoft.com/microsoft-365/security/office-365-security/attack-simulation-training-get-started"><rect x="48" y="320" width="96" height="80" rx="8" ry="8" class="e"/><text x="74.6" y="347.4" class="f">Attack <tspan x="60.2" dy="1.2em" class="g">Simulation </tspan><tspan x="68.4" dy="1.2em" class="g">Training</tspan></text></a><a target="_blank" href="https://learn.microsoft.com/microsoft-365/security/office-365-security/threat-explorer"><rect x="160" y="416" width="96" height="80" rx="8" ry="8" class="e"/><text x="186.6" y="451.8" class="f">Threat <tspan x="179.6" dy="1.2em" class="g">Explorer</tspan></text></a><a target="_blank" href="https://learn.microsoft.com/microsoft-365/security/office-365-security/automated-investigation-response-office"><rect x="160" y="320" width="96" height="80" rx="8" ry="8" class="e"/><text x="171.4" y="347.4" class="f">Automated <tspan x="164.8" dy="1.2em" class="g">Investigation </tspan><tspan x="167.6" dy="1.2em" class="g">&amp; Response</tspan></text></a><a target="_blank" href="https://learn.microsoft.com/office365/servicedescriptions/office-365-advanced-threat-protection-service-description#feature-availability-across-advanced-threat-protection-atp-plans"><rect x="32" y="64" width="352" height="32" rx="8" ry="8" class="c"/><text x="80" y="85.4" class="d">Defender for Office 365 Plan 1</text></a><a target="_blank" href="https://learn.microsoft.com/microsoft-365/security/office-365-security/address-compromised-users-quickly"><rect x="48" y="416" width="96" height="80" rx="8" ry="8" class="e"/><text x="52.3" y="444.3" class="h">Compromised <tspan x="81.6" dy="1.2em" class="g">User </tspan><tspan x="66.4" dy="1.2em" class="g">Detection</tspan></text></a><a target="_blank" href="https://learn.microsoft.com/microsoft-365/security/office-365-security/campaigns"><rect x="272" y="320" width="96" height="80" rx="8" ry="8" class="e"/><text x="286.2" y="355.8" class="f">Campaign <tspan x="300.2" dy="1.2em" class="g">Views</tspan></text></a><a target="_blank" href="https://learn.microsoft.com/microsoft-365/security/office-365-security/atp-safe-links"><rect x="160" y="208" width="96" height="80" rx="8" ry="8" class="e"/><text x="173" y="252.2" class="f">Safe Links</text></a><a target="_blank" href="https://learn.microsoft.com/microsoft-365/security/office-365-security/atp-safe-attachments"><rect x="48" y="208" width="96" height="80" rx="8" ry="8" class="e"/><text x="81.2" y="243.8" class="f">Safe <tspan x="53.6" dy="1.2em" class="g">Attachments</tspan></text></a><a target="_blank" href="https://learn.microsoft.com/microsoft-365/security/office-365-security/atp-anti-phishing"><rect x="48" y="112" width="96" height="80" rx="8" ry="8" class="e"/><text x="80.1" y="147.8" class="f">Anti-<tspan x="66.4" dy="1.2em" class="g">Phishing</tspan></text></a><a target="_blank" href="https://learn.microsoft.com/microsoft-365/security/office-365-security/view-reports-for-mdo"><rect x="272" y="112" width="96" height="80" rx="8" ry="8" class="e"/><text x="286.6" y="147.8" class="f">Real-Time <tspan x="293.6" dy="1.2em" class="g">Reports</tspan></text></a><a target="_blank" href="https://learn.microsoft.com/office365/servicedescriptions/exchange-online-protection-service-description/exchange-online-protection-service-description"><rect x="160" y="112" width="96" height="80" rx="8" ry="8" class="e"/><text x="174.9" y="139.4" class="f">Exchange <tspan x="186.2" dy="1.2em" class="g">Online </tspan><tspan x="173.4" dy="1.2em" class="g">Protection</tspan></text></a><a target="_blank" href="https://m365maps.com/"><rect y="512" width="416" height="16" class="i"/><text x="326.6" y="523.6" class="j">m365maps.com</text></a></svg>
+</body>
+</html>

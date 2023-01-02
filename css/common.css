@@ -2,44 +2,20 @@
 
 .theme-light {
   --accent-color: #0070f7;
+  --back-color: #fff;
+  --border-color: #888;
+  --fore-color: #333;
   --menu-color: #eee;
-  background-color: #fff;
-  color: #333;
-}
-
-.theme-light input, .theme-light select, .theme-light button {
-  background-color: #f2f2f2;
-  color: #333;
-}
-
-.theme-light #modal {
-  background-color: rgba(0, 0, 0, 0.4);
-}
-
-.theme-light #modal-content {
-  background-color: #fff;
 }
 
 /* Dark Theme */
 
 .theme-dark {
   --accent-color: #008cff;
+  --back-color: #000;
+  --border-color: #888;
+  --fore-color: #d5d5d5;
   --menu-color: #222;
-  background-color: #000;
-  color: #d5d5d5;
-}
-
-.theme-dark input, .theme-dark select, .theme-dark button {
-  background-color: #3b3b3b;
-  color: #d5d5d5;
-}
-
-.theme-dark #modal {
-  background-color: rgba(0, 0, 0, 0.6);
-}
-
-.theme-dark #modal-content {
-  background-color: #111;
 }
 
 /* Print Styles */
@@ -53,7 +29,7 @@
     visibility: hidden;
   }
 
-  div.section-links {
+  .section-links {
     visibility: hidden;
   }
 }
@@ -68,10 +44,12 @@
   width: 100%;
   height: 100%;
   z-index: 10;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 #modal-content {
-  border: 1px solid #888;
+  background-color: var(--back-color);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   margin: 10% auto;
   padding: 20px;
@@ -129,9 +107,9 @@
   border: 0;
   border-radius: 4px;
   vertical-align: middle;
-  background-size: 32px;
+  background-position: left 8px center;
   background-repeat: no-repeat;
-  background-position: center left 8px;
+  background-size: 32px;
   font-weight: normal;
 }
 
@@ -159,6 +137,8 @@ a:link, a:visited, a:hover, a:active {
 html {
   font-family: Arial;
   font-size: 16px;
+  background-color: var(--back-color);
+  color: var(--fore-color);
 }
 
 body {
@@ -195,7 +175,7 @@ p {
 
 button {
   border-radius: 4px;
-  border-color: #ccc;
+  border-color: var(--menu-color);
   border-width: 1px;
   margin: 2px 8px;
   padding: 6px 8px;
@@ -226,10 +206,19 @@ a.skip-link:focus {
   top: 0;
 }
 
+div.divider {
+  margin: 4px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+div.spacer {
+  height: 16px;
+}
+
 #menu {
   background: var(--menu-color);
-  border-bottom: 0.5px solid #888;
-  border-left: 0.5px solid #888;
+  border-bottom: 0.5px solid var(--border-color);
+  border-left: 0.5px solid var(--border-color);
   padding: 4px;
   top: 0;
   border-bottom-left-radius: 8px;
@@ -240,7 +229,7 @@ a.skip-link:focus {
 }
 
 a.home-link {
-  background: url(/media/sprites.svg#home) center left no-repeat;
+  background: url(/media/sprites.svg#home) left center no-repeat;
   background-size: 16px;
   padding-left: 20px;
   margin: 0 2px;
@@ -248,13 +237,18 @@ a.home-link {
 
 .new::after {
   content: "";
-  background: url(/media/sprites.svg#new) center right no-repeat;
+  background: url(/media/sprites.svg#new) center no-repeat;
   background-size: 9px;
   display: inline-block;
   width: 9px;
   height: 9px;
   vertical-align: top;
   padding-left: 4px;
+}
+
+input, select, button {
+  background-color: var(--menu-color);
+  color: var(--fore-color);
 }
 
 input[type=range] {

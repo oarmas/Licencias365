@@ -17,14 +17,14 @@ function DOMContentLoaded() {
     if (elements[0].startsWith('*')) {
       compare1.src = `/viewsvg.htm#${elements[0]}/compare`;
     } else {
-      compare1.src = `/${elements[0]}.htm#/compare`;
+      compare1.src = `/files/${elements[0]}.htm#/compare`;
     }
 
     const compare2 = document.getElementById('compare2');
     if (elements[1].startsWith('*')) {
       compare2.src = `/viewsvg.htm#${elements[1]}/compare`;
     } else {
-      compare2.src = `/${elements[1]}.htm#/compare`;
+      compare2.src = `/files/${elements[1]}.htm#/compare`;
     }
 
     document.getElementById('compare-slider').
